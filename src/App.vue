@@ -5,6 +5,7 @@ import GvInput from '@/components/govuk-vue/GvInput.vue'
 import GvBackLink from '@/components/govuk-vue/GvBackLink.vue'
 import GvTextarea from '@/components/govuk-vue/GvTextarea.vue'
 import GvInsetText from '@/components/govuk-vue/GvInsetText.vue'
+import GvWarningText from '@/components/govuk-vue/GvWarningText.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
@@ -96,6 +97,12 @@ function handleBackClick() {
     text="It can take up to 8 weeks to register a lasting power of attorney if there are no mistakes in the application."
   />
   <gv-inset-text text="This should never be shown"> Slot inset text </gv-inset-text>
+
+  <h2 class="govuk-heading-l">Warning text</h2>
+  <gv-warning-text text="You can be fined up to £5,000 if you do not register. " />
+  <gv-warning-text text="This should never be shown" icon-fallback-text="Attention!">
+    Slot warning text
+  </gv-warning-text>
 </template>
 
 <style scoped></style>
