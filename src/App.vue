@@ -3,8 +3,10 @@ import { ref } from 'vue'
 import GvButton from '@/components/govuk-vue/GvButton.vue'
 import GvInput from '@/components/govuk-vue/GvInput.vue'
 import GvBackLink from '@/components/govuk-vue/GvBackLink.vue'
+import GvTextarea from '@/components/govuk-vue/GvTextarea.vue'
 
 const textInputData = ref('Hello world')
+const textareaData = ref('The quick brown fox jumps over the lazy dog')
 
 function handleStartClick() {
   alert('Start clicked!')
@@ -71,6 +73,22 @@ function handleBackClick() {
       :label-is-page-heading="true"
     ></gv-input>
   </div>
+
+  <h2 class="govuk-heading-l">Textarea</h2>
+  <gv-textarea v-model="textareaData" id="test-textarea-1" label-text="Test textarea" :rows="3" />
+  {{ textareaData }}
+  <gv-textarea
+    id="test-textarea-2"
+    :rows="3"
+    label-text="This should never be shown"
+    hint-text="This should never be shown"
+    error-message-text="This should never be shown"
+  >
+    <template v-slot:label>Slot label</template>
+    <template v-slot:hint>Slot hint</template>
+    <template v-slot:suffix>Slot suffix</template>
+    <template v-slot:error-message>Slot error message</template>
+  </gv-textarea>
 </template>
 
 <style scoped></style>

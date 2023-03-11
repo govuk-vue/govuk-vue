@@ -13,18 +13,16 @@ const props = defineProps({
     required: true
   },
   name: String,
-  type: {
-    type: String,
-    default: 'text'
+  rows: {
+    type: Number,
+    default: 5
   },
-  inputmode: String,
   describedBy: String,
   classes: {
     type: String,
     default: ''
   },
   autocomplete: String,
-  pattern: String,
   spellcheck: {
     type: Boolean,
     default: null
@@ -48,18 +46,6 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  //prefix props
-  prefixText: String,
-  prefixClasses: {
-    type: String,
-    default: ''
-  },
-  //suffix props
-  suffixText: String,
-  suffixClasses: {
-    type: String,
-    default: ''
-  },
   //error message props
   errorMessageText: String,
   errorMessageClasses: {
@@ -68,18 +54,19 @@ const props = defineProps({
   },
   errorMessageVisuallyHiddenText: String
 })
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
 
 const hasHint = computed(() => {
   return props.hintText || hasSlot('hint')
-})
-
-const hasPrefix = computed(() => {
-  return props.prefixText || hasSlot('prefix')
-})
-
-const hasSuffix = computed(() => {
-  return props.suffixText || hasSlot('suffix')
 })
 
 const hasErrorMessage = computed(() => {
@@ -92,14 +79,6 @@ const errorMessageId = computed(() => {
 
 const hintId = computed(() => {
   return `${props.id}-hint`
-})
-
-const computedWrapperElement = computed(() => {
-  if (hasPrefix.value || hasSuffix.value) {
-    return 'div'
-  } else {
-    return GvFragment
-  }
 })
 
 const computedDescribedBy = computed(() => {
@@ -135,43 +114,20 @@ const computedDescribedBy = computed(() => {
     >
       <slot name="error-message" />
     </gv-error-message>
-    <component
-      :is="computedWrapperElement"
-      :class="hasPrefix || hasSuffix ? 'govuk-input__wrapper' : ''"
-    >
-      <div v-if="hasPrefix" :class="`govuk-input__prefix ${prefixClasses}`" aria-hidden="true">
-        <template v-if="hasSlot('prefix')">
-          <slot name="prefix" />
-        </template>
-        <template v-else>
-          {{ prefixText }}
-        </template>
-      </div>
-      <input
-        :id="id"
-        :name="name"
-        :class="`govuk-input ${classes}`"
-        :spellcheck="spellcheck"
-        :value="modelValue"
-        :disabled="disabled"
-        :aria-describedby="computedDescribedBy"
-        :autocomplete="autocomplete"
-        :pattern="pattern"
-        :inputmode="inputmode"
-        @input="$emit('update:modelValue', $event.target.value)"
-      />
-      <div v-if="hasSuffix" :class="`govuk-input__suffix ${suffixClasses}`" aria-hidden="true">
-        <template v-if="hasSlot('suffix')">
-          <slot name="suffix" />
-        </template>
-        <template v-else>
-          {{ suffixText }}
-        </template>
-      </div>
-    </component>
+    <textarea
+      :id="id"
+      :name="name"
+      :class="`govuk-textarea ${classes}`"
+      :rows="rows"
+      :spellcheck="spellcheck === null ? null : spellcheck"
+      :disabled="disabled"
+      :aria-describedby="computedDescribedBy"
+      :autocomplete="autocomplete"
+      v-model="value"
+    ></textarea>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/input/input';
+@import 'node_modules/govuk-frontend/govuk/components/textarea/textarea';
 </style>
