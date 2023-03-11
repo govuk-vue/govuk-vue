@@ -1,19 +1,29 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import GvButton from '@/components/govuk-vue/GvButton.vue'
 import GvInput from '@/components/govuk-vue/GvInput.vue'
-import GvHint from '@/components/govuk-vue/GvHint.vue'
-
-import { ref } from 'vue'
+import GvBackLink from '@/components/govuk-vue/GvBackLink.vue'
 
 const textInputData = ref('Hello world')
 
 function handleStartClick() {
   alert('Start clicked!')
 }
+
+function handleBackClick() {
+  alert('Back clicked!')
+}
 </script>
 
 <template>
   <h1 class="govuk-heading-xl">Tests</h1>
+  <h2 class="govuk-heading-l">Back link</h2>
+  <div><gv-back-link /></div>
+  <div>
+    <gv-back-link @click.prevent="handleBackClick" text="This should never be shown">
+      Back with click handler
+    </gv-back-link>
+  </div>
   <h2 class="govuk-heading-l">Buttons</h2>
   <div><gv-button id="myButton" text="Text content" /></div>
   <div><gv-button>Slot content</gv-button></div>
