@@ -4,6 +4,7 @@ import GvButton from '@/components/govuk-vue/GvButton.vue'
 import GvInput from '@/components/govuk-vue/GvInput.vue'
 import GvBackLink from '@/components/govuk-vue/GvBackLink.vue'
 import GvTextarea from '@/components/govuk-vue/GvTextarea.vue'
+import GvInsetText from '@/components/govuk-vue/GvInsetText.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
@@ -89,6 +90,12 @@ function handleBackClick() {
     <template v-slot:suffix>Slot suffix</template>
     <template v-slot:error-message>Slot error message</template>
   </gv-textarea>
+
+  <h2 class="govuk-heading-l">Inset text</h2>
+  <gv-inset-text
+    text="It can take up to 8 weeks to register a lasting power of attorney if there are no mistakes in the application."
+  />
+  <gv-inset-text text="This should never be shown"> Slot inset text </gv-inset-text>
 </template>
 
 <style scoped></style>
