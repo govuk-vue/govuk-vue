@@ -1,0 +1,27 @@
+<script setup lang="ts">
+import hasSlot from '@/composables/useHasSlot.js'
+
+defineProps({
+  text: String,
+  id: String,
+  classes: {
+    type: String,
+    default: ''
+  }
+})
+</script>
+
+<template>
+  <div :id="id" :class="`govuk-hint ${classes}`">
+    <template v-if="hasSlot('default')">
+      <slot />
+    </template>
+    <template v-else>
+      {{ text }}
+    </template>
+  </div>
+</template>
+
+<style scoped lang="scss">
+@import 'node_modules/govuk-frontend/govuk/components/hint/hint';
+</style>

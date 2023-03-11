@@ -15,10 +15,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  href: {
-    type: String,
-    default: '#'
-  },
+  href: String,
   classes: {
     type: String,
     default: ''
@@ -76,7 +73,7 @@ function handleKeyDownSpace(): void {
     }`"
     :disabled="disabled ? 'disabled' : null"
     :aria-disabled="disabled ? 'true' : null"
-    :href="computedElement === 'a' ? href : null"
+    :href="computedElement === 'a' ? (href ? href : '#') : null"
     :role="computedElement === 'a' ? 'button' : null"
     :draggable="computedElement === 'a' ? 'false' : null"
     :value="computedElement === 'input' ? text : null"
@@ -85,7 +82,7 @@ function handleKeyDownSpace(): void {
   >
     <template v-if="['a', 'button'].includes(computedElement)">
       <template v-if="$slots.default">
-        <slot></slot>
+        <slot />
       </template>
       <template v-else>
         {{ text }}
