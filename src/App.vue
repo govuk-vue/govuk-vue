@@ -7,6 +7,7 @@ import GvTextarea from '@/components/govuk-vue/GvTextarea.vue'
 import GvInsetText from '@/components/govuk-vue/GvInsetText.vue'
 import GvWarningText from '@/components/govuk-vue/GvWarningText.vue'
 import GvPanel from '@/components/govuk-vue/GvPanel.vue'
+import GvFieldset from '@/components/govuk-vue/GvFieldset.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
@@ -112,6 +113,22 @@ function handleBackClick() {
   <gv-panel title-text="This should never be shown" text="Prop text">
     <template v-slot:title>Slot titl<sup>e</sup></template>
   </gv-panel>
+
+  <h2 class="govuk-heading-l">Fieldset</h2>
+  <gv-fieldset legend-text="Your name" legend-classes="govuk-fieldset__legend--m">
+    <gv-input id="test-fieldset-text-input-1" label-text="First name" />
+    <gv-input id="test-fieldset-text-input-2" label-text="Last name" />
+  </gv-fieldset>
+
+  <gv-fieldset
+    legend-text="This should never be shown"
+    legend-classes="govuk-fieldset__legend--xl"
+    :legend-is-page-heading="true"
+  >
+    <template v-slot:legend>Slot legend</template>
+    <gv-input id="test-fieldset-text-input-3" label-text="First name" />
+    <gv-input id="test-fieldset-text-input-4" label-text="Last name" />
+  </gv-fieldset>
 </template>
 
 <style scoped></style>
