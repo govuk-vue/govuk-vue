@@ -15,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-  <div :id="id" :class="`govuk-warning-text ${classes}`">
+  <div :class="`govuk-warning-text ${classes}`">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text">
       <span class="govuk-warning-text__assistive">{{ iconFallbackText }}</span>
