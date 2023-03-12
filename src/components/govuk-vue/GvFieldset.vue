@@ -34,7 +34,7 @@ const computedHeadingWrapperElement = computed(() => {
 
 <template>
   <fieldset :class="`govuk-fieldset ${classes}`" :role="role" :aria-describedby="describedBy">
-    <legend v-if="hasLegend" :class="`govuk-fieldset--legend ${legendClasses}`">
+    <legend v-if="hasLegend" :class="`govuk-fieldset__legend ${legendClasses}`">
       <component :is="computedHeadingWrapperElement" class="govuk-fieldset__heading">
         <template v-if="hasSlot('legend')">
           <slot name="legend" />

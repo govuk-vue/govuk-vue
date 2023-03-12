@@ -74,6 +74,10 @@ const hasHint = computed(() => {
   return props.hintText || hasSlot('hint')
 })
 
+const hintId = computed(() => {
+  return `${props.id}-hint`
+})
+
 const hasPrefix = computed(() => {
   return props.prefixText || hasSlot('prefix')
 })
@@ -88,10 +92,6 @@ const hasErrorMessage = computed(() => {
 
 const errorMessageId = computed(() => {
   return `${props.id}-error`
-})
-
-const hintId = computed(() => {
-  return `${props.id}-hint`
 })
 
 const computedWrapperElement = computed(() => {

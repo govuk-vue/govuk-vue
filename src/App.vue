@@ -8,9 +8,12 @@ import GvInsetText from '@/components/govuk-vue/GvInsetText.vue'
 import GvWarningText from '@/components/govuk-vue/GvWarningText.vue'
 import GvPanel from '@/components/govuk-vue/GvPanel.vue'
 import GvFieldset from '@/components/govuk-vue/GvFieldset.vue'
+import GvRadios from '@/components/govuk-vue/GvRadios.vue'
+import GvRadioItem from '@/components/govuk-vue/GvRadioItem.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
+const radiosData = ref('wales')
 
 function handleStartClick() {
   alert('Start clicked!')
@@ -129,6 +132,61 @@ function handleBackClick() {
     <gv-input id="test-fieldset-text-input-3" label-text="First name" />
     <gv-input id="test-fieldset-text-input-4" label-text="Last name" />
   </gv-fieldset>
+
+  <h2 class="govuk-heading-l">Radios</h2>
+  <gv-radios
+    name="myradios"
+    fieldset-legend-text="Where do you live?"
+    fieldset-legend-classes="govuk-fieldset__legend--m"
+    error-message-text="Select where you live"
+  >
+    <template v-slot:hint
+      >If you live in multiple countries, select where you spend most of your time</template
+    >
+    <gv-radio-item
+      id="myradios"
+      value="england"
+      name="myradios"
+      label-text="England"
+      v-model="radiosData"
+    />
+    <gv-radio-item
+      id="myradios-1"
+      value="scotland"
+      name="myradios"
+      label-text="Scotland"
+      v-model="radiosData"
+      hint-text=""
+    />
+    <gv-radio-item
+      id="myradios-2"
+      value="wales"
+      name="myradios"
+      label-text="This should never be shown"
+      v-model="radiosData"
+    >
+      Wales
+    </gv-radio-item>
+    <gv-radio-item
+      id="myradios-3"
+      value="northernireland"
+      name="myradios"
+      label-text="Northern Ireland"
+      v-model="radiosData"
+    />
+    <gv-radio-item
+      id="myradios-4"
+      value="other"
+      name="myradios"
+      label-text="I am a British citizen living abroad"
+      v-model="radiosData"
+      divider="or"
+    >
+      <template v-slot:conditional>
+        <gv-input id="test-conditional-text-input" label-text="Which country do you live in?" />
+      </template>
+    </gv-radio-item>
+  </gv-radios>
 </template>
 
 <style scoped></style>
