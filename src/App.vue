@@ -6,6 +6,7 @@ import GvBackLink from '@/components/govuk-vue/GvBackLink.vue'
 import GvTextarea from '@/components/govuk-vue/GvTextarea.vue'
 import GvInsetText from '@/components/govuk-vue/GvInsetText.vue'
 import GvWarningText from '@/components/govuk-vue/GvWarningText.vue'
+import GvPanel from '@/components/govuk-vue/GvPanel.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
@@ -103,6 +104,14 @@ function handleBackClick() {
   <gv-warning-text text="This should never be shown" icon-fallback-text="Attention!">
     Slot warning text
   </gv-warning-text>
+
+  <h2 class="govuk-heading-l">Panel</h2>
+  <gv-panel title-text="Application complete" text="This should never be shown">
+    Your reference number<br /><strong>HDJ2123F</strong>
+  </gv-panel>
+  <gv-panel title-text="This should never be shown" text="Prop text">
+    <template v-slot:title>Slot titl<sup>e</sup></template>
+  </gv-panel>
 </template>
 
 <style scoped></style>
