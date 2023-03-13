@@ -5,7 +5,7 @@ import GvLabel from '@/components/govuk-vue/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/GvHint.vue'
 
 const props = defineProps({
-  modelValue: String,
+  modelValue: [String, Number, Boolean],
   text: String,
   id: {
     type: String,
@@ -16,7 +16,7 @@ const props = defineProps({
     required: true
   },
   value: {
-    type: String,
+    type: [String, Number, Boolean],
     required: true
   },
   divider: String,
@@ -62,12 +62,12 @@ const conditionalId = computed(() => {
       :name="name"
       type="radio"
       :value="value"
-      :disabled="disabled ? 'disabled' : null"
+      :disabled="disabled"
       :aria-controls="conditionalId"
       :aria-expanded="hasConditional && modelValue === value"
       :aria-describedby="hintId"
       :checked="modelValue === value"
-      @change="$emit('update:modelValue', $event.target.value)"
+      @change="$emit('update:modelValue', value)"
     />
     <gv-label :text="labelText" :classes="`govuk-radios__label ${labelClasses}`" :forId="id">
       <slot />

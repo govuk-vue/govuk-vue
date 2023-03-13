@@ -48,7 +48,6 @@ const props = defineProps({
     default: ''
   }
 })
-defineEmits(['update:modelValue'])
 
 const hasHint = computed(() => {
   return props.hintText || hasSlot('hint')
@@ -106,7 +105,9 @@ const computedDescribedBy = computed(() => {
       >
         <slot name="error-message" />
       </gv-error-message>
-      <slot />
+      <div :class="`govuk-radios ${classes}`">
+        <slot />
+      </div>
     </gv-fieldset>
   </div>
 </template>
