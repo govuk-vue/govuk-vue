@@ -10,10 +10,12 @@ import GvPanel from '@/components/govuk-vue/GvPanel.vue'
 import GvFieldset from '@/components/govuk-vue/GvFieldset.vue'
 import GvRadios from '@/components/govuk-vue/GvRadios.vue'
 import GvRadioItem from '@/components/govuk-vue/GvRadioItem.vue'
+import GvDetails from '@/components/govuk-vue/GvDetails.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
 const radiosData = ref('wales')
+const detailsOpenState = ref(false)
 
 function handleStartClick() {
   alert('Start clicked!')
@@ -187,6 +189,39 @@ function handleBackClick() {
       </template>
     </gv-radio-item>
   </gv-radios>
+
+  <h2 class="govuk-heading-l">Details</h2>
+  <gv-details summary-text="Help with nationality " text="This should never be shown">
+    We need to know your nationality so we can work out which elections you’re entitled to vote in.
+    If you cannot provide your nationality, you’ll have to send copies of identity documents through
+    the post.
+  </gv-details>
+
+  <gv-radios
+    name="details-state"
+    classes="govuk-radios--inline govuk-radios--small"
+    fieldset-legend-text="Details state"
+    fieldset-legend-classes="govuk-fieldset__legend--s"
+  >
+    <gv-radio-item
+      id="details-state"
+      :value="true"
+      name="details-state"
+      label-text="Open"
+      v-model="detailsOpenState"
+    />
+    <gv-radio-item
+      id="details-state-1"
+      :value="false"
+      name="details-state"
+      label-text="Closed"
+      v-model="detailsOpenState"
+    />
+  </gv-radios>
+
+  <gv-details summary-text="This should never be shown" text="Prop text" :open="detailsOpenState">
+    <template v-slot:summary>Slot summary</template>
+  </gv-details>
 </template>
 
 <style scoped></style>
