@@ -64,9 +64,9 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:day', 'update:month', 'update:year'])
 
-let dayMutable = ref(props.day + '')
-let monthMutable = ref(props.month + '')
-let yearMutable = ref(props.day + '')
+let dayMutable = ref(props.day)
+let monthMutable = ref(props.month)
+let yearMutable = ref(props.year)
 
 watch(dayMutable, (newDayMutable) => {
   emit('update:day', newDayMutable)
