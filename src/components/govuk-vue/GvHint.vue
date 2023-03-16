@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import hasSlot from '@/composables/useHasSlot.js'
+import hasSlot from '@/composables/useHasSlot'
 
 defineProps({
   text: String,

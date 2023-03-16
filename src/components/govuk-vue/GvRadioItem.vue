@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import hasSlot from '@/composables/useHasSlot.js'
+import hasSlot from '@/composables/useHasSlot'
 import GvLabel from '@/components/govuk-vue/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/GvHint.vue'
 

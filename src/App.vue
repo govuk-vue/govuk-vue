@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import GvButton from '@/components/govuk-vue/GvButton.vue'
 import GvInput from '@/components/govuk-vue/GvInput.vue'
 import GvBackLink from '@/components/govuk-vue/GvBackLink.vue'
@@ -11,6 +11,14 @@ import GvFieldset from '@/components/govuk-vue/GvFieldset.vue'
 import GvRadios from '@/components/govuk-vue/GvRadios.vue'
 import GvRadioItem from '@/components/govuk-vue/GvRadioItem.vue'
 import GvDetails from '@/components/govuk-vue/GvDetails.vue'
+import GvHeader from '@/components/govuk-vue/GvHeader.vue'
+import GvHeaderNavigationItem from '@/components/govuk-vue/GvHeaderNavigationItem.vue'
+import GvFooter from '@/components/govuk-vue/GvFooter.vue'
+import GvFooterNavigation from '@/components/govuk-vue/GvFooterNavigation.vue'
+import GvFooterNavigationItem from '@/components/govuk-vue/GvFooterNavigationItem.vue'
+import GvFooterMeta from '@/components/govuk-vue/GvFooterMeta.vue'
+import GVFooterMetaItem from '@/components/govuk-vue/GVFooterMetaItem.vue'
+import GvFragment from '@/components/govuk-vue/util/GvFragment.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
@@ -27,6 +35,22 @@ function handleBackClick() {
 </script>
 
 <template>
+  <gv-header
+    product-name="Test"
+    homepage-url="foo"
+    service-name="Test service name"
+    service-url="bar"
+    menu-button-text="Menu button text"
+    menu-button-label="Menu button label"
+    navigation-label="Test navigation label"
+    navigation-id="main-navigation"
+  >
+    <gv-header-navigation-item href="x">Test navigation item 1</gv-header-navigation-item>
+    <gv-header-navigation-item href="y" text="This should never be shown" :active="true"
+      >Test navigation item 2</gv-header-navigation-item
+    >
+    <gv-header-navigation-item text="Test navigation item 3 without href" />
+  </gv-header>
   <h1 class="govuk-heading-xl">Tests</h1>
   <h2 class="govuk-heading-l">Back link</h2>
   <div><gv-back-link /></div>
@@ -222,6 +246,38 @@ function handleBackClick() {
   <gv-details summary-text="This should never be shown" text="Prop text" :open="detailsOpenState">
     <template v-slot:summary>Slot summary</template>
   </gv-details>
+
+  <gv-footer
+    copyright-href="xyz"
+    copyright-text="Test copyright text"
+    content-licence-text="test content licence text"
+  >
+    <template v-slot:navigation>
+      <gv-footer-navigation title="Section 1" width="one-third">
+        <gv-footer-navigation-item href="abc" text="This should never be shown"
+          >Link 1</gv-footer-navigation-item
+        >
+        <gv-footer-navigation-item href="def">Link 2</gv-footer-navigation-item>
+      </gv-footer-navigation>
+      <gv-footer-navigation title="Section 2" width="two-thirds" :columns="2">
+        <gv-footer-navigation-item href="abc" text="This should never be shown"
+          >Link 1</gv-footer-navigation-item
+        >
+        <gv-footer-navigation-item href="def">Link 2</gv-footer-navigation-item>
+      </gv-footer-navigation>
+    </template>
+    <template v-slot:meta>
+      <gv-footer-meta text="This text should never be shown">
+        <template v-slot:items>
+          <g-v-footer-meta-item href="abc" text="This should never be shown">
+            Link 1
+          </g-v-footer-meta-item>
+          <g-v-footer-meta-item href="def" text="Link 2" />
+        </template>
+        Built by Matt Eason
+      </gv-footer-meta>
+    </template>
+  </gv-footer>
 </template>
 
 <style scoped></style>

@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import GvHint from '@/components/govuk-vue/GvHint.vue'
 import GvErrorMessage from '@/components/govuk-vue/GvErrorMessage.vue'
 import GvFieldset from '@/components/govuk-vue/GvFieldset.vue'
-import hasSlot from '@/composables/useHasSlot.js'
+import hasSlot from '@/composables/useHasSlot'
 
 const props = defineProps({
   idPrefix: String,
