@@ -17,13 +17,19 @@ import GvFooter from '@/components/govuk-vue/GvFooter.vue'
 import GvFooterNavigation from '@/components/govuk-vue/GvFooterNavigation.vue'
 import GvFooterNavigationItem from '@/components/govuk-vue/GvFooterNavigationItem.vue'
 import GvFooterMeta from '@/components/govuk-vue/GvFooterMeta.vue'
-import GVFooterMetaItem from '@/components/govuk-vue/GVFooterMetaItem.vue'
+import GvFooterMetaItem from '@/components/govuk-vue/GvFooterMetaItem.vue'
 import GvFragment from '@/components/govuk-vue/util/GvFragment.vue'
+import GvTag from '@/components/govuk-vue/GvTag.vue'
+import GvPhaseBanner from '@/components/govuk-vue/GvPhaseBanner.vue'
+import GvDateInput from '@/components/govuk-vue/GvDateInput.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
 const radiosData = ref('wales')
 const detailsOpenState = ref(false)
+const day = ref('30')
+const month = ref('10')
+const year = ref('2023')
 
 function handleStartClick() {
   alert('Start clicked!')
@@ -51,6 +57,9 @@ function handleBackClick() {
     >
     <gv-header-navigation-item text="Test navigation item 3 without href" />
   </gv-header>
+  <gv-phase-banner tag-text="Pre-alpha" text="This should never be shown">
+    This library is still in early development
+  </gv-phase-banner>
   <h1 class="govuk-heading-xl">Tests</h1>
   <h2 class="govuk-heading-l">Back link</h2>
   <div><gv-back-link /></div>
@@ -247,6 +256,31 @@ function handleBackClick() {
     <template v-slot:summary>Slot summary</template>
   </gv-details>
 
+  <h2 class="govuk-heading-l">Tags</h2>
+  <p><gv-tag text="This should never be shown">Normal tag</gv-tag></p>
+  <p><gv-tag text="Text prop tag" /></p>
+  <p><gv-tag colour="grey">Grey</gv-tag></p>
+  <p><gv-tag colour="green">Green</gv-tag></p>
+  <p><gv-tag colour="turquoise">Turquoise</gv-tag></p>
+  <p><gv-tag colour="blue">Blue</gv-tag></p>
+  <p><gv-tag colour="purple">Purple</gv-tag></p>
+  <p><gv-tag colour="pink">Pink</gv-tag></p>
+  <p><gv-tag colour="red">Red</gv-tag></p>
+  <p><gv-tag colour="orange">Orange</gv-tag></p>
+  <p><gv-tag colour="yellow">Yellow</gv-tag></p>
+
+  <h2 class="govuk-heading-l">Date input</h2>
+  <gv-date-input
+    id="test-date-input"
+    fieldset-legend-text="Label text prop"
+    hint-text="This should never be shown"
+    v-model:day="day"
+    v-model:month="month"
+    v-model:year="year"
+  >
+    <template v-slot:hint>The value of these fields is {{ day }}-{{ month }}-{{ year }}</template>
+  </gv-date-input>
+
   <gv-footer
     copyright-href="xyz"
     copyright-text="Test copyright text"
@@ -269,10 +303,10 @@ function handleBackClick() {
     <template v-slot:meta>
       <gv-footer-meta text="This text should never be shown">
         <template v-slot:items>
-          <g-v-footer-meta-item href="abc" text="This should never be shown">
+          <gv-footer-meta-item href="abc" text="This should never be shown">
             Link 1
-          </g-v-footer-meta-item>
-          <g-v-footer-meta-item href="def" text="Link 2" />
+          </gv-footer-meta-item>
+          <gv-footer-meta-item href="def" text="Link 2" />
         </template>
         Built by Matt Eason
       </gv-footer-meta>
