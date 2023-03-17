@@ -18,6 +18,41 @@ The structure of the HTML output by GV should be identical to the HTML from the 
 
 All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://design-system.service.gov.uk/components/accordion/) and [character counts](https://design-system.service.gov.uk/components/character-count/), will be reimplemented in TypeScript within individual Vue components. No JavaScript files from GOV.UK Frontend will be used. No external dependencies will be used in components beyond Vue.
 
+## Progress
+
+| Component           | Built? | Tests? | Notes                                                                     |
+|---------------------|--------|-------|---------------------------------------------------------------------------|
+| Accordion           |        |       | Need to find way to share state to allow for expand/collapse all (Pinia?) |
+| Back link           | Yes    |       |                                                                           |
+| Breadcrumbs         |        |       |                                                                           |
+| Button              | Yes    |       |                                                                           |
+| Character count     |        |       |                                                                           |
+| Checkboxes          |        |       |                                                                           |
+| Cookie banner       |        |       |                                                                           |
+| Date input          | Yes    |       |                                                                           |
+| Details             | Yes    |       |                                                                           |
+| Error message       | Yes    |       |                                                                           |
+| Error summary       |        |       |                                                                           |
+| Fieldset            | Yes    |       |                                                                           |
+| File upload         |        |       |                                                                           |
+| Footer              | Yes    |       |                                                                           |
+| Header              | Yes    |       |                                                                           |
+| Inset text          | Yes    |       |                                                                           |
+| Notification banner |        |       |                                                                           |
+| Pagination          |        |       |                                                                           |
+| Panel               | Yes    |       |                                                                           |
+| Phase banner        | Yes    |       |                                                                           |
+| Radios              | Yes    |       | Todo: Add way to pass items as a prop                                     |
+| Select              |        |       |                                                                           |
+| Skip link           |        |       |                                                                           |
+| Summary list        |        |       |                                                                           |
+| Table               |        |       |                                                                           |
+| Tabs                |        |       |                                                                           |
+| Tag                 | Yes    |       |                                                                           |
+| Text input          | Yes    |       |                                                                           |
+| Textarea            | Yes    |       |                                                                           |
+| Warning text        | Yes    |       |                                                                           |
+
 ## Project Setup
 
 GV uses Vite. Start by installing dependencies
