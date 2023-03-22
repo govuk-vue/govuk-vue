@@ -35,7 +35,3 @@ defineProps({
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/panel/panel';
-</style>

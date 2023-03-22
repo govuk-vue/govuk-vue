@@ -26,7 +26,3 @@ defineProps({
     </template>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/error-message/error-message';
-</style>

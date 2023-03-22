@@ -41,10 +41,3 @@ const computedWrapperElement = computed(() => {
     </label>
   </component>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/label/label';
-
-// Radios don't work without this styling being available to GvLabel
-@import 'node_modules/govuk-frontend/govuk/components/radios/radios';
-</style>

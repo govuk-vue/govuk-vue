@@ -103,7 +103,3 @@ function handleKeyDownSpace(): void {
     </template>
   </component>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/button/button';
-</style>

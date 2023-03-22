@@ -28,7 +28,3 @@ defineProps({
     </strong>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/warning-text/warning-text';
-</style>

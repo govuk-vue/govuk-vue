@@ -27,7 +27,3 @@ defineProps({
     </template>
   </a>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/back-link/back-link';
-</style>

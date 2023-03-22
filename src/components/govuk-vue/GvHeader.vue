@@ -115,7 +115,3 @@ const showMenu = computed(() => {
     </div>
   </header>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/header/header';
-</style>

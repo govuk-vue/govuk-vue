@@ -36,7 +36,3 @@ defineProps({
     </template>
   </strong>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/tag/tag';
-</style>

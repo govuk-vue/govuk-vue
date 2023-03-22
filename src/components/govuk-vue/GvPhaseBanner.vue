@@ -39,7 +39,3 @@ const hasTag = computed(() => {
     </p>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/phase-banner/phase-banner';
-</style>

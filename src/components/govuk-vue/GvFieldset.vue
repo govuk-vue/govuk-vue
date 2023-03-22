@@ -47,7 +47,3 @@ const computedHeadingWrapperElement = computed(() => {
     <slot />
   </fieldset>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/fieldset/fieldset';
-</style>

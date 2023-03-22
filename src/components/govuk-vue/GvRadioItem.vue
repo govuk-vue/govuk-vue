@@ -90,7 +90,3 @@ const conditionalId = computed(() => {
     <slot name="conditional" />
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/radios/radios';
-</style>

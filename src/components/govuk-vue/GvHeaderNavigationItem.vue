@@ -33,7 +33,3 @@ const computedLinkElement = computed(() => {
     </component>
   </li>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/header/header';
-</style>

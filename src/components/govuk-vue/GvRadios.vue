@@ -111,7 +111,3 @@ const computedDescribedBy = computed(() => {
     </gv-fieldset>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/radios/radios';
-</style>
