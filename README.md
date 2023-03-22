@@ -26,7 +26,7 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 | Back link           | Yes    |       |                                                                           |
 | Breadcrumbs         |        |       |                                                                           |
 | Button              | Yes    |       |                                                                           |
-| Character count     |        |       |                                                                           |
+| Character count     | Yes    |       |                                                                           |
 | Checkboxes          |        |       |                                                                           |
 | Cookie banner       |        |       |                                                                           |
 | Date input          | Yes    |       |                                                                           |
