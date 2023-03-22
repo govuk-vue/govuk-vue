@@ -5,55 +5,9 @@ import hasSlot from '@/composables/useHasSlot'
 import { computed } from 'vue'
 import GvFragment from '@/components/govuk-vue/util/GvFragment.vue'
 import GvErrorMessage from '@/components/govuk-vue/GvErrorMessage.vue'
+import { textareaProps } from '@/components/govuk-vue/shared-props/textareaProps'
 
-const props = defineProps({
-  modelValue: String,
-  id: {
-    type: String,
-    required: true
-  },
-  name: String,
-  rows: {
-    type: Number,
-    default: 5
-  },
-  describedBy: String,
-  classes: {
-    type: String,
-    default: ''
-  },
-  autocomplete: String,
-  spellcheck: {
-    type: Boolean,
-    default: null
-  },
-  disabled: Boolean,
-  //Form group props
-  formGroupClasses: {
-    type: String,
-    default: ''
-  },
-  //Label props
-  labelText: String,
-  labelIsPageHeading: {
-    type: Boolean,
-    default: false
-  },
-  labelClasses: String,
-  //hint props
-  hintText: String,
-  hintClasses: {
-    type: String,
-    default: ''
-  },
-  //error message props
-  errorMessageText: String,
-  errorMessageClasses: {
-    type: String,
-    default: ''
-  },
-  errorMessageVisuallyHiddenText: String
-})
+const props = defineProps(textareaProps)
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
@@ -125,9 +79,6 @@ const computedDescribedBy = computed(() => {
       :autocomplete="autocomplete"
       v-model="value"
     ></textarea>
+    <slot name="below-textarea" />
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'node_modules/govuk-frontend/govuk/components/textarea/textarea';
-</style>

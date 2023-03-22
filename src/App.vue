@@ -22,9 +22,11 @@ import GvFragment from '@/components/govuk-vue/util/GvFragment.vue'
 import GvTag from '@/components/govuk-vue/GvTag.vue'
 import GvPhaseBanner from '@/components/govuk-vue/GvPhaseBanner.vue'
 import GvDateInput from '@/components/govuk-vue/GvDateInput.vue'
+import GvCharacterCount from '@/components/govuk-vue/GvCharacterCount.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
+const characterCountData = ref('Test character count data')
 const radiosData = ref('wales')
 const detailsOpenState = ref(false)
 const day = ref('30')
@@ -131,6 +133,17 @@ function handleBackClick() {
     <template v-slot:suffix>Slot suffix</template>
     <template v-slot:error-message>Slot error message</template>
   </gv-textarea>
+  <h2 class="govuk-heading-l">Character count</h2>
+  <gv-character-count
+    v-model="characterCountData"
+    id="test-character-count-1"
+    label-text="Test character count"
+    hint-text="It has a threshold of 25% and a max length of 100 characters"
+    :rows="10"
+    :maxlength="100"
+    :threshold="25"
+  />
+  {{ characterCountData }}
 
   <h2 class="govuk-heading-l">Inset text</h2>
   <gv-inset-text
