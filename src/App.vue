@@ -23,6 +23,8 @@ import GvTag from '@/components/govuk-vue/GvTag.vue'
 import GvPhaseBanner from '@/components/govuk-vue/GvPhaseBanner.vue'
 import GvDateInput from '@/components/govuk-vue/GvDateInput.vue'
 import GvCharacterCount from '@/components/govuk-vue/GvCharacterCount.vue'
+import GvSelect from '@/components/govuk-vue/GvSelect.vue'
+import GvSelectOption from '@/components/govuk-vue/GvSelectOption.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
@@ -32,6 +34,11 @@ const detailsOpenState = ref(false)
 const day = ref('30')
 const month = ref('10')
 const year = ref('2023')
+const selectData = ref('recently-updated')
+const selectDataBoolean = ref(true)
+
+const selectOptions = [{ name: 'Alice' }, { name: 'Bob' }, { name: 'Charles' }]
+const selectDataObject = ref(selectOptions[1])
 
 function handleStartClick() {
   alert('Start clicked!')
@@ -293,6 +300,39 @@ function handleBackClick() {
   >
     <template v-slot:hint>The value of these fields is {{ day }}-{{ month }}-{{ year }}</template>
   </gv-date-input>
+
+  <h2 class="govuk-heading-l">Select</h2>
+  <gv-select
+    id="test-select-1"
+    label-text="This should never be shown"
+    v-model="selectData"
+    error-message-text="This is an error"
+  >
+    <template v-slot:label>Sort by</template>
+    <template v-slot:hint>Select an option</template>
+    <gv-select-option value="recently-published">Recently published</gv-select-option>
+    <gv-select-option value="recently-updated">Recently updated</gv-select-option>
+  </gv-select>
+
+  {{ selectData }}
+
+  <gv-select id="test-select-2" label-text="Boolean options" v-model="selectDataBoolean">
+    <gv-select-option :value="true">Yes</gv-select-option>
+    <gv-select-option :value="false">No</gv-select-option>
+  </gv-select>
+
+  {{ typeof selectDataBoolean }} {{ selectDataBoolean }}
+
+  <gv-select id="test-select-3" label-text="Object options" v-model="selectDataObject">
+    <gv-select-option
+      v-for="option in selectOptions"
+      :key="option.name"
+      :value="option"
+      :text="option.name"
+    />
+  </gv-select>
+
+  {{ typeof selectDataObject }} {{ selectDataObject.name }}
 
   <gv-footer
     copyright-href="xyz"
