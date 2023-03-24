@@ -19,6 +19,10 @@ const props = defineProps({
     type: String,
     required: true
   },
+  dayHasError: Boolean,
+  monthHasError: Boolean,
+  yearHasError: Boolean,
+  autocompleteBirthday: Boolean,
   id: {
     type: String,
     required: true
@@ -102,6 +106,20 @@ const computedDescribedBy = computed(() => {
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
   return value.length > 0 ? value : null
 })
+
+// These are computed because if the ternary statement is placed directly in the :autocomplete prop,
+// Vue ends up adding autocomplete="null" to the element rather than omitting the attribute
+const dayAutocomplete = computed(() => {
+  return props.autocompleteBirthday ? 'bday-day' : null
+})
+
+const monthAutocomplete = computed(() => {
+  return props.autocompleteBirthday ? 'bday-month' : null
+})
+
+const yearAutocomplete = computed(() => {
+  return props.autocompleteBirthday ? 'bday-year' : null
+})
 </script>
 
 <template>
@@ -136,10 +154,13 @@ const computedDescribedBy = computed(() => {
             label-text="Day"
             label-classes="govuk-date-input__label"
             :id="`${id}-day`"
-            classes="govuk-date-input__input govuk-input--width-2"
+            :classes="`govuk-date-input__input govuk-input--width-2 ${
+              dayHasError ? 'govuk-input--error' : ''
+            }`"
             :name="`${namePrefix ? `${namePrefix}-day` : 'day'}`"
             inputmode="numeric"
             v-model="dayMutable"
+            :autocomplete="dayAutocomplete"
           />
         </div>
         <div class="govuk-date-input__item">
@@ -147,10 +168,13 @@ const computedDescribedBy = computed(() => {
             label-text="Month"
             label-classes="govuk-date-input__label"
             :id="`${id}-month`"
-            classes="govuk-date-input__input govuk-input--width-2"
+            :classes="`govuk-date-input__input govuk-input--width-2  ${
+              monthHasError ? 'govuk-input--error' : ''
+            }`"
             :name="`${namePrefix ? `${namePrefix}-month` : 'month'}`"
             inputmode="numeric"
             v-model="monthMutable"
+            :autocomplete="monthAutocomplete"
           />
         </div>
         <div class="govuk-date-input__item">
@@ -158,10 +182,13 @@ const computedDescribedBy = computed(() => {
             label-text="Year"
             label-classes="govuk-date-input__label"
             :id="`${id}-year`"
-            classes="govuk-date-input__input govuk-input--width-4"
+            :classes="`govuk-date-input__input govuk-input--width-4  ${
+              yearHasError ? 'govuk-input--error' : ''
+            }`"
             :name="`${namePrefix ? `${namePrefix}-year` : 'year'}`"
             inputmode="numeric"
             v-model="yearMutable"
+            :autocomplete="yearAutocomplete"
           />
         </div>
       </div>

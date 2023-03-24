@@ -71,7 +71,7 @@ const computedDescribedBy = computed(() => {
     <textarea
       :id="id"
       :name="name"
-      :class="`govuk-textarea ${classes}`"
+      :class="`govuk-textarea ${hasErrorMessage ? 'govuk-textarea--error' : ''} ${classes}`"
       :rows="rows"
       :spellcheck="spellcheck === null ? null : spellcheck"
       :disabled="disabled"

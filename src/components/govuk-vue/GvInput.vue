@@ -150,7 +150,7 @@ const computedDescribedBy = computed(() => {
       <input
         :id="id"
         :name="name"
-        :class="`govuk-input ${classes}`"
+        :class="`govuk-input ${hasErrorMessage ? 'govuk-input--error' : ''} ${classes}`"
         :spellcheck="spellcheck"
         :value="modelValue"
         :disabled="disabled"

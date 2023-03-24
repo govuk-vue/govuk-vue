@@ -297,6 +297,8 @@ function handleBackClick() {
     v-model:day="day"
     v-model:month="month"
     v-model:year="year"
+    :year-has-error="true"
+    error-message-text="Enter a date before 2023"
   >
     <template v-slot:hint>The value of these fields is {{ day }}-{{ month }}-{{ year }}</template>
   </gv-date-input>
