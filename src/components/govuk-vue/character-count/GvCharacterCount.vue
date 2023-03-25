@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { textareaProps } from '@/components/govuk-vue/shared-props/textareaProps'
-import GvTextarea from '@/components/govuk-vue/GvTextarea.vue'
-import GvHint from '@/components/govuk-vue/GvHint.vue'
+import { textareaProps } from '@/shared-props/textareaProps'
+import GvTextarea from '@/components/govuk-vue/textarea/GvTextarea.vue'
+import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import { computed } from 'vue'
 
 const props = defineProps({

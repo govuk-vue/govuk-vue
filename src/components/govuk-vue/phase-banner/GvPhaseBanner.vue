@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import hasSlot from '@/composables/useHasSlot'
-import GvTag from '@/components/govuk-vue/GvTag.vue'
+import GvTag from '@/components/govuk-vue/tag/GvTag.vue'
 import { computed } from 'vue'
 
 const props = defineProps({

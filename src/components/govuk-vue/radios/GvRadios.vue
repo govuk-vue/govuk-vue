@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import GvHint from '@/components/govuk-vue/GvHint.vue'
-import GvErrorMessage from '@/components/govuk-vue/GvErrorMessage.vue'
-import GvFieldset from '@/components/govuk-vue/GvFieldset.vue'
+import { computed, provide, ref, watch } from 'vue'
+import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
+import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
+import GvFieldset from '@/components/govuk-vue/fieldset/GvFieldset.vue'
 import hasSlot from '@/composables/useHasSlot'
+import { RadiosInjectionKey } from '@/components/govuk-vue/radios/RadiosInjectionkey'
 
 const props = defineProps({
+  modelValue: [String, Number, Boolean],
   idPrefix: String,
   name: {
     type: String,
@@ -48,6 +50,19 @@ const props = defineProps({
     default: ''
   }
 })
+const emit = defineEmits(['update:modelValue'])
+
+function updateModelValue(newValue: string | number | boolean) {
+  modelValueMutable.value = newValue
+}
+
+const modelValueMutable = ref(props.modelValue)
+
+watch(modelValueMutable, (newModelValueMutable) => {
+  emit('update:modelValue', newModelValueMutable)
+})
+
+provide(RadiosInjectionKey, { modelValue: modelValueMutable, mutationFunction: updateModelValue })
 
 const hasHint = computed(() => {
   return props.hintText || hasSlot('hint')

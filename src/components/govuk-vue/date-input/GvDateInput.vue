@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import GvHint from '@/components/govuk-vue/GvHint.vue'
+import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import hasSlot from '@/composables/useHasSlot'
 import { computed, ref, watch } from 'vue'
-import GvErrorMessage from '@/components/govuk-vue/GvErrorMessage.vue'
-import GvFieldset from '@/components/govuk-vue/GvFieldset.vue'
-import GvInput from '@/components/govuk-vue/GvInput.vue'
+import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
+import GvFieldset from '@/components/govuk-vue/fieldset/GvFieldset.vue'
+import GvInput from '@/components/govuk-vue/input/GvInput.vue'
 
 const props = defineProps({
   day: {

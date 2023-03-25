@@ -1,35 +1,36 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import GvButton from '@/components/govuk-vue/GvButton.vue'
-import GvInput from '@/components/govuk-vue/GvInput.vue'
-import GvBackLink from '@/components/govuk-vue/GvBackLink.vue'
-import GvTextarea from '@/components/govuk-vue/GvTextarea.vue'
-import GvInsetText from '@/components/govuk-vue/GvInsetText.vue'
-import GvWarningText from '@/components/govuk-vue/GvWarningText.vue'
-import GvPanel from '@/components/govuk-vue/GvPanel.vue'
-import GvFieldset from '@/components/govuk-vue/GvFieldset.vue'
-import GvRadios from '@/components/govuk-vue/GvRadios.vue'
-import GvRadioItem from '@/components/govuk-vue/GvRadioItem.vue'
-import GvDetails from '@/components/govuk-vue/GvDetails.vue'
-import GvHeader from '@/components/govuk-vue/GvHeader.vue'
-import GvHeaderNavigationItem from '@/components/govuk-vue/GvHeaderNavigationItem.vue'
-import GvFooter from '@/components/govuk-vue/GvFooter.vue'
-import GvFooterNavigation from '@/components/govuk-vue/GvFooterNavigation.vue'
-import GvFooterNavigationItem from '@/components/govuk-vue/GvFooterNavigationItem.vue'
-import GvFooterMeta from '@/components/govuk-vue/GvFooterMeta.vue'
-import GvFooterMetaItem from '@/components/govuk-vue/GvFooterMetaItem.vue'
-import GvFragment from '@/components/govuk-vue/util/GvFragment.vue'
-import GvTag from '@/components/govuk-vue/GvTag.vue'
-import GvPhaseBanner from '@/components/govuk-vue/GvPhaseBanner.vue'
-import GvDateInput from '@/components/govuk-vue/GvDateInput.vue'
-import GvCharacterCount from '@/components/govuk-vue/GvCharacterCount.vue'
-import GvSelect from '@/components/govuk-vue/GvSelect.vue'
-import GvSelectOption from '@/components/govuk-vue/GvSelectOption.vue'
+import GvButton from '@/components/govuk-vue/button/GvButton.vue'
+import GvInput from '@/components/govuk-vue/input/GvInput.vue'
+import GvBackLink from '@/components/govuk-vue/back-link/GvBackLink.vue'
+import GvTextarea from '@/components/govuk-vue/textarea/GvTextarea.vue'
+import GvInsetText from '@/components/govuk-vue/inset-text/GvInsetText.vue'
+import GvWarningText from '@/components/govuk-vue/warning-text/GvWarningText.vue'
+import GvPanel from '@/components/govuk-vue/panel/GvPanel.vue'
+import GvFieldset from '@/components/govuk-vue/fieldset/GvFieldset.vue'
+import GvRadios from '@/components/govuk-vue/radios/GvRadios.vue'
+import GvRadioItem from '@/components/govuk-vue/radios/GvRadioItem.vue'
+import GvDetails from '@/components/govuk-vue/details/GvDetails.vue'
+import GvHeader from '@/components/govuk-vue/header/GvHeader.vue'
+import GvHeaderNavigationItem from '@/components/govuk-vue/header/GvHeaderNavigationItem.vue'
+import GvFooter from '@/components/govuk-vue/footer/GvFooter.vue'
+import GvFooterNavigation from '@/components/govuk-vue/footer/GvFooterNavigation.vue'
+import GvFooterNavigationItem from '@/components/govuk-vue/footer/GvFooterNavigationItem.vue'
+import GvFooterMeta from '@/components/govuk-vue/footer/GvFooterMeta.vue'
+import GvFooterMetaItem from '@/components/govuk-vue/footer/GvFooterMetaItem.vue'
+import GvFragment from '@/components/util/GvFragment.vue'
+import GvTag from '@/components/govuk-vue/tag/GvTag.vue'
+import GvPhaseBanner from '@/components/govuk-vue/phase-banner/GvPhaseBanner.vue'
+import GvDateInput from '@/components/govuk-vue/date-input/GvDateInput.vue'
+import GvCharacterCount from '@/components/govuk-vue/character-count/GvCharacterCount.vue'
+import GvSelect from '@/components/govuk-vue/select/GvSelect.vue'
+import GvSelectOption from '@/components/govuk-vue/select/GvSelectOption.vue'
 
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
 const characterCountData = ref('Test character count data')
 const radiosData = ref('wales')
+const nestedRadiosData = ref(undefined)
 const detailsOpenState = ref(false)
 const day = ref('30')
 const month = ref('10')
@@ -194,23 +195,32 @@ function handleBackClick() {
     fieldset-legend-text="Where do you live?"
     fieldset-legend-classes="govuk-fieldset__legend--m"
     error-message-text="Select where you live"
+    v-model="radiosData"
   >
     <template v-slot:hint
       >If you live in multiple countries, select where you spend most of your time</template
     >
-    <gv-radio-item
-      id="myradios"
-      value="england"
-      name="myradios"
-      label-text="England"
-      v-model="radiosData"
-    />
+    <gv-radio-item id="myradios" value="england" name="myradios" label-text="England">
+      <template v-slot:conditional>
+        <gv-radios
+          name="conditionalradios"
+          fieldset-legend-text="Are you sure?"
+          v-model="nestedRadiosData"
+        >
+          <gv-radio-item id="conditionalradios-1" :value="true" name="conditionalradios"
+            >Yes</gv-radio-item
+          >
+          <gv-radio-item id="conditionalradios-2" :value="false" name="conditionalradios"
+            >No</gv-radio-item
+          >
+        </gv-radios>
+      </template>
+    </gv-radio-item>
     <gv-radio-item
       id="myradios-1"
       value="scotland"
       name="myradios"
       label-text="Scotland"
-      v-model="radiosData"
       hint-text=""
     />
     <gv-radio-item
@@ -218,7 +228,6 @@ function handleBackClick() {
       value="wales"
       name="myradios"
       label-text="This should never be shown"
-      v-model="radiosData"
     >
       Wales
     </gv-radio-item>
@@ -227,14 +236,12 @@ function handleBackClick() {
       value="northernireland"
       name="myradios"
       label-text="Northern Ireland"
-      v-model="radiosData"
     />
     <gv-radio-item
       id="myradios-4"
       value="other"
       name="myradios"
       label-text="I am a British citizen living abroad"
-      v-model="radiosData"
       divider="or"
     >
       <template v-slot:conditional>
@@ -255,21 +262,10 @@ function handleBackClick() {
     classes="govuk-radios--inline govuk-radios--small"
     fieldset-legend-text="Details state"
     fieldset-legend-classes="govuk-fieldset__legend--s"
+    v-model="detailsOpenState"
   >
-    <gv-radio-item
-      id="details-state"
-      :value="true"
-      name="details-state"
-      label-text="Open"
-      v-model="detailsOpenState"
-    />
-    <gv-radio-item
-      id="details-state-1"
-      :value="false"
-      name="details-state"
-      label-text="Closed"
-      v-model="detailsOpenState"
-    />
+    <gv-radio-item id="details-state" :value="true" name="details-state" label-text="Open" />
+    <gv-radio-item id="details-state-1" :value="false" name="details-state" label-text="Closed" />
   </gv-radios>
 
   <gv-details summary-text="This should never be shown" text="Prop text" :open="detailsOpenState">

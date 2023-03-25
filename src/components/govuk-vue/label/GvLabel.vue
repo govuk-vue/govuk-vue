@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
-import GvFragment from '@/components/govuk-vue/util/GvFragment.vue'
+import GvFragment from '@/components/util/GvFragment.vue'
 
 const props = defineProps({
   text: String,

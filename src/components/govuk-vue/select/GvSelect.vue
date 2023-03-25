@@ -1,22 +1,55 @@
 <script setup lang="ts">
-import GvLabel from '@/components/govuk-vue/GvLabel.vue'
-import GvHint from '@/components/govuk-vue/GvHint.vue'
+import { computed, ref, watch } from 'vue'
+import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
+import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
+import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import hasSlot from '@/composables/useHasSlot'
-import { computed } from 'vue'
-import GvFragment from '@/components/govuk-vue/util/GvFragment.vue'
-import GvErrorMessage from '@/components/govuk-vue/GvErrorMessage.vue'
-import { textareaProps } from '@/components/govuk-vue/shared-props/textareaProps'
 
-const props = defineProps(textareaProps)
+const props = defineProps({
+  modelValue: [String, Number, Boolean, Object],
+  id: {
+    type: String,
+    required: true
+  },
+  name: String,
+  classes: {
+    type: String,
+    default: ''
+  },
+  describedBy: String,
+  disabled: Boolean,
+  //Label props
+  labelText: String,
+  labelIsPageHeading: {
+    type: Boolean,
+    default: false
+  },
+  labelClasses: String,
+  //hint props
+  hintText: String,
+  hintClasses: {
+    type: String,
+    default: ''
+  },
+  //error message props
+  errorMessageText: String,
+  errorMessageClasses: {
+    type: String,
+    default: ''
+  },
+  errorMessageVisuallyHiddenText: String,
+  //Form group props
+  formGroupClasses: {
+    type: String,
+    default: ''
+  }
+})
 const emit = defineEmits(['update:modelValue'])
 
-const value = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value) {
-    emit('update:modelValue', value)
-  }
+const modelValueMutable = ref(props.modelValue)
+
+watch(modelValueMutable, (newModelValueMutable) => {
+  emit('update:modelValue', newModelValueMutable)
 })
 
 const hasHint = computed(() => {
@@ -68,17 +101,16 @@ const computedDescribedBy = computed(() => {
     >
       <slot name="error-message" />
     </gv-error-message>
-    <textarea
+
+    <select
       :id="id"
       :name="name"
-      :class="`govuk-textarea ${hasErrorMessage ? 'govuk-textarea--error' : ''} ${classes}`"
-      :rows="rows"
-      :spellcheck="spellcheck === null ? null : spellcheck"
+      :class="`govuk-select ${hasErrorMessage ? 'govuk-select--error' : ''} ${classes}`"
+      v-model="modelValueMutable"
       :disabled="disabled"
       :aria-describedby="computedDescribedBy"
-      :autocomplete="autocomplete"
-      v-model="value"
-    ></textarea>
-    <slot name="below-textarea" />
+    >
+      <slot />
+    </select>
   </div>
 </template>

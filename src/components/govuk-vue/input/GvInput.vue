@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import GvLabel from '@/components/govuk-vue/GvLabel.vue'
-import GvHint from '@/components/govuk-vue/GvHint.vue'
+import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
+import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import hasSlot from '@/composables/useHasSlot'
 import { computed } from 'vue'
-import GvFragment from '@/components/govuk-vue/util/GvFragment.vue'
-import GvErrorMessage from '@/components/govuk-vue/GvErrorMessage.vue'
+import GvFragment from '@/components/util/GvFragment.vue'
+import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
 
 const props = defineProps({
   modelValue: String,
