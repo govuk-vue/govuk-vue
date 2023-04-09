@@ -27,6 +27,8 @@ import GvSelect from '@/components/govuk-vue/select/GvSelect.vue'
 import GvSelectOption from '@/components/govuk-vue/select/GvSelectOption.vue'
 import GvAccordion from '@/components/govuk-vue/accordion/GvAccordion.vue'
 import GvAccordionSection from '@/components/govuk-vue/accordion/GvAccordionSection.vue'
+import GvBreadcrumbs from '@/components/govuk-vue/breadcrumbs/GvBreadcrumbs.vue'
+import GvBreadcrumbItem from '@/components/govuk-vue/breadcrumbs/GvBreadcrumbItem.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -52,6 +54,10 @@ function handleStartClick() {
 function handleBackClick() {
   alert('Back clicked!')
 }
+
+function handleBreadcrumbClick() {
+  alert('Breadcrumb clicked!')
+}
 </script>
 
 <template>
@@ -74,7 +80,22 @@ function handleBackClick() {
   <gv-phase-banner tag-text="Pre-alpha" text="This should never be shown">
     This library is still in early development
   </gv-phase-banner>
+
+  <gv-breadcrumbs>
+    <gv-breadcrumb-item href="some-page" text="This should never be shown">Home</gv-breadcrumb-item>
+    <gv-breadcrumb-item text="Click handler" @click="handleBreadcrumbClick" some-attr="foo" />
+    <gv-breadcrumb-item>This page</gv-breadcrumb-item>
+  </gv-breadcrumbs>
+
+  <gv-breadcrumbs :collapse-on-mobile="true">
+    <gv-breadcrumb-item href="#">One</gv-breadcrumb-item>
+    <gv-breadcrumb-item href="#">Two</gv-breadcrumb-item>
+    <gv-breadcrumb-item href="#">Three</gv-breadcrumb-item>
+    <gv-breadcrumb-item href="#">Four</gv-breadcrumb-item>
+  </gv-breadcrumbs>
+
   <h1 class="govuk-heading-xl">Tests</h1>
+
   <h2 class="govuk-heading-l">Back link</h2>
   <div><gv-back-link /></div>
   <div>
