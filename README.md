@@ -22,7 +22,7 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 
 | Component           | Built? | Tests? | Notes                                                                     |
 |---------------------|--------|-------|---------------------------------------------------------------------------|
-| Accordion           |        |       | Need to find way to share state to allow for expand/collapse all (Pinia?) |
+| Accordion           | Yes    |       | Need to find way to share state to allow for expand/collapse all (Pinia?) |
 | Back link           | Yes    |       |                                                                           |
 | Breadcrumbs         |        |       |                                                                           |
 | Button              | Yes    |       |                                                                           |

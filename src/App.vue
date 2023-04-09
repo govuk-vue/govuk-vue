@@ -25,10 +25,14 @@ import GvDateInput from '@/components/govuk-vue/date-input/GvDateInput.vue'
 import GvCharacterCount from '@/components/govuk-vue/character-count/GvCharacterCount.vue'
 import GvSelect from '@/components/govuk-vue/select/GvSelect.vue'
 import GvSelectOption from '@/components/govuk-vue/select/GvSelectOption.vue'
+import GvAccordion from '@/components/govuk-vue/accordion/GvAccordion.vue'
+import GvAccordionSection from '@/components/govuk-vue/accordion/GvAccordionSection.vue'
 
+const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
 const textareaData = ref('The quick brown fox jumps over the lazy dog')
 const characterCountData = ref('Test character count data')
+const showEngland = ref(false)
 const radiosData = ref('wales')
 const nestedRadiosData = ref(undefined)
 const detailsOpenState = ref(false)
@@ -78,6 +82,51 @@ function handleBackClick() {
       Back with click handler
     </gv-back-link>
   </div>
+
+  <h2 class="govuk-heading-l">Accordion</h2>
+  <gv-radios
+    name="show-optional-accordion-section"
+    classes="govuk-radios--inline govuk-radios--small"
+    fieldset-legend-text="Show optional acccordion section?"
+    fieldset-legend-classes="govuk-fieldset__legend--s"
+    v-model="showOptionalAccordionSection"
+  >
+    <gv-radio-item
+      id="show-optional-accordion-section"
+      :value="true"
+      name="show-optional-accordion-section"
+      label-text="Yes"
+    />
+    <gv-radio-item
+      id="show-optional-accordion-section-1"
+      :value="false"
+      name="show-optional-accordion-section"
+      label-text="No"
+    />
+  </gv-radios>
+  <gv-accordion id="test-accordion">
+    <gv-accordion-section
+      v-if="showOptionalAccordionSection"
+      heading-text="My accordion section 0 (optional)"
+    >
+      <template v-slot:summary>
+        above inset texts {{ textInputData }}
+        <div><span>Some div</span></div>
+        <gv-inset-text>Inset text</gv-inset-text>
+      </template>
+      Some text content for the accordion
+    </gv-accordion-section>
+    <gv-accordion-section
+      heading-text="My accordion section 1"
+      content-text="My content 1"
+      id="manual-section-id"
+      >foo</gv-accordion-section
+    >
+    <gv-accordion-section heading-text="My accordion section 2">
+      <gv-warning-text>My content 2</gv-warning-text>
+    </gv-accordion-section>
+  </gv-accordion>
+
   <h2 class="govuk-heading-l">Buttons</h2>
   <div><gv-button id="myButton" text="Text content" /></div>
   <div><gv-button>Slot content</gv-button></div>
@@ -191,6 +240,17 @@ function handleBackClick() {
 
   <h2 class="govuk-heading-l">Radios</h2>
   <gv-radios
+    name="show-england"
+    classes="govuk-radios--inline govuk-radios--small"
+    fieldset-legend-text="Show England?"
+    fieldset-legend-classes="govuk-fieldset__legend--s"
+    v-model="showEngland"
+  >
+    <gv-radio-item id="show-england" :value="true" name="show-england" label-text="Yes" />
+    <gv-radio-item id="show-england-1" :value="false" name="show-england" label-text="No" />
+  </gv-radios>
+
+  <gv-radios
     name="myradios"
     fieldset-legend-text="Where do you live?"
     fieldset-legend-classes="govuk-fieldset__legend--m"
@@ -200,7 +260,13 @@ function handleBackClick() {
     <template v-slot:hint
       >If you live in multiple countries, select where you spend most of your time</template
     >
-    <gv-radio-item id="myradios" value="england" name="myradios" label-text="England">
+    <gv-radio-item
+      v-if="showEngland"
+      id="myradios"
+      value="england"
+      name="myradios"
+      label-text="England"
+    >
       <template v-slot:conditional>
         <gv-radios
           name="conditionalradios"
