@@ -5,7 +5,10 @@ defineProps({
   titleText: String,
   headingLevel: {
     type: Number,
-    default: 1
+    default: 1,
+    validator(value: number) {
+      return value >= 1 && value <= 6
+    }
   },
   text: String,
   classes: {
