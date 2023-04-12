@@ -1,0 +1,1 @@
+If you have conditional actions on a card, put the v-if on the actions or a wrapping <template> not on the <template v-slot:actions> otherwise the actions may not be shown

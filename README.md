@@ -45,7 +45,7 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 | Radios              | Yes    |       | Todo: Add way to pass items as a prop |
 | Select              | Yes    |       |                                       |
 | Skip link           |        |       |                                       |
-| Summary list        |        |       |                                       |
+| Summary list        | Yes    |       |                                       |
 | Table               |        |       |                                       |
 | Tabs                |        |       |                                       |
 | Tag                 | Yes    |       |                                       |

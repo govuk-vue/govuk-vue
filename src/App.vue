@@ -29,6 +29,10 @@ import GvAccordion from '@/components/govuk-vue/accordion/GvAccordion.vue'
 import GvAccordionSection from '@/components/govuk-vue/accordion/GvAccordionSection.vue'
 import GvBreadcrumbs from '@/components/govuk-vue/breadcrumbs/GvBreadcrumbs.vue'
 import GvBreadcrumbItem from '@/components/govuk-vue/breadcrumbs/GvBreadcrumbItem.vue'
+import GvSummaryList from '@/components/govuk-vue/summary-list/GvSummaryList.vue'
+import GvSummaryCardAction from '@/components/govuk-vue/summary-list/GvSummaryCardAction.vue'
+import GvSummaryListRow from '@/components/govuk-vue/summary-list/GvSummaryListRow.vue'
+import GvSummaryListRowAction from '@/components/govuk-vue/summary-list/GvSummaryListRowAction.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -47,6 +51,9 @@ const selectDataBoolean = ref(true)
 const selectOptions = [{ name: 'Alice' }, { name: 'Bob' }, { name: 'Charles' }]
 const selectDataObject = ref(selectOptions[1])
 
+const showCardActions = ref(false)
+const showChangeLink = ref(false)
+
 function handleStartClick() {
   alert('Start clicked!')
 }
@@ -57,6 +64,10 @@ function handleBackClick() {
 
 function handleBreadcrumbClick() {
   alert('Breadcrumb clicked!')
+}
+
+function handleCardDeleteClick() {
+  alert('Delete clicked!')
 }
 </script>
 
@@ -418,6 +429,150 @@ function handleBreadcrumbClick() {
   </gv-select>
 
   {{ typeof selectDataObject }} {{ selectDataObject.name }}
+
+  <h2 class="govuk-heading-l">Summary</h2>
+  <gv-radios
+    name="show-card-actions"
+    classes="govuk-radios--inline govuk-radios--small"
+    fieldset-legend-text="Show card actions?"
+    fieldset-legend-classes="govuk-fieldset__legend--s"
+    v-model="showCardActions"
+  >
+    <gv-radio-item id="show-card-actions" :value="true" name="show-card-actions" label-text="Yes" />
+    <gv-radio-item
+      id="show-card-actions-1"
+      :value="false"
+      name="show-card-actions"
+      label-text="No"
+    />
+  </gv-radios>
+  <gv-radios
+    name="show-change-link"
+    classes="govuk-radios--inline govuk-radios--small"
+    fieldset-legend-text="Show change link?"
+    fieldset-legend-classes="govuk-fieldset__legend--s"
+    v-model="showChangeLink"
+  >
+    <gv-radio-item id="show-change-link" :value="true" name="show-change-link" label-text="Yes" />
+    <gv-radio-item id="show-change-link-1" :value="false" name="show-change-link" label-text="No" />
+  </gv-radios>
+
+  <h3 class="govuk-heading-m">Card</h3>
+  <gv-summary-list card-title-text="My summary list">
+    <template v-slot:card-actions v-if="showCardActions">
+      <gv-summary-card-action href="abc">Edit</gv-summary-card-action>
+      <gv-summary-card-action
+        visually-hidden-text=" this item"
+        @click.prevent="handleCardDeleteClick"
+        >Delete</gv-summary-card-action
+      >
+    </template>
+    <gv-summary-list-row key-text="Name" value-text="Matt Eason">
+      <template v-slot:actions>
+        <gv-summary-list-row-action
+          v-if="showChangeLink"
+          text="A"
+          visually-hidden-text="developer name"
+          href="/change"
+        />
+      </template>
+    </gv-summary-list-row>
+    <gv-summary-list-row key-text="Project" value-text="GOV.UK Vue" />
+    <gv-summary-list-row key-text="Description" W>
+      <template v-slot:value>
+        <p class="govuk-body">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut tellus at nibh fringilla
+          faucibus. Cras quis diam tincidunt, sodales felis ac, auctor massa. Aliquam lacinia
+          eleifend felis at pulvinar. Sed gravida tincidunt eleifend. Suspendisse feugiat, orci ac
+          rhoncus ultricies, felis nulla congue mi, quis congue ex ligula at quam. Integer ultrices
+          turpis est, vitae interdum tellus consectetur non. Vestibulum a sem fermentum, varius
+          felis ac, tincidunt nunc. Morbi vestibulum ligula quam, sit amet mattis lacus sagittis
+          facilisis. Curabitur pharetra vehicula mollis. Mauris commodo dignissim augue ac
+          consequat. Proin ut lacus pulvinar, porttitor risus consectetur, mollis purus. Cras vitae
+          lorem semper, viverra est a, iaculis libero.
+        </p>
+
+        <p class="govuk-body">
+          Ut gravida facilisis vestibulum. Maecenas ac velit ipsum. Vivamus tempor leo magna, quis
+          molestie tellus vehicula ut. Aenean non arcu nec libero fermentum gravida et vel arcu.
+          Aenean a nisi eu nisi ornare vehicula. Class aptent taciti sociosqu ad litora torquent per
+          conubia nostra, per inceptos himenaeos. Pellentesque enim est, gravida ullamcorper ex
+          vitae, dapibus condimentum justo. In id mollis tortor. Cras congue commodo sodales.
+        </p>
+      </template>
+      <template v-slot:actions>
+        <gv-summary-list-row-action
+          v-if="showChangeLink"
+          text="B"
+          visually-hidden-text="description"
+          href="/change"
+        />
+        <gv-summary-list-row-action text="C" visually-hidden-text="description" href="/remove" />
+      </template>
+    </gv-summary-list-row>
+  </gv-summary-list>
+
+  <h3 class="govuk-heading-m">Normal</h3>
+  <gv-summary-list>
+    <template v-slot:card-actions>
+      <template v-if="showCardActions">
+        <gv-summary-card-action href="abc">Edit</gv-summary-card-action>
+        <gv-summary-card-action
+          visually-hidden-text=" this item"
+          @click.prevent="handleCardDeleteClick"
+          >Delete</gv-summary-card-action
+        >
+      </template>
+    </template>
+    <gv-summary-list-row key-text="Name" value-text="Matt Eason">
+      <template v-slot:actions v-if="showChangeLink">
+        <gv-summary-list-row-action
+          text="This should never be shown"
+          visually-hidden-text="developer name"
+          href="/change"
+          >Change</gv-summary-list-row-action
+        >
+      </template>
+    </gv-summary-list-row>
+    <gv-summary-list-row key-text="Project" value-text="GOV.UK Vue" />
+    <gv-summary-list-row key-text="Description">
+      <template v-slot:value>
+        <p class="govuk-body">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut tellus at nibh fringilla
+          faucibus. Cras quis diam tincidunt, sodales felis ac, auctor massa. Aliquam lacinia
+          eleifend felis at pulvinar. Sed gravida tincidunt eleifend. Suspendisse feugiat, orci ac
+          rhoncus ultricies, felis nulla congue mi, quis congue ex ligula at quam. Integer ultrices
+          turpis est, vitae interdum tellus consectetur non. Vestibulum a sem fermentum, varius
+          felis ac, tincidunt nunc. Morbi vestibulum ligula quam, sit amet mattis lacus sagittis
+          facilisis. Curabitur pharetra vehicula mollis. Mauris commodo dignissim augue ac
+          consequat. Proin ut lacus pulvinar, porttitor risus consectetur, mollis purus. Cras vitae
+          lorem semper, viverra est a, iaculis libero.
+        </p>
+
+        <p class="govuk-body">
+          Ut gravida facilisis vestibulum. Maecenas ac velit ipsum. Vivamus tempor leo magna, quis
+          molestie tellus vehicula ut. Aenean non arcu nec libero fermentum gravida et vel arcu.
+          Aenean a nisi eu nisi ornare vehicula. Class aptent taciti sociosqu ad litora torquent per
+          conubia nostra, per inceptos himenaeos. Pellentesque enim est, gravida ullamcorper ex
+          vitae, dapibus condimentum justo. In id mollis tortor. Cras congue commodo sodales.
+        </p>
+      </template>
+      <template v-slot:actions>
+        <gv-summary-list-row-action
+          v-if="showChangeLink"
+          text="This should never be shown"
+          visually-hidden-text="description"
+          href="/change"
+          >Change</gv-summary-list-row-action
+        >
+        <gv-summary-list-row-action
+          text="Remove"
+          visually-hidden-text="description"
+          href="/remove"
+        />
+      </template>
+    </gv-summary-list-row>
+  </gv-summary-list>
 
   <gv-footer
     copyright-href="xyz"
