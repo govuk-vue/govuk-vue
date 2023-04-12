@@ -2,7 +2,7 @@
 import hasSlot from '@/composables/useHasSlot'
 import getSlotText from '@/composables/useGetSlotText'
 
-import { computed, inject, onBeforeMount, onMounted, onUnmounted, ref, useSlots, watch } from 'vue'
+import { computed, inject, onBeforeMount, onMounted, onUnmounted, Ref, ref, watch } from 'vue'
 import {
   AccordionIdInjectionKey,
   AccordionHeadingLevelInjectionKey,
@@ -32,7 +32,7 @@ const props = defineProps({
 const key = Symbol()
 const expandedMutable = ref(props.expanded)
 const sectionIndex = ref(-1)
-const contentElement = ref(null)
+const contentElement: Ref<HTMLDivElement | null> = ref(null)
 
 onBeforeMount(() => {
   registerSection({ key: key, expanded: expandedMutable, sectionIndex: sectionIndex })
@@ -48,8 +48,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   if (contentElement.value) {
-    const div = contentElement.value as HTMLDivElement
-    div.addEventListener('beforematch', () => {
+    contentElement.value.addEventListener('beforematch', () => {
       toggleExpanded()
     })
   }
