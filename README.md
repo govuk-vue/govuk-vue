@@ -1,6 +1,6 @@
-# GOV.UK Frontend Vue
+# GOV.UK Vue
 
-GOV.UK Frontend Vue (GV) is a Vue 3 component library for [GOV.UK Frontend](https://github.com/alphagov/govuk-frontend). It enables you to build Vue apps based on the [GOV.UK Design System](https://design-system.service.gov.uk/).
+GOV.UK Vue (GV) is a Vue 3 component library for [GOV.UK Frontend](https://github.com/alphagov/govuk-frontend). It enables you to build Vue apps based on the [GOV.UK Design System](https://design-system.service.gov.uk/).
 
 > **Warning**
 >
@@ -8,7 +8,7 @@ GOV.UK Frontend Vue (GV) is a Vue 3 component library for [GOV.UK Frontend](http
 
 At the moment there's minimal documentation, but you can see examples of the components in use in `src/App.vue`.
 
-I am not affiliated with GDS and GOV.UK Frontend Vue is not an official GOV.UK resource.
+I am not affiliated with GDS and GOV.UK Vue is not an official GOV.UK resource.
 
 ## Goals
 

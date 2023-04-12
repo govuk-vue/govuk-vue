@@ -1,11 +1,11 @@
 {
-  "name": "govuk-frontend-vue",
+  "name": "govuk-vue",
   "version": "0.0.0",
   "license": "MIT",
   "author": {
     "name": "Matt Eason"
   },
-  "homepage": "https://github.com/matteason/govuk-frontend-vue",
+  "homepage": "https://github.com/matteason/govuk-vue",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
