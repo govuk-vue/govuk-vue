@@ -33,6 +33,7 @@ import GvSummaryList from '@/components/govuk-vue/summary-list/GvSummaryList.vue
 import GvSummaryCardAction from '@/components/govuk-vue/summary-list/GvSummaryCardAction.vue'
 import GvSummaryListRow from '@/components/govuk-vue/summary-list/GvSummaryListRow.vue'
 import GvSummaryListRowAction from '@/components/govuk-vue/summary-list/GvSummaryListRowAction.vue'
+import GvNotificationBanner from '@/components/govuk-vue/notification-banner/GvNotificationBanner.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -104,6 +105,18 @@ function handleCardDeleteClick() {
     <gv-breadcrumb-item href="#">Three</gv-breadcrumb-item>
     <gv-breadcrumb-item href="#">Four</gv-breadcrumb-item>
   </gv-breadcrumbs>
+
+  <gv-notification-banner text="This is a normal banner"></gv-notification-banner>
+  <gv-notification-banner type="success" title-id="success-banner" :disable-auto-focus="true">
+    <p class="govuk-notification-banner__heading">This is the h3</p>
+    <p class="govuk-body">This is the paragraph</p>
+  </gv-notification-banner>
+  <gv-notification-banner
+    title-text="Some information"
+    title-id="banner-3"
+    :title-heading-level="5"
+    text="This is a normal banner"
+  ></gv-notification-banner>
 
   <h1 class="govuk-heading-xl">Tests</h1>
 
