@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import hasSlot from '@/composables/useHasSlot'
 import { computed, onMounted, ref } from 'vue'
+import { useIsDesktop } from '@/composables/useIsDesktop'
 
 defineProps({
   classes: {
@@ -39,16 +40,8 @@ defineProps({
   }
 })
 
-// Set the matchMedia to the govuk-frontend desktop breakpoint
-const mediaQuery = window.matchMedia('(min-width: 48.0625em)')
-let isDesktop = ref(mediaQuery.matches)
+let isDesktop = useIsDesktop()
 let menuIsOpen = ref(false)
-
-onMounted(() => {
-  mediaQuery.addEventListener('change', () => {
-    isDesktop.value = mediaQuery.matches
-  })
-})
 
 function handleMenuButtonClick() {
   menuIsOpen.value = !menuIsOpen.value
