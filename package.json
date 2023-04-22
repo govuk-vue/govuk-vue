@@ -17,8 +17,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.1",
     "govuk-frontend": "^4.5.0",
     "sass": "^1.59.2",
+    "uuid": "^9.0.0",
     "vue": "^3.2.47"
   },
   "devDependencies": {

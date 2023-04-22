@@ -34,6 +34,8 @@ import GvSummaryCardAction from '@/components/govuk-vue/summary-list/GvSummaryCa
 import GvSummaryListRow from '@/components/govuk-vue/summary-list/GvSummaryListRow.vue'
 import GvSummaryListRowAction from '@/components/govuk-vue/summary-list/GvSummaryListRowAction.vue'
 import GvNotificationBanner from '@/components/govuk-vue/notification-banner/GvNotificationBanner.vue'
+import GvTabs from '@/components/govuk-vue/tabs/GvTabs'
+import GvTab from '@/components/govuk-vue/tabs/GvTab.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -54,6 +56,11 @@ const selectDataObject = ref(selectOptions[1])
 
 const showCardActions = ref(false)
 const showChangeLink = ref(false)
+
+const numberOfTabs = ref(4)
+const maxPeriod = 'week'
+
+const lastTabSelected = ref(false)
 
 function handleStartClick() {
   alert('Start clicked!')
@@ -127,6 +134,31 @@ function handleCardDeleteClick() {
       Back with click handler
     </gv-back-link>
   </div>
+
+  <h2 class="govuk-heading-l">Tabs</h2>
+  <gv-button @click="lastTabSelected = !lastTabSelected">Toggle last tab auto-selected</gv-button
+  ><br />
+  {{ lastTabSelected }}
+  <input type="range" v-model.number="numberOfTabs" min="0" max="10" />
+  {{ numberOfTabs }}
+  <gv-tabs title="hello tabs!">
+    <gv-tab v-for="i in numberOfTabs" :label="`Tab ${i}`" :key="i">
+      Content of tab {{ i }} {{ textInputData }}
+    </gv-tab>
+    <gv-tab :label="textInputData" key="end-tab" :selected="lastTabSelected" :id="textInputData">
+      End tab
+    </gv-tab>
+  </gv-tabs>
+
+  <gv-tabs title="Cases opened">
+    <gv-tab label="Past day">
+      <gv-inset-text>No cases opened in the past day</gv-inset-text>
+    </gv-tab>
+    <gv-tab label="Past day">
+      <template #label> Past {{ maxPeriod }}</template>
+      <gv-inset-text>No cases opened in the past {{ maxPeriod }}</gv-inset-text>
+    </gv-tab>
+  </gv-tabs>
 
   <h2 class="govuk-heading-l">Accordion</h2>
   <gv-radios
