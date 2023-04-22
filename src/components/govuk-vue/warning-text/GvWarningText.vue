@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import hasSlot from '@/composables/useHasSlot'
-
 defineProps({
   text: String,
   iconFallbackText: {
@@ -19,12 +17,9 @@ defineProps({
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text">
       <span class="govuk-warning-text__assistive">{{ iconFallbackText }}</span>
-      <template v-if="hasSlot('default')">
-        <slot />
-      </template>
-      <template v-else>
+      <slot>
         {{ text }}
-      </template>
+      </slot>
     </strong>
   </div>
 </template>
