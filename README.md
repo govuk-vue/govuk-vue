@@ -39,7 +39,7 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 | Header              | Yes    |        |                                       |
 | Inset text          | Yes    |        |                                       |
 | Notification banner | Yes    |        |                                       |
-| Pagination          |        |        |                                       |
+| Pagination          | Yes    |        | Todo: Accessibility test              |
 | Panel               | Yes    |        |                                       |
 | Phase banner        | Yes    |        |                                       |
 | Radios              | Yes    |        | Todo: Add way to pass items as a prop |

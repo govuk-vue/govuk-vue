@@ -36,6 +36,7 @@ import GvSummaryListRowAction from '@/components/govuk-vue/summary-list/GvSummar
 import GvNotificationBanner from '@/components/govuk-vue/notification-banner/GvNotificationBanner.vue'
 import GvTabs from '@/components/govuk-vue/tabs/GvTabs'
 import GvTab from '@/components/govuk-vue/tabs/GvTab.vue'
+import GvPagination from '@/components/govuk-vue/gv-pagination/GvPagination.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -61,6 +62,7 @@ const numberOfTabs = ref(4)
 const maxPeriod = 'week'
 
 const lastTabSelected = ref(false)
+const currentPage = ref(1)
 
 function handleStartClick() {
   alert('Start clicked!')
@@ -76,6 +78,14 @@ function handleBreadcrumbClick() {
 
 function handleCardDeleteClick() {
   alert('Delete clicked!')
+}
+
+function handlePreviousClicked() {
+  alert('Previous clicked!')
+}
+
+function handleNextClicked() {
+  alert('Next clicked!')
 }
 </script>
 
@@ -619,6 +629,21 @@ function handleCardDeleteClick() {
     </gv-summary-list-row>
   </gv-summary-list>
 
+
+  <h3 class="govuk-heading-m">Pagination</h3>
+  Current page: {{ currentPage }}
+  <gv-pagination
+    v-model="currentPage"
+    :total-pages="20"
+    :skip-pages-threshold="5"
+    :before-after-count="2"
+  />
+  <gv-pagination
+    previous-label-text="Applying for a provisional lorry or bus licence"
+    next-label-text="Driver CPC part 1 test: theory"
+    @previousClicked="handlePreviousClicked"
+    @nextClicked="handleNextClicked"
+  />
   <gv-footer
     copyright-href="xyz"
     copyright-text="Test copyright text"
