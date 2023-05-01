@@ -178,18 +178,8 @@ function handleNextClicked() {
     fieldset-legend-classes="govuk-fieldset__legend--s"
     v-model="showOptionalAccordionSection"
   >
-    <gv-radio-item
-      id="show-optional-accordion-section"
-      :value="true"
-      name="show-optional-accordion-section"
-      label-text="Yes"
-    />
-    <gv-radio-item
-      id="show-optional-accordion-section-1"
-      :value="false"
-      name="show-optional-accordion-section"
-      label-text="No"
-    />
+    <gv-radio-item id="show-optional-accordion-section" :value="true" label-text="Yes" />
+    <gv-radio-item id="show-optional-accordion-section-1" :value="false" label-text="No" />
   </gv-radios>
   <gv-accordion id="test-accordion">
     <gv-accordion-section
@@ -577,7 +567,6 @@ function handleNextClicked() {
       </template>
     </gv-summary-list-row>
   </gv-summary-list>
-
 
   <h3 class="govuk-heading-m">Pagination</h3>
   Current page: {{ currentPage }}
