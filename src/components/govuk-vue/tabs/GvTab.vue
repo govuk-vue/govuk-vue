@@ -10,7 +10,6 @@ import {
   useSlots,
   watch
 } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
 import {
   TabsRegisterTabFunctionInjectionKey,
   TabsSelectNextTabFunctionInjectionKey,
@@ -20,6 +19,7 @@ import {
 } from '@/components/govuk-vue/tabs/TabsInjectionKeys'
 import type { Tab } from '@/components/govuk-vue/tabs/Tab'
 import { useIsDesktop } from '@/composables/useIsDesktop'
+import { createUid } from '@/util/createUid'
 
 const props = defineProps({
   label: String,
@@ -93,7 +93,7 @@ watch(
 )
 
 function generateId() {
-  return props.id ? props.id : `gv-tab-${uuidv4()}`
+  return props.id ? props.id : createUid('gv-tab')
 }
 
 function handleTabClick(e: Event) {

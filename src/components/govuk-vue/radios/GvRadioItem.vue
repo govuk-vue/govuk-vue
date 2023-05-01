@@ -3,18 +3,16 @@ import { computed, inject, ref } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
-import { RadiosInjectionKey } from '@/components/govuk-vue/radios/RadiosInjectionkey'
+import {
+  RadiosModelValueInjectionKey,
+  RadiosNameInjectionKey,
+  RadiosUpdateModelValueFunctionInjectionKey
+} from '@/components/govuk-vue/radios/RadiosInjectionKeys'
+import { createUid } from '@/util/createUid'
 
 const props = defineProps({
   text: String,
-  id: {
-    type: String,
-    required: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
+  id: String,
   value: {
     type: [String, Number, Boolean],
     required: true
@@ -35,17 +33,16 @@ const props = defineProps({
   }
 })
 
-const radiosModelValue = inject(RadiosInjectionKey, {
-  modelValue: ref(undefined),
-  mutationFunction: () => {}
-})
+const radiosModelValue = inject(RadiosModelValueInjectionKey)
+const radiosUpdateModelValueFunction = inject(RadiosUpdateModelValueFunctionInjectionKey, () => {})
+const name = inject(RadiosNameInjectionKey)
 
 const hasHint = computed(() => {
   return props.hintText || hasSlot('hint')
 })
 
 const hintId = computed(() => {
-  return hasHint.value ? `${props.id}-hint` : null
+  return hasHint.value ? `${computedId.value}-hint` : null
 })
 
 const hasConditional = computed(() => {
@@ -53,7 +50,11 @@ const hasConditional = computed(() => {
 })
 
 const conditionalId = computed(() => {
-  return hasConditional.value ? `conditional-${props.id}` : null
+  return hasConditional.value ? `conditional-${computedId.value}` : null
+})
+
+const computedId = computed(() => {
+  return props.id ? props.id : createUid('gv-radio-item')
 })
 </script>
 
@@ -62,18 +63,22 @@ const conditionalId = computed(() => {
   <div class="govuk-radios__item">
     <input
       class="govuk-radios__input"
-      :id="id"
+      :id="computedId"
       :name="name"
       type="radio"
       :value="value"
       :disabled="disabled"
       :aria-controls="conditionalId"
-      :aria-expanded="hasConditional && radiosModelValue.modelValue.value === value"
+      :aria-expanded="hasConditional && radiosModelValue === value"
       :aria-describedby="hintId"
-      :checked="radiosModelValue.modelValue.value === value"
-      @change="radiosModelValue.mutationFunction(value)"
+      :checked="radiosModelValue === value"
+      @change="radiosUpdateModelValueFunction(value)"
     />
-    <gv-label :text="labelText" :classes="`govuk-radios__label ${labelClasses}`" :forId="id">
+    <gv-label
+      :text="labelText"
+      :classes="`govuk-radios__label ${labelClasses}`"
+      :forId="computedId"
+    >
       <slot />
     </gv-label>
     <gv-hint
@@ -88,7 +93,7 @@ const conditionalId = computed(() => {
   <div
     v-if="hasConditional"
     class="govuk-radios__conditional"
-    :class="{ 'govuk-radios__conditional--hidden': value !== radiosModelValue.modelValue.value }"
+    :class="{ 'govuk-radios__conditional--hidden': value !== radiosModelValue }"
     :id="conditionalId"
   >
     <slot name="conditional" />

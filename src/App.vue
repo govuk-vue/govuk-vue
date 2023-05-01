@@ -333,12 +333,11 @@ function handleNextClicked() {
     fieldset-legend-classes="govuk-fieldset__legend--s"
     v-model="showEngland"
   >
-    <gv-radio-item id="show-england" :value="true" name="show-england" label-text="Yes" />
-    <gv-radio-item id="show-england-1" :value="false" name="show-england" label-text="No" />
+    <gv-radio-item :value="true" label-text="Yes" />
+    <gv-radio-item :value="false" label-text="No" />
   </gv-radios>
 
   <gv-radios
-    name="myradios"
     fieldset-legend-text="Where do you live?"
     fieldset-legend-classes="govuk-fieldset__legend--m"
     error-message-text="Select where you live"
@@ -347,56 +346,22 @@ function handleNextClicked() {
     <template v-slot:hint
       >If you live in multiple countries, select where you spend most of your time</template
     >
-    <gv-radio-item
-      v-if="showEngland"
-      id="myradios"
-      value="england"
-      name="myradios"
-      label-text="England"
-    >
+    <gv-radio-item v-if="showEngland" value="england" label-text="England">
       <template v-slot:conditional>
         <gv-radios
           name="conditionalradios"
           fieldset-legend-text="Are you sure?"
           v-model="nestedRadiosData"
         >
-          <gv-radio-item id="conditionalradios-1" :value="true" name="conditionalradios"
-            >Yes</gv-radio-item
-          >
-          <gv-radio-item id="conditionalradios-2" :value="false" name="conditionalradios"
-            >No</gv-radio-item
-          >
+          <gv-radio-item :value="true">Yes</gv-radio-item>
+          <gv-radio-item :value="false">No</gv-radio-item>
         </gv-radios>
       </template>
     </gv-radio-item>
-    <gv-radio-item
-      id="myradios-1"
-      value="scotland"
-      name="myradios"
-      label-text="Scotland"
-      hint-text=""
-    />
-    <gv-radio-item
-      id="myradios-2"
-      value="wales"
-      name="myradios"
-      label-text="This should never be shown"
-    >
-      Wales
-    </gv-radio-item>
-    <gv-radio-item
-      id="myradios-3"
-      value="northernireland"
-      name="myradios"
-      label-text="Northern Ireland"
-    />
-    <gv-radio-item
-      id="myradios-4"
-      value="other"
-      name="myradios"
-      label-text="I am a British citizen living abroad"
-      divider="or"
-    >
+    <gv-radio-item value="scotland" label-text="Scotland" />
+    <gv-radio-item value="wales" label-text="This should never be shown"> Wales </gv-radio-item>
+    <gv-radio-item value="northernireland" label-text="Northern Ireland" />
+    <gv-radio-item value="other" label-text="I am a British citizen living abroad" divider="or">
       <template v-slot:conditional>
         <gv-input id="test-conditional-text-input" label-text="Which country do you live in?" />
       </template>
@@ -410,16 +375,7 @@ function handleNextClicked() {
     the post.
   </gv-details>
 
-  <gv-radios
-    name="details-state"
-    classes="govuk-radios--inline govuk-radios--small"
-    fieldset-legend-text="Details state"
-    fieldset-legend-classes="govuk-fieldset__legend--s"
-    v-model="detailsOpenState"
-  >
-    <gv-radio-item id="details-state" :value="true" name="details-state" label-text="Open" />
-    <gv-radio-item id="details-state-1" :value="false" name="details-state" label-text="Closed" />
-  </gv-radios>
+  /
 
   <gv-details summary-text="This should never be shown" text="Prop text" :open="detailsOpenState">
     <template v-slot:summary>Slot summary</template>
@@ -487,29 +443,22 @@ function handleNextClicked() {
 
   <h2 class="govuk-heading-l">Summary</h2>
   <gv-radios
-    name="show-card-actions"
     classes="govuk-radios--inline govuk-radios--small"
     fieldset-legend-text="Show card actions?"
     fieldset-legend-classes="govuk-fieldset__legend--s"
     v-model="showCardActions"
   >
-    <gv-radio-item id="show-card-actions" :value="true" name="show-card-actions" label-text="Yes" />
-    <gv-radio-item
-      id="show-card-actions-1"
-      :value="false"
-      name="show-card-actions"
-      label-text="No"
-    />
+    <gv-radio-item :value="true" label-text="Yes" />
+    <gv-radio-item :value="false" label-text="No" />
   </gv-radios>
   <gv-radios
-    name="show-change-link"
     classes="govuk-radios--inline govuk-radios--small"
     fieldset-legend-text="Show change link?"
     fieldset-legend-classes="govuk-fieldset__legend--s"
     v-model="showChangeLink"
   >
-    <gv-radio-item id="show-change-link" :value="true" name="show-change-link" label-text="Yes" />
-    <gv-radio-item id="show-change-link-1" :value="false" name="show-change-link" label-text="No" />
+    <gv-radio-item :value="true" label-text="Yes" />
+    <gv-radio-item :value="false" label-text="No" />
   </gv-radios>
 
   <h3 class="govuk-heading-m">Card</h3>
@@ -644,6 +593,7 @@ function handleNextClicked() {
     @previousClicked="handlePreviousClicked"
     @nextClicked="handleNextClicked"
   />
+
   <gv-footer
     copyright-href="xyz"
     copyright-text="Test copyright text"

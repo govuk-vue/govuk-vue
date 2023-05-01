@@ -4,15 +4,16 @@ import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
 import GvFieldset from '@/components/govuk-vue/fieldset/GvFieldset.vue'
 import hasSlot from '@/composables/useHasSlot'
-import { RadiosInjectionKey } from '@/components/govuk-vue/radios/RadiosInjectionkey'
+import {
+  RadiosModelValueInjectionKey,
+  RadiosNameInjectionKey,
+  RadiosUpdateModelValueFunctionInjectionKey
+} from '@/components/govuk-vue/radios/RadiosInjectionKeys'
+import { createUid } from '@/util/createUid'
 
 const props = defineProps({
   modelValue: [String, Number, Boolean],
-  idPrefix: String,
-  name: {
-    type: String,
-    required: true
-  },
+  name: String,
   classes: {
     type: String,
     default: ''
@@ -62,8 +63,6 @@ watch(modelValueMutable, (newModelValueMutable) => {
   emit('update:modelValue', newModelValueMutable)
 })
 
-provide(RadiosInjectionKey, { modelValue: modelValueMutable, mutationFunction: updateModelValue })
-
 const hasHint = computed(() => {
   return props.hintText || hasSlot('hint')
 })
@@ -73,15 +72,15 @@ const hasErrorMessage = computed(() => {
 })
 
 const errorMessageId = computed(() => {
-  return `${computedIdPrefix.value}-error`
+  return `${computedName.value}-error`
 })
 
 const hintId = computed(() => {
-  return `${computedIdPrefix.value}-hint`
+  return `${computedName.value}-hint`
 })
 
-const computedIdPrefix = computed(() => {
-  return props.idPrefix ? props.idPrefix : props.name
+const computedName = computed(() => {
+  return props.name ? props.name : createUid('gv-radios')
 })
 
 const computedDescribedBy = computed(() => {
@@ -90,6 +89,10 @@ const computedDescribedBy = computed(() => {
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
   return value.length > 0 ? value : null
 })
+
+provide(RadiosModelValueInjectionKey, modelValueMutable)
+provide(RadiosUpdateModelValueFunctionInjectionKey, updateModelValue)
+provide(RadiosNameInjectionKey, computedName)
 </script>
 
 <template>
