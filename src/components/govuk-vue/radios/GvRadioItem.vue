@@ -11,7 +11,6 @@ import {
 import { createUid } from '@/util/createUid'
 
 const props = defineProps({
-  text: String,
   id: String,
   value: {
     type: [String, Number, Boolean],
@@ -79,7 +78,7 @@ const computedId = computed(() => {
       :classes="`govuk-radios__label ${labelClasses}`"
       :forId="computedId"
     >
-      <slot />
+      <slot name="label" />
     </gv-label>
     <gv-hint
       v-if="hasHint"

@@ -37,6 +37,8 @@ import GvNotificationBanner from '@/components/govuk-vue/notification-banner/GvN
 import GvTabs from '@/components/govuk-vue/tabs/GvTabs'
 import GvTab from '@/components/govuk-vue/tabs/GvTab.vue'
 import GvPagination from '@/components/govuk-vue/gv-pagination/GvPagination.vue'
+import GvCheckbox from '@/components/govuk-vue/checkboxes/GvCheckbox.vue'
+import GvCheckboxes from '@/components/govuk-vue/checkboxes/GvCheckboxes.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -87,6 +89,14 @@ function handlePreviousClicked() {
 function handleNextClicked() {
   alert('Next clicked!')
 }
+
+const wasteTypes = ref([])
+const contactMethods = ref([])
+const email = ref({ type: 'email', address: '' })
+const phone = ref({ type: 'phone', number: '' })
+const text = ref({ type: 'text', number: '' })
+const nationality = ref([])
+const termsAccepted = ref(false)
 </script>
 
 <template>
@@ -314,6 +324,70 @@ function handleNextClicked() {
     <gv-input id="test-fieldset-text-input-3" label-text="First name" />
     <gv-input id="test-fieldset-text-input-4" label-text="Last name" />
   </gv-fieldset>
+
+  <h2 class="govuk-heading-l">Checkboxes</h2>
+  <gv-checkboxes
+    v-model="wasteTypes"
+    fieldset-legend-text="Which types of waste do you transport?"
+    :fieldset-legend-is-page-heading="true"
+    fieldset-legend-classes="govuk-fieldset__legend--l"
+  >
+    <template #hint>Select all that apply.</template>
+    <gv-checkbox label-text="Waste from animal carcasses" value="animal" />
+    <gv-checkbox label-text="Waste from mines or quarries" value="mines" />
+    <gv-checkbox label-text="Farm or agricultural waste" value="farm" />
+  </gv-checkboxes>
+  {{ wasteTypes }}
+
+  <gv-checkboxes
+    v-model="contactMethods"
+    fieldset-legend-text="
+How would you like to be contacted?
+"
+  >
+    <template #hint>Select all the options that are relevant to you.</template>
+    <gv-checkbox label-text="Email" :value="email">
+      <template #conditional>
+        <gv-input label-text="Email address" v-model="email.address" id="email" />
+      </template>
+    </gv-checkbox>
+    <gv-checkbox :value="phone">
+      <template #label>Phone</template>
+      <template #hint>UK or international</template>
+      <template #conditional>
+        <gv-input label-text="Phone number" v-model="phone.number" id="phone" />
+      </template>
+    </gv-checkbox>
+    <gv-checkbox label-text="Text message" :value="text">
+      <template #conditional>
+        <gv-input label-text="Mobile number" v-model="text.number" id="text" /> </template
+    ></gv-checkbox>
+  </gv-checkboxes>
+  {{ contactMethods }}
+
+  <gv-checkboxes
+    v-model="nationality"
+    fieldset-legend-text="What is your nationality?"
+    class="govuk-checkboxes--small"
+    error-message-text="Select your nationality"
+  >
+    <template #hint>
+      If you have dual nationality, select all options that are relevant to you.
+    </template>
+    <gv-checkbox
+      label-text="British"
+      value="british"
+      hint-text="including English, Scottish, Welsh and Northern Irish"
+    />
+    <gv-checkbox label-text="Irish" value="irish" />
+    <gv-checkbox label-text="Neither" value="none" divider="or" :exclusive="true" />
+  </gv-checkboxes>
+  {{ nationality }}
+
+  <gv-checkboxes>
+    <gv-checkbox label-text="I accept the terms and conditions" v-model="termsAccepted" />
+  </gv-checkboxes>
+  {{ termsAccepted }}
 
   <h2 class="govuk-heading-l">Radios</h2>
   <gv-radios

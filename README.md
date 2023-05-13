@@ -21,37 +21,37 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 ## Progress
 
 | Component           | Built? | Tests? | Notes                                 |
-|---------------------|--------|--------|---------------------------------------|
-| Accordion           | Yes    |        |                                       |
-| Back link           | Yes    |        |                                       |
-| Breadcrumbs         | Yes    |        |                                       |
-| Button              | Yes    |        |                                       |
-| Character count     | Yes    |        |                                       |
-| Checkboxes          |        |        |                                       |
-| Cookie banner       |        |        |                                       |
-| Date input          | Yes    |        |                                       |
-| Details             | Yes    |        |                                       |
-| Error message       | Yes    |        |                                       |
-| Error summary       |        |        |                                       |
-| Fieldset            | Yes    |        |                                       |
-| File upload         |        |        |                                       |
-| Footer              | Yes    |        |                                       |
-| Header              | Yes    |        |                                       |
-| Inset text          | Yes    |        |                                       |
-| Notification banner | Yes    |        |                                       |
-| Pagination          | Yes    |        | Todo: Accessibility test              |
-| Panel               | Yes    |        |                                       |
-| Phase banner        | Yes    |        |                                       |
-| Radios              | Yes    |        | Todo: Add way to pass items as a prop |
-| Select              | Yes    |        |                                       |
-| Skip link           |        |        |                                       |
-| Summary list        | Yes    |        |                                       |
-| Table               |        |        |                                       |
-| Tabs                | Yes    |        |                                       |
-| Tag                 | Yes    |        |                                       |
-| Text input          | Yes    |        |                                       |
-| Textarea            | Yes    |        |                                       |
-| Warning text        | Yes    |        |                                       |
+|---------------------|-------|--------|---------------------------------------|
+| Accordion           | Yes   |        |                                       |
+| Back link           | Yes   |        |                                       |
+| Breadcrumbs         | Yes   |        |                                       |
+| Button              | Yes   |        |                                       |
+| Character count     | Yes   |        |                                       |
+| Checkboxes          | Yes   |        |                                       |
+| Cookie banner       |       |        |                                       |
+| Date input          | Yes   |        |                                       |
+| Details             | Yes   |        |                                       |
+| Error message       | Yes   |        |                                       |
+| Error summary       |       |        |                                       |
+| Fieldset            | Yes   |        |                                       |
+| File upload         |       |        |                                       |
+| Footer              | Yes   |        |                                       |
+| Header              | Yes   |        |                                       |
+| Inset text          | Yes   |        |                                       |
+| Notification banner | Yes   |        |                                       |
+| Pagination          | Yes   |        | Todo: Accessibility test              |
+| Panel               | Yes   |        |                                       |
+| Phase banner        | Yes   |        |                                       |
+| Radios              | Yes   |        | Todo: Add way to pass items as a prop |
+| Select              | Yes   |        |                                       |
+| Skip link           |       |        |                                       |
+| Summary list        | Yes   |        |                                       |
+| Table               |       |        |                                       |
+| Tabs                | Yes   |        |                                       |
+| Tag                 | Yes   |        |                                       |
+| Text input          | Yes   |        |                                       |
+| Textarea            | Yes   |        |                                       |
+| Warning text        | Yes   |        |                                       |
 
 ## Project Setup
 
