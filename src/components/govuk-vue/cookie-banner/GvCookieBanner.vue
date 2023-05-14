@@ -83,7 +83,11 @@ function focusConfirmation() {
     >
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-          <h2 class="govuk-cookie-banner__heading govuk-heading-m">{{ headingText }}</h2>
+          <h2 class="govuk-cookie-banner__heading govuk-heading-m">
+            <slot name="heading">
+              {{ headingText }}
+            </slot>
+          </h2>
           <div class="govuk-cookie-banner__content">
             <slot name="cookie-information">
               <p class="govuk-body">
