@@ -44,7 +44,7 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 | Phase banner        | Yes    |        |                                       |
 | Radios              | Yes    |        | Todo: Add way to pass items as a prop |
 | Select              | Yes    |        |                                       |
-| Skip link           |        |        |                                       |
+| Skip link           | Yes    |        |                                       |
 | Summary list        | Yes    |        |                                       |
 | Table               |        |        |                                       |
 | Tabs                | Yes    |        |                                       |
