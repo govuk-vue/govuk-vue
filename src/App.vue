@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import GvButton from '@/components/govuk-vue/button/GvButton.vue'
 import GvInput from '@/components/govuk-vue/input/GvInput.vue'
 import GvBackLink from '@/components/govuk-vue/back-link/GvBackLink.vue'
@@ -47,6 +47,7 @@ import GvTableHeader from '@/components/govuk-vue/table/GvTableHeader.vue'
 import GvTableRow from '@/components/govuk-vue/table/GvTableRow.vue'
 import GvTableCell from '@/components/govuk-vue/table/GvTableCell.vue'
 import GvTableBody from '@/components/govuk-vue/table/GvTableBody.vue'
+import GvFileUpload from '@/components/govuk-vue/file-upload/GvFileUpload.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -118,6 +119,26 @@ const phone = ref({ type: 'phone', number: '' })
 const text = ref({ type: 'text', number: '' })
 const nationality = ref([])
 const termsAccepted = ref(false)
+
+const files = ref(null)
+const fileText = ref('')
+
+watch(files, () => {
+  if (files.value && files.value.length > 0) {
+    const file = files.value[0]
+    let reader = new FileReader()
+
+    reader.readAsText(file)
+
+    reader.onload = function () {
+      fileText.value = reader.result
+    }
+
+    reader.onerror = function () {
+      console.log(reader.error)
+    }
+  }
+})
 </script>
 
 <template>
@@ -745,6 +766,18 @@ How would you like to be contacted?
       </gv-table-row>
     </gv-table-body>
   </gv-table>
+
+  <h3 class="govuk-heading-m">File upload</h3>
+
+  <gv-file-upload
+    label-text="Upload a plain-text file"
+    hint-text="For example, a .txt file"
+    error-message-text="Upload a file"
+    :multiple="true"
+    v-model="files"
+    accept="text/plain"
+  />
+  {{ fileText }}
 
   <gv-footer
     copyright-href="xyz"

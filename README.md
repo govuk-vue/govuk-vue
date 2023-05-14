@@ -34,7 +34,7 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 | Error message       | Yes    |        |                                       |
 | Error summary       |        |        |                                       |
 | Fieldset            | Yes    |        |                                       |
-| File upload         |        |        |                                       |
+| File upload         | Yes    |        |                                       |
 | Footer              | Yes    |        |                                       |
 | Header              | Yes    |        |                                       |
 | Inset text          | Yes    |        |                                       |
