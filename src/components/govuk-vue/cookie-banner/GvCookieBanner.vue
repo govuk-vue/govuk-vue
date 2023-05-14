@@ -3,6 +3,14 @@ import { computed, nextTick, Ref, ref } from 'vue'
 import GvButton from '@/components/govuk-vue/button/GvButton.vue'
 
 const props = defineProps({
+  classes: {
+    type: String,
+    default: ''
+  },
+  messageClasses: {
+    type: String,
+    default: ''
+  },
   ariaLabel: String,
   headingText: {
     type: String,
@@ -72,14 +80,14 @@ function focusConfirmation() {
 <template>
   <div
     v-if="state !== CookieBannerState.Hidden"
-    class="govuk-cookie-banner"
+    :class="`govuk-cookie-banner ${classes}`"
     data-nosnippet
     role="region"
     :aria-label="computedAriaLabel"
   >
     <div
       v-if="state === CookieBannerState.Information"
-      class="govuk-cookie-banner__message govuk-width-container"
+      :class="`govuk-cookie-banner__message govuk-width-container ${messageClasses}`"
     >
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -124,7 +132,7 @@ function focusConfirmation() {
 
     <div
       v-else-if="state === CookieBannerState.Accepted || state === CookieBannerState.Rejected"
-      class="govuk-cookie-banner__message govuk-width-container"
+      :class="`govuk-cookie-banner__message govuk-width-container ${messageClasses}`"
       role="alert"
       tabindex="-1"
       ref="confirmationMessageElement"
