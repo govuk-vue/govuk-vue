@@ -36,9 +36,10 @@ import GvSummaryListRowAction from '@/components/govuk-vue/summary-list/GvSummar
 import GvNotificationBanner from '@/components/govuk-vue/notification-banner/GvNotificationBanner.vue'
 import GvTabs from '@/components/govuk-vue/tabs/GvTabs'
 import GvTab from '@/components/govuk-vue/tabs/GvTab.vue'
-import GvPagination from '@/components/govuk-vue/gv-pagination/GvPagination.vue'
+import GvPagination from '@/components/govuk-vue/pagination/GvPagination.vue'
 import GvCheckbox from '@/components/govuk-vue/checkboxes/GvCheckbox.vue'
 import GvCheckboxes from '@/components/govuk-vue/checkboxes/GvCheckboxes.vue'
+import GvCookieBanner from '@/components/govuk-vue/cookie-banner/GvCookieBanner.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -90,6 +91,19 @@ function handleNextClicked() {
   alert('Next clicked!')
 }
 
+function acceptCookies() {
+  alert('Cookies accepted')
+}
+
+function rejectCookies() {
+  alert('Cookies rejected')
+}
+
+function viewCookies(e: MouseEvent) {
+  alert('View cookies clicked')
+  e.preventDefault()
+}
+
 const wasteTypes = ref([])
 const contactMethods = ref([])
 const email = ref({ type: 'email', address: '' })
@@ -100,6 +114,20 @@ const termsAccepted = ref(false)
 </script>
 
 <template>
+  <gv-cookie-banner
+    heading-text="Cookies?"
+    cookie-information-text="GOV.UK Vue doesn't use cookies, but here's a cookie banner anyway."
+    accept-button-text="Accept some cookies"
+    reject-button-text="Reject some cookies"
+    view-cookies-link-text="View cookies"
+    view-cookies-link-href="/cookies"
+    @acceptClicked="acceptCookies"
+    @rejectClicked="rejectCookies"
+    @viewCookiesClicked="viewCookies"
+  >
+    <template #accepted><p class="govuk-body">You've accepted cookies</p></template>
+    <template #rejected><p class="govuk-body">You've rejected cookies</p></template>
+  </gv-cookie-banner>
   <gv-header
     product-name="Test"
     homepage-url="foo"
