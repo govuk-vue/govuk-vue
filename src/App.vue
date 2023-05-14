@@ -40,6 +40,13 @@ import GvPagination from '@/components/govuk-vue/pagination/GvPagination.vue'
 import GvCheckbox from '@/components/govuk-vue/checkboxes/GvCheckbox.vue'
 import GvCheckboxes from '@/components/govuk-vue/checkboxes/GvCheckboxes.vue'
 import GvCookieBanner from '@/components/govuk-vue/cookie-banner/GvCookieBanner.vue'
+import GvSkipLink from '@/components/govuk-vue/skip-link/GvSkipLink.vue'
+import GvTable from '@/components/govuk-vue/table/GvTable.vue'
+import GvTableHead from '@/components/govuk-vue/table/GvTableHead.vue'
+import GvTableHeader from '@/components/govuk-vue/table/GvTableHeader.vue'
+import GvTableRow from '@/components/govuk-vue/table/GvTableRow.vue'
+import GvTableCell from '@/components/govuk-vue/table/GvTableCell.vue'
+import GvTableBody from '@/components/govuk-vue/table/GvTableBody.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -128,6 +135,7 @@ const termsAccepted = ref(false)
     <template #accepted><p class="govuk-body">You've accepted cookies</p></template>
     <template #rejected><p class="govuk-body">You've rejected cookies</p></template>
   </gv-cookie-banner>
+  <gv-skip-link href="#skiplinktarget">Skip to the skip link target</gv-skip-link>
   <gv-header
     product-name="Test"
     homepage-url="foo"
@@ -353,6 +361,8 @@ const termsAccepted = ref(false)
     <gv-input id="test-fieldset-text-input-4" label-text="Last name" />
   </gv-fieldset>
 
+  <h2 class="govuk-heading-l" id="skiplinktarget">Skip link target</h2>
+  <p class="govuk-body">Skip link should take you here</p>
   <h2 class="govuk-heading-l">Checkboxes</h2>
   <gv-checkboxes
     v-model="wasteTypes"
@@ -684,6 +694,57 @@ How would you like to be contacted?
     @previousClicked="handlePreviousClicked"
     @nextClicked="handleNextClicked"
   />
+
+  <h3 class="govuk-heading-m">Table</h3>
+  <gv-table caption="Dates and amounts">
+    <gv-table-head>
+      <gv-table-row>
+        <gv-table-header>Date</gv-table-header>
+        <gv-table-header>Amount</gv-table-header>
+      </gv-table-row>
+    </gv-table-head>
+    <gv-table-body>
+      <gv-table-row>
+        <gv-table-header scope="row">First 6 weeks</gv-table-header>
+        <gv-table-cell>£109.80 per week</gv-table-cell>
+      </gv-table-row>
+      <gv-table-row>
+        <gv-table-header scope="row">Next 33 weeks</gv-table-header>
+        <gv-table-cell>£109.80 per week</gv-table-cell>
+      </gv-table-row>
+      <gv-table-row>
+        <gv-table-header scope="row">Total estimated pay</gv-table-header>
+        <gv-table-cell>£4,282.20</gv-table-cell>
+      </gv-table-row>
+    </gv-table-body>
+  </gv-table>
+
+  <gv-table caption="Months and rates">
+    <gv-table-head>
+      <gv-table-row>
+        <gv-table-header>Month you apply</gv-table-header>
+        <gv-table-header format="numeric">Rate for bicycles</gv-table-header>
+        <gv-table-header format="numeric">Rate for vehicles</gv-table-header>
+      </gv-table-row>
+    </gv-table-head>
+    <gv-table-body>
+      <gv-table-row>
+        <gv-table-header scope="row">January</gv-table-header>
+        <gv-table-cell format="numeric">£85</gv-table-cell>
+        <gv-table-cell format="numeric">£95</gv-table-cell>
+      </gv-table-row>
+      <gv-table-row>
+        <gv-table-header scope="row">February</gv-table-header>
+        <gv-table-cell format="numeric">£75</gv-table-cell>
+        <gv-table-cell format="numeric">£55</gv-table-cell>
+      </gv-table-row>
+      <gv-table-row>
+        <gv-table-header scope="row">March</gv-table-header>
+        <gv-table-cell format="numeric">£165</gv-table-cell>
+        <gv-table-cell format="numeric">£125</gv-table-cell>
+      </gv-table-row>
+    </gv-table-body>
+  </gv-table>
 
   <gv-footer
     copyright-href="xyz"

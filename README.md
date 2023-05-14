@@ -46,7 +46,7 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 | Select              | Yes    |        |                                       |
 | Skip link           | Yes    |        |                                       |
 | Summary list        | Yes    |        |                                       |
-| Table               |        |        |                                       |
+| Table               | Yes    |        |                                       |
 | Tabs                | Yes    |        |                                       |
 | Tag                 | Yes    |        |                                       |
 | Text input          | Yes    |        |                                       |
