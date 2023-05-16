@@ -1,5 +1,5 @@
 {
-  "files": [],
+  "files": ["./src/vue.d.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"
@@ -10,5 +10,14 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  }
 }
