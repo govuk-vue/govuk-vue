@@ -29,6 +29,13 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  variant: {
+    type: String,
+    default: 'primary',
+    validator(e: string) {
+      return ['primary', 'secondary', 'warning'].includes(e)
+    }
+  },
   id: String
 })
 
@@ -42,6 +49,13 @@ const computedElement = computed(() => {
       return 'button'
     }
   }
+})
+
+const variantClass = computed(() => {
+  if (['secondary', 'warning'].includes(props.variant)) {
+    return `govuk-button--${props.variant}`
+  }
+  return ''
 })
 
 /**
@@ -68,9 +82,9 @@ function handleKeyDownSpace(): void {
     :is="computedElement"
     :id="id"
     :name="name"
-    :class="`govuk-button ${classes} ${isStartButton ? 'govuk-button--start' : ''} ${
-      disabled ? 'govuk-button--disabled' : ''
-    }`"
+    :class="`govuk-button ${classes} ${variantClass} ${
+      isStartButton ? 'govuk-button--start' : ''
+    } ${disabled ? 'govuk-button--disabled' : ''}`"
     :disabled="disabled ? 'disabled' : null"
     :aria-disabled="disabled ? 'true' : null"
     :href="computedElement === 'a' ? (href ? href : '#') : null"
