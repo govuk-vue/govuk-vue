@@ -8,7 +8,7 @@ See:
 - https://github.com/vuejs/vue/issues/12033
 - https://github.com/vuejs/rfcs/pull/449
 -->
-<script>
+<script lang="ts">
 export default {
   // We don't want automatic inheritance of attributes (eg class) because we don't have a root
   // element for them to be applied to
