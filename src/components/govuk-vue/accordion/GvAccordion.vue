@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, provide, computed, Ref } from 'vue'
+import { ref, provide, computed, Ref, toRef } from 'vue'
 import {
   AccordionIdInjectionKey,
   AccordionHeadingLevelInjectionKey,
@@ -11,12 +11,10 @@ import {
   AccordionUnregisterSectionFunctionInjectionKey
 } from '@/components/govuk-vue/accordion/AccordionInjectionKeys'
 import type { AccordionSection } from '@/components/govuk-vue/accordion/AccordionSection'
+import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
-  id: {
-    type: String,
-    required: true
-  },
+  id: String,
   classes: {
     type: String,
     default: ''
@@ -54,11 +52,9 @@ const props = defineProps({
   }
 })
 
-let sectionIndex = 0
 let sections: Ref<AccordionSection[]> = ref([])
 
 function registerSection(section: AccordionSection) {
-  section.sectionIndex.value = sectionIndex++
   sections.value.push(section)
 }
 
@@ -68,12 +64,13 @@ function unregisterSection(key: Symbol) {
   })
 }
 
-provide(AccordionIdInjectionKey, props.id)
-provide(AccordionHeadingLevelInjectionKey, props.headingLevel)
-provide(AccordionShowSectionTextInjectionKey, props.showSectionText)
-provide(AccordionShowSectionAriaLabelTextInjectionKey, props.showSectionAriaLabelText)
-provide(AccordionHideSectionTextInjectionKey, props.hideSectionText)
-provide(AccordionHideSectionAriaLabelTextInjectionKey, props.hideSectionAriaLabelText)
+const computedId = useComputedId(toRef(props, 'id'), 'gv-accordion')
+
+provide(AccordionHeadingLevelInjectionKey, toRef(props, 'headingLevel'))
+provide(AccordionShowSectionTextInjectionKey, toRef(props, 'showSectionText'))
+provide(AccordionShowSectionAriaLabelTextInjectionKey, toRef(props, 'showSectionAriaLabelText'))
+provide(AccordionHideSectionTextInjectionKey, toRef(props, 'hideSectionText'))
+provide(AccordionHideSectionAriaLabelTextInjectionKey, toRef(props, 'hideSectionAriaLabelText'))
 provide(AccordionRegisterSectionFunctionInjectionKey, registerSection)
 provide(AccordionUnregisterSectionFunctionInjectionKey, unregisterSection)
 
@@ -99,7 +96,7 @@ const showHideText = computed(() => {
 </script>
 
 <template>
-  <div :id="id" :class="`govuk-accordion ${classes}`">
+  <div :id="computedId" :class="`govuk-accordion ${classes}`">
     <div class="govuk-accordion__controls">
       <button
         type="button"

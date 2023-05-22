@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import hasSlot from '@/composables/useHasSlot'
+import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
   modelValue: [String, Number, Boolean, Object],
-  id: {
-    type: String,
-    required: true
-  },
+  id: String,
   name: String,
   classes: {
     type: String,
@@ -61,12 +59,14 @@ const hasErrorMessage = computed(() => {
 })
 
 const errorMessageId = computed(() => {
-  return `${props.id}-error`
+  return `${computedId.value}-error`
 })
 
 const hintId = computed(() => {
-  return `${props.id}-hint`
+  return `${computedId.value}-hint`
 })
+
+const computedId = useComputedId(toRef(props, 'id'), 'gv-select')
 
 const computedDescribedBy = computed(() => {
   const value = `${props.describedBy ? props.describedBy : ''} ${
@@ -83,7 +83,7 @@ const computedDescribedBy = computed(() => {
     }`"
   >
     <gv-label
-      :for-id="id"
+      :for-id="computedId"
       :text="labelText"
       :classes="labelClasses"
       :is-page-heading="labelIsPageHeading"
@@ -103,7 +103,7 @@ const computedDescribedBy = computed(() => {
     </gv-error-message>
 
     <select
-      :id="id"
+      :id="computedId"
       :name="name"
       :class="`govuk-select ${hasErrorMessage ? 'govuk-select--error' : ''} ${classes}`"
       v-model="modelValueMutable"

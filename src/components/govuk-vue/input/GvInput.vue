@@ -2,16 +2,14 @@
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import hasSlot from '@/composables/useHasSlot'
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import GvFragment from '@/components/util/GvFragment.vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
+import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
   modelValue: String,
-  id: {
-    type: String,
-    required: true
-  },
+  id: String,
   name: String,
   type: {
     type: String,
@@ -75,7 +73,7 @@ const hasHint = computed(() => {
 })
 
 const hintId = computed(() => {
-  return `${props.id}-hint`
+  return `${computedId.value}-hint`
 })
 
 const hasPrefix = computed(() => {
@@ -91,8 +89,10 @@ const hasErrorMessage = computed(() => {
 })
 
 const errorMessageId = computed(() => {
-  return `${props.id}-error`
+  return `${computedId.value}-error`
 })
+
+const computedId = useComputedId(toRef(props, 'id'), 'gv-input')
 
 const computedWrapperElement = computed(() => {
   if (hasPrefix.value || hasSuffix.value) {
@@ -117,7 +117,7 @@ const computedDescribedBy = computed(() => {
     }`"
   >
     <gv-label
-      :for-id="id"
+      :for-id="computedId"
       :text="labelText"
       :classes="labelClasses"
       :is-page-heading="labelIsPageHeading"
@@ -148,7 +148,7 @@ const computedDescribedBy = computed(() => {
         </template>
       </div>
       <input
-        :id="id"
+        :id="computedId"
         :name="name"
         :class="`govuk-input ${hasErrorMessage ? 'govuk-input--error' : ''} ${classes}`"
         :spellcheck="spellcheck"

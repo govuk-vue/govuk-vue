@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import hasSlot from '@/composables/useHasSlot'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
 import GvFieldset from '@/components/govuk-vue/fieldset/GvFieldset.vue'
 import GvInput from '@/components/govuk-vue/input/GvInput.vue'
+import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
   day: {
@@ -23,10 +24,7 @@ const props = defineProps({
   monthHasError: Boolean,
   yearHasError: Boolean,
   autocompleteBirthday: Boolean,
-  id: {
-    type: String,
-    required: true
-  },
+  id: String,
   namePrefix: String,
   classes: {
     type: String,
@@ -89,7 +87,7 @@ const hasHint = computed(() => {
 })
 
 const hintId = computed(() => {
-  return `${props.id}-hint`
+  return `${computedId.value}-hint`
 })
 
 const hasErrorMessage = computed(() => {
@@ -97,7 +95,7 @@ const hasErrorMessage = computed(() => {
 })
 
 const errorMessageId = computed(() => {
-  return `${props.id}-error`
+  return `${computedId.value}-error`
 })
 
 const computedDescribedBy = computed(() => {
@@ -106,6 +104,8 @@ const computedDescribedBy = computed(() => {
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
   return value.length > 0 ? value : null
 })
+
+const computedId = useComputedId(toRef(props, 'id'), 'gv-date-input')
 
 // These are computed because if the ternary statement is placed directly in the :autocomplete prop,
 // Vue ends up adding autocomplete="null" to the element rather than omitting the attribute
@@ -148,12 +148,12 @@ const yearAutocomplete = computed(() => {
         <slot name="error-message" />
       </gv-error-message>
 
-      <div :id="id" :class="`govuk-date-input ${classes}`">
+      <div :id="computedId" :class="`govuk-date-input ${classes}`">
         <div class="govuk-date-input__item">
           <gv-input
             label-text="Day"
             label-classes="govuk-date-input__label"
-            :id="`${id}-day`"
+            :id="`${computedId}-day`"
             :classes="`govuk-date-input__input govuk-input--width-2 ${
               dayHasError ? 'govuk-input--error' : ''
             }`"
@@ -167,7 +167,7 @@ const yearAutocomplete = computed(() => {
           <gv-input
             label-text="Month"
             label-classes="govuk-date-input__label"
-            :id="`${id}-month`"
+            :id="`${computedId}-month`"
             :classes="`govuk-date-input__input govuk-input--width-2  ${
               monthHasError ? 'govuk-input--error' : ''
             }`"
@@ -181,7 +181,7 @@ const yearAutocomplete = computed(() => {
           <gv-input
             label-text="Year"
             label-classes="govuk-date-input__label"
-            :id="`${id}-year`"
+            :id="`${computedId}-year`"
             :classes="`govuk-date-input__input govuk-input--width-4  ${
               yearHasError ? 'govuk-input--error' : ''
             }`"

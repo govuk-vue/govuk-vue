@@ -1,13 +1,55 @@
 <script setup lang="ts">
-import { textareaProps } from '@/shared-props/textareaProps'
 import GvTextarea from '@/components/govuk-vue/textarea/GvTextarea.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
+import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
-  ...textareaProps,
-  maxlength: Number,
-  maxwords: Number,
+  modelValue: String,
+  id: String,
+  name: String,
+  rows: {
+    type: Number,
+    default: 5
+  },
+  describedBy: String,
+  classes: {
+    type: String,
+    default: ''
+  },
+  autocomplete: String,
+  spellcheck: {
+    type: Boolean,
+    default: null
+  },
+  disabled: Boolean,
+  //Form group props
+  formGroupClasses: {
+    type: String,
+    default: ''
+  },
+  //Label props
+  labelText: String,
+  labelIsPageHeading: {
+    type: Boolean,
+    default: false
+  },
+  labelClasses: String,
+  //hint props
+  hintText: String,
+  hintClasses: {
+    type: String,
+    default: ''
+  },
+  //error message props
+  errorMessageText: String,
+  errorMessageClasses: {
+    type: String,
+    default: ''
+  },
+  errorMessageVisuallyHiddenText: String,
+  maxChars: Number,
+  maxWords: Number,
   threshold: {
     type: Number,
     default: 0,
@@ -64,32 +106,34 @@ const props = defineProps({
 defineEmits(['update:modelValue'])
 
 const accessibleHintId = computed(() => {
-  return `${props.id}-info`
+  return `${computedId.value}-info`
 })
 
 const textareaDescribedBy = computed(() => {
   return `${props.describedBy ? props.describedBy : ''} ${accessibleHintId.value}`
 })
 
+const computedId = useComputedId(toRef(props, 'id'), 'gv-character-count')
+
 const message = computed(() => {
-  if (props.maxwords) {
+  if (props.maxWords) {
     return maxWordsMessage()
-  } else if (props.maxlength) {
-    return maxLengthMessage()
+  } else if (props.maxChars) {
+    return maxCharsMessage()
   }
 
   return ''
 })
 
 const currentLength = computed(() => {
-  if (props.maxwords) {
+  if (props.maxWords) {
     if (props.modelValue) {
       const tokens = props.modelValue.match(/\S+/g) || [] // Matches consecutive non-whitespace chars
       return tokens.length
     } else {
       return 0
     }
-  } else if (props.maxlength) {
+  } else if (props.maxChars) {
     return props.modelValue ? props.modelValue.length : 0
   } else {
     return 0
@@ -97,10 +141,10 @@ const currentLength = computed(() => {
 })
 
 const maxLength = computed(() => {
-  if (props.maxwords) {
-    return props.maxwords
-  } else if (props.maxlength) {
-    return props.maxlength
+  if (props.maxWords) {
+    return props.maxWords
+  } else if (props.maxChars) {
+    return props.maxChars
   } else {
     return 0
   }
@@ -122,9 +166,9 @@ const computedTextareaDescriptionText = computed(() => {
   if (props.textareaDescriptionText) {
     return replaceCount(props.textareaDescriptionText, maxLength.value)
   } else {
-    if (props.maxwords) {
+    if (props.maxWords) {
       return replaceCount('You can enter up to ${count} words', maxLength.value)
-    } else if (props.maxlength) {
+    } else if (props.maxChars) {
       return replaceCount('You can enter up to ${count} characters', maxLength.value)
     }
   }
@@ -133,12 +177,12 @@ const computedTextareaDescriptionText = computed(() => {
 })
 
 function maxWordsMessage() {
-  if (!props.maxwords) {
+  if (!props.maxWords) {
     return
   }
 
   return generateMessage(
-    props.maxwords,
+    props.maxWords,
     currentLength.value,
     props.wordsUnderLimitText,
     props.wordsUnderLimitTextOne,
@@ -148,13 +192,13 @@ function maxWordsMessage() {
   )
 }
 
-function maxLengthMessage() {
-  if (!props.maxlength) {
+function maxCharsMessage() {
+  if (!props.maxChars) {
     return
   }
 
   return generateMessage(
-    props.maxlength,
+    props.maxChars,
     currentLength.value,
     props.charactersUnderLimitText,
     props.charactersUnderLimitTextOne,
@@ -205,7 +249,7 @@ function replaceCount(str: string, count: Number) {
   <div class="govuk-character-count">
     <gv-textarea
       :model-value="modelValue"
-      :id="id"
+      :id="computedId"
       :name="name"
       :rows="rows"
       :described-by="textareaDescribedBy"

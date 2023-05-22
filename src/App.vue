@@ -248,7 +248,7 @@ watch(files, () => {
     <gv-radio-item id="show-optional-accordion-section" :value="true" label-text="Yes" />
     <gv-radio-item id="show-optional-accordion-section-1" :value="false" label-text="No" />
   </gv-radios>
-  <gv-accordion id="test-accordion">
+  <gv-accordion>
     <gv-accordion-section
       v-if="showOptionalAccordionSection"
       heading-text="My accordion section 0 (optional)"
@@ -260,10 +260,7 @@ watch(files, () => {
       </template>
       Some text content for the accordion
     </gv-accordion-section>
-    <gv-accordion-section
-      heading-text="My accordion section 1"
-      content-text="My content 1"
-      id="manual-section-id"
+    <gv-accordion-section heading-text="My accordion section 1" content-text="My content 1"
       >foo</gv-accordion-section
     >
     <gv-accordion-section heading-text="My accordion section 2">
@@ -341,7 +338,7 @@ watch(files, () => {
     label-text="Test character count"
     hint-text="It has a threshold of 25% and a max length of 100 characters"
     :rows="10"
-    :maxlength="100"
+    :max-words="100"
     :threshold="25"
   />
   {{ characterCountData }}

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import hasSlot from '@/composables/useHasSlot'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, toRef } from 'vue'
 import { useIsDesktop } from '@/composables/useIsDesktop'
+import { useComputedId } from '@/composables/useComputedId'
 
-defineProps({
+const props = defineProps({
   classes: {
     type: String,
     default: ''
@@ -18,10 +19,7 @@ defineProps({
     type: String,
     default: '#'
   },
-  navigationId: {
-    type: String,
-    default: 'navigation'
-  },
+  navigationId: String,
   navigationLabel: {
     type: String,
     default: 'Menu'
@@ -50,6 +48,8 @@ function handleMenuButtonClick() {
 const showMenu = computed(() => {
   return menuIsOpen.value || isDesktop.value
 })
+
+const computedNavigationId = useComputedId(toRef(props, 'navigationId'), 'gv-header-navigation')
 </script>
 
 <template>
@@ -92,7 +92,7 @@ const showMenu = computed(() => {
           <button
             type="button"
             class="govuk-header__menu-button govuk-js-header-toggle"
-            :aria-controls="navigationId"
+            :aria-controls="computedNavigationId"
             :aria-label="menuButtonLabel"
             :aria-expanded="showMenu"
             @click="handleMenuButtonClick"
@@ -100,7 +100,7 @@ const showMenu = computed(() => {
           >
             {{ menuButtonText }}
           </button>
-          <ul :id="navigationId" class="govuk-header__navigation-list" :hidden="!showMenu">
+          <ul :id="computedNavigationId" class="govuk-header__navigation-list" :hidden="!showMenu">
             <slot />
           </ul>
         </nav>

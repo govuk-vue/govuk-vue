@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, Ref, ref } from 'vue'
+import { computed, onMounted, Ref, ref, toRef } from 'vue'
+import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
   text: String,
@@ -21,10 +22,7 @@ const props = defineProps({
       return value >= 1 && value <= 6
     }
   },
-  titleId: {
-    type: String,
-    default: 'govuk-notification-banner-title'
-  },
+  titleId: String,
   role: String,
   disableAutoFocus: {
     type: Boolean,
@@ -69,6 +67,8 @@ const computedTitleText = computed(() => {
   }
 })
 
+const computedTitleId = useComputedId(toRef(props, 'titleId'), 'govuk-notification-banner-title')
+
 const tabindex = computed(() => {
   if (computedRole.value === 'alert' && !blurred.value) {
     return '-1'
@@ -88,7 +88,7 @@ function handleBannerBlur() {
       isSuccessBanner ? 'govuk-notification-banner--success' : ''
     }`"
     :role="computedRole"
-    :aria-labelledby="titleId"
+    :aria-labelledby="computedTitleId"
     ref="bannerElement"
     :tabindex="tabindex"
     @blur="handleBannerBlur"
@@ -97,7 +97,7 @@ function handleBannerBlur() {
       <component
         :is="`h${titleHeadingLevel}`"
         class="govuk-notification-banner__title"
-        :id="titleId"
+        :id="computedTitleId"
       >
         <slot name="title">
           {{ computedTitleText }}

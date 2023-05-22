@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, watch } from 'vue'
+import { computed, inject, ref, toRef, watch } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
@@ -9,6 +9,7 @@ import {
   CheckboxesUpdateModelValueFunctionInjectionKey
 } from '@/components/govuk-vue/checkboxes/CheckboxesInjectionKeys'
 import { looseEqual } from '@/util/looseEqual'
+import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
   modelValue: null,
@@ -105,12 +106,10 @@ const conditionalId = computed(() => {
   return hasConditional.value ? `conditional-${computedId.value}` : null
 })
 
-const computedId = computed(() => {
-  return props.id ? props.id : createUid('gv-checkbox')
-})
+const computedId = useComputedId(toRef(props, 'id'), 'gv-checkbox')
 
 const computedName = computed(() => {
-  return props.name ? props.name : computedId
+  return props.name ? props.name : computedId.value
 })
 
 const checked = computed(() => {
@@ -155,6 +154,7 @@ function handleParentModelValueChanged(newParentModelValue: any) {
 </script>
 
 <template>
+  {{ computedId }}
   <div v-if="divider" class="govuk-checkboxes__divider">{{ divider }}</div>
   <div class="govuk-checkboxes__item">
     <input

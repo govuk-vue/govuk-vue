@@ -23,9 +23,7 @@ import { createUid } from '@/util/createUid'
 
 const props = defineProps({
   label: String,
-  id: {
-    type: String
-  },
+  id: String,
   classes: {
     type: String,
     default: ''

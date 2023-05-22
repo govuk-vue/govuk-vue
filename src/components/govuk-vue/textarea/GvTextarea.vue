@@ -2,12 +2,56 @@
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import hasSlot from '@/composables/useHasSlot'
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import GvFragment from '@/components/util/GvFragment.vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
-import { textareaProps } from '@/shared-props/textareaProps'
+import { useComputedId } from '@/composables/useComputedId'
 
-const props = defineProps(textareaProps)
+const props = defineProps({
+  modelValue: String,
+  id: String,
+  name: String,
+  rows: {
+    type: Number,
+    default: 5
+  },
+  describedBy: String,
+  classes: {
+    type: String,
+    default: ''
+  },
+  autocomplete: String,
+  spellcheck: {
+    type: Boolean,
+    default: null
+  },
+  disabled: Boolean,
+  //Form group props
+  formGroupClasses: {
+    type: String,
+    default: ''
+  },
+  //Label props
+  labelText: String,
+  labelIsPageHeading: {
+    type: Boolean,
+    default: false
+  },
+  labelClasses: String,
+  //hint props
+  hintText: String,
+  hintClasses: {
+    type: String,
+    default: ''
+  },
+  //error message props
+  errorMessageText: String,
+  errorMessageClasses: {
+    type: String,
+    default: ''
+  },
+  errorMessageVisuallyHiddenText: String
+})
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
@@ -28,12 +72,14 @@ const hasErrorMessage = computed(() => {
 })
 
 const errorMessageId = computed(() => {
-  return `${props.id}-error`
+  return `${computedId.value}-error`
 })
 
 const hintId = computed(() => {
-  return `${props.id}-hint`
+  return `${computedId.value}-hint`
 })
+
+const computedId = useComputedId(toRef(props, 'id'), 'gv-textarea')
 
 const computedDescribedBy = computed(() => {
   const value = `${props.describedBy ? props.describedBy : ''} ${
@@ -50,7 +96,7 @@ const computedDescribedBy = computed(() => {
     }`"
   >
     <gv-label
-      :for-id="id"
+      :for-id="computedId"
       :text="labelText"
       :classes="labelClasses"
       :is-page-heading="labelIsPageHeading"
@@ -69,7 +115,7 @@ const computedDescribedBy = computed(() => {
       <slot name="error-message" />
     </gv-error-message>
     <textarea
-      :id="id"
+      :id="computedId"
       :name="name"
       :class="`govuk-textarea ${hasErrorMessage ? 'govuk-textarea--error' : ''} ${classes}`"
       :rows="rows"

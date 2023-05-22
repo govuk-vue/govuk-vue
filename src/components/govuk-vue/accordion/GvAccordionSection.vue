@@ -2,9 +2,18 @@
 import hasSlot from '@/composables/useHasSlot'
 import getSlotText from '@/composables/useGetSlotText'
 
-import { computed, inject, onBeforeMount, onMounted, onUnmounted, Ref, ref, watch } from 'vue'
 import {
-  AccordionIdInjectionKey,
+  computed,
+  inject,
+  onBeforeMount,
+  onMounted,
+  onUnmounted,
+  Ref,
+  ref,
+  toRef,
+  watch
+} from 'vue'
+import {
   AccordionHeadingLevelInjectionKey,
   AccordionHideSectionTextInjectionKey,
   AccordionHideSectionAriaLabelTextInjectionKey,
@@ -13,6 +22,7 @@ import {
   AccordionRegisterSectionFunctionInjectionKey,
   AccordionUnregisterSectionFunctionInjectionKey
 } from '@/components/govuk-vue/accordion/AccordionInjectionKeys'
+import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
   id: String,
@@ -31,11 +41,11 @@ const props = defineProps({
 
 const key = Symbol()
 const expandedMutable = ref(props.expanded)
-const sectionIndex = ref(-1)
 const contentElement: Ref<HTMLDivElement | null> = ref(null)
+const computedId = useComputedId(toRef(props, 'id'), 'gv-accordion-section')
 
 onBeforeMount(() => {
-  registerSection({ key: key, expanded: expandedMutable, sectionIndex: sectionIndex })
+  registerSection({ key: key, expanded: expandedMutable })
 
   if (props.rememberExpanded) {
     const contentState = window.sessionStorage.getItem(contentId.value)
@@ -66,7 +76,6 @@ watch(expandedMutable, () => {
   storeState()
 })
 
-const accordionId = inject(AccordionIdInjectionKey)
 const headingLevel = inject(AccordionHeadingLevelInjectionKey)
 const hideSectionText = inject(AccordionHideSectionTextInjectionKey)
 const hideSectionAriaLabelText = inject(AccordionHideSectionAriaLabelTextInjectionKey)
@@ -75,19 +84,16 @@ const showSectionAriaLabelText = inject(AccordionShowSectionAriaLabelTextInjecti
 const registerSection = inject(AccordionRegisterSectionFunctionInjectionKey, () => {})
 const unregisterSection = inject(AccordionUnregisterSectionFunctionInjectionKey, () => {})
 
-const sectionId = computed(() => {
-  return props.id || sectionIndex.value
-})
 const hasSummary = computed(() => {
   return props.summaryText || hasSlot('summary')
 })
 
 const contentId = computed(() => {
-  return `${accordionId}-content-${sectionId.value}`
+  return `${computedId.value}-content`
 })
 
 const headingId = computed(() => {
-  return `${accordionId}-heading-${sectionId.value}`
+  return `${computedId.value}-heading`
 })
 
 const buttonAriaLabel = computed(() => {
@@ -102,17 +108,19 @@ const buttonAriaLabel = computed(() => {
     }
   }
 
-  labelParts.push(expandedMutable.value ? hideSectionAriaLabelText : showSectionAriaLabelText)
+  labelParts.push(
+    expandedMutable.value ? hideSectionAriaLabelText?.value : showSectionAriaLabelText?.value
+  )
 
   return labelParts.join(' , ')
 })
 
 const showHideText = computed(() => {
-  return expandedMutable.value ? hideSectionText : showSectionText
+  return expandedMutable.value ? hideSectionText?.value : showSectionText?.value
 })
 
 const computedHeaderElement = computed(() => {
-  return `h${headingLevel}`
+  return `h${headingLevel?.value}`
 })
 
 const contentHiddenAttribute = computed(() => {
