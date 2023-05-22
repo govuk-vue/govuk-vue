@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import hasSlot from '@/composables/useHasSlot'
-
 defineProps({
   text: String,
   id: String,
@@ -13,11 +11,8 @@ defineProps({
 
 <template>
   <div :id="id" :class="`govuk-hint ${classes}`">
-    <template v-if="hasSlot('default')">
-      <slot />
-    </template>
-    <template v-else>
+    <slot>
       {{ text }}
-    </template>
+    </slot>
   </div>
 </template>
