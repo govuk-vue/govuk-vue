@@ -1,16 +1,12 @@
 <script setup lang="ts">
 defineProps({
   text: String,
-  id: String,
-  classes: {
-    type: String,
-    default: ''
-  }
+  id: String
 })
 </script>
 
 <template>
-  <div :id="id" :class="`govuk-hint ${classes}`">
+  <div :id="id" class="govuk-hint">
     <slot>
       {{ text }}
     </slot>

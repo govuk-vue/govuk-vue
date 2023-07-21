@@ -1,42 +1,40 @@
 <script setup lang="ts">
 import { computed, inject, onBeforeMount, onUnmounted, provide, Ref, ref } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
+import getSlotText from '@/composables/useGetSlotText'
 import {
   SummaryListRowActionsCountInjectionKey,
   SummaryListRegisterRowActionFunctionInjectionKey,
   SummaryListUnregisterRowActionFunctionInjectionKey,
   SummaryListAnyRowHasActionsInjectionKey,
   SummaryListUnregisterRowFunctionInjectionKey,
-  SummaryListRegisterRowFunctionInjectionKey
+  SummaryListRegisterRowFunctionInjectionKey,
+  SummaryListRowKeyTextInjectionKey
 } from '@/components/govuk-vue/summary-list/SummaryListInjectionKeys'
 import GvFragment from '@/components/util/GvFragment.vue'
 import type { SummaryListRowAction } from '@/components/govuk-vue/summary-list/SummaryListRowAction'
 import type { SummaryListRow } from '@/components/govuk-vue/summary-list/SummaryListRow'
 
-defineProps({
-  classes: {
-    type: String,
-    default: ''
-  },
+const props = defineProps({
   showBorder: {
     type: Boolean,
     default: true
   },
   //Key props
   keyText: String,
-  keyClasses: {
-    type: String,
+  keyClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //Value props
   valueText: String,
-  valueClasses: {
-    type: String,
+  valueClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //Actions props
-  actionsClasses: {
-    type: String,
+  actionsClass: {
+    type: [String, Array, Object],
     default: ''
   }
 })
@@ -81,25 +79,44 @@ const computedActionsWrapperElement = computed(() => {
     return GvFragment
   }
 })
+
+// We provide the key text to child components so that actions can use it as visually hidden text at the end of Change links
+const keyTextVisuallyHidden = computed(() => {
+  if (hasSlot('key-text')) {
+    return getSlotText('key-text')
+  } else if (props.keyText) {
+    return props.keyText
+  } else {
+    return undefined
+  }
+})
+
+provide(SummaryListRowKeyTextInjectionKey, keyTextVisuallyHidden)
 </script>
 
 <template>
   <div
-    :class="`govuk-summary-list__row ${classes}
-    ${!showBorder ? 'govuk-summary-list__row--no-border' : ''}
-    ${anyRowHasActions && rowActionsCount === 0 ? 'govuk-summary-list__row--no-actions' : ''}`"
+    class="govuk-summary-list__row"
+    :class="{
+      'govuk-summary-list__row--no-border': !showBorder,
+      'govuk-summary-list__row--no-actions': anyRowHasActions && rowActionsCount === 0
+    }"
+    :data-key-text="keyTextVisuallyHidden"
   >
-    <dt :class="`govuk-summary-list__key ${keyClasses}`">
-      <slot name="key">
+    <!-- keyTextVisuallyHidden is included above because if it's not implicated in the template, hasSlot and getSlotText return undefined -->
+    <!-- The data attribute is only used so we have somewhere innocuous to use that value -->
+    <!-- Not sure if this is a Vue bug - test the visually hidden text in child actions still works before removing the data attribute -->
+    <dt class="govuk-summary-list__key" :class="keyClass">
+      <slot name="key-text">
         {{ keyText }}
       </slot>
     </dt>
-    <dd :class="`govuk-summary-list__value ${valueClasses}`">
+    <dd class="govuk-summary-list__value" :class="valueClass">
       <slot name="value">
         {{ valueText }}
       </slot>
     </dd>
-    <dd v-if="hasSlot('actions')" :class="`govuk-summary-list__actions ${actionsClasses}`">
+    <dd v-if="hasSlot('actions')" class="govuk-summary-list__actions" :class="actionsClass">
       <component :is="computedActionsWrapperElement" :class="`govuk-summary-list__actions-list`">
         <slot name="actions" />
       </component>

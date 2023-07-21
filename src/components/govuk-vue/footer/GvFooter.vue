@@ -3,22 +3,22 @@ import hasSlot from '@/composables/useHasSlot'
 import { computed, useSlots } from 'vue'
 
 defineProps({
-  classes: {
-    type: String,
-    default: ''
-  },
-  containerClasses: {
-    type: String,
+  containerClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //Content licence props
-  contentLicenceText: String,
+  contentLicence: String,
   //Copyright props
-  copyrightText: String,
+  copyright: String,
   copyrightHref: {
     type: String,
     default:
       'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/'
+  },
+  includeCoatOfArms: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -31,8 +31,8 @@ const hasLicenceLogo = computed(() => {
 </script>
 
 <template>
-  <footer :class="`govuk-footer ${classes}`" role="contentinfo">
-    <div :class="`govuk-width-container ${classes}`">
+  <footer class="govuk-footer" role="contentinfo">
+    <div class="govuk-width-container" :class="containerClass">
       <template v-if="hasSlot('navigation')">
         <div class="govuk-footer__navigation">
           <slot name="navigation" />
@@ -65,8 +65,8 @@ const hasLicenceLogo = computed(() => {
             <template v-if="hasSlot('content-licence')">
               <slot name="content-licence" />
             </template>
-            <template v-else-if="contentLicenceText">
-              {{ contentLicenceText }}
+            <template v-else-if="contentLicence">
+              {{ contentLicence }}
             </template>
             <template v-else>
               All content is available under the
@@ -80,12 +80,16 @@ const hasLicenceLogo = computed(() => {
           </span>
         </div>
         <div class="govuk-footer__meta-item">
-          <a class="govuk-footer__link govuk-footer__copyright-logo" :href="copyrightHref">
+          <a
+            class="govuk-footer__link"
+            :class="{ 'govuk-footer__copyright-logo': includeCoatOfArms }"
+            :href="copyrightHref"
+          >
             <template v-if="hasSlot('copyright')">
               <slot name="copyright" />
             </template>
-            <template v-else-if="copyrightText">
-              {{ copyrightText }}
+            <template v-else-if="copyright">
+              {{ copyright }}
             </template>
             <template v-else> © Crown copyright </template>
           </a>

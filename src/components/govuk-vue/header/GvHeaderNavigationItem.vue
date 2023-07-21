@@ -1,3 +1,9 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script setup lang="ts">
 import hasSlot from '@/composables/useHasSlot'
 import { computed } from 'vue'
@@ -6,11 +12,17 @@ import GvFragment from '@/components/util/GvFragment.vue'
 const props = defineProps({
   text: String,
   href: String,
-  active: Boolean
+  active: Boolean,
+  /**
+   * The component used to render the link, for example `RouterLink`. Will default to `a` if an `href` is provided or no link otherwise.
+   */
+  component: [String, Object]
 })
 
 const computedLinkElement = computed(() => {
-  if (props.href) {
+  if (props.component) {
+    return props.component
+  } else if (props.href) {
     return 'a'
   } else {
     return GvFragment

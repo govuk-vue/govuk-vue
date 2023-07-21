@@ -1,23 +1,21 @@
 <script setup lang="ts">
-import hasSlot from '@/composables/useHasSlot'
-
 defineProps({
+  /**
+   * Text to use within the inset text component. If content is provided in the default slot, this prop will be ignored.
+   */
   text: String,
-  id: String,
-  classes: {
-    type: String,
-    default: ''
-  }
+  /**
+   * ID attribute to add to the inset text container.
+   */
+  id: String
 })
 </script>
 
 <template>
-  <div :id="id" :class="`govuk-inset-text ${classes}`">
-    <template v-if="hasSlot('default')">
-      <slot />
-    </template>
-    <template v-else>
+  <div :id="id" class="govuk-inset-text">
+    <!-- @slot The content of the inset text. If content is provided in this slot, the `text` prop will be ignored. -->
+    <slot>
       {{ text }}
-    </template>
+    </slot>
   </div>
 </template>

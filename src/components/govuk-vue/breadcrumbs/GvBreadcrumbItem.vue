@@ -11,12 +11,24 @@ import GvFragment from '@/components/util/GvFragment.vue'
 const attrs = useAttrs()
 
 const props = defineProps({
+  /**
+   * Text to use within the breadcrumbs item. If content is provided in the default slot, this prop will be ignored.
+   */
   text: String,
-  href: String
+  /**
+   * Link for the breadcrumbs item. If not specified, breadcrumbs item is a normal list item.
+   */
+  href: String,
+  /**
+   * The component used to render the link, for example `RouterLink`. Will default to `a` if an `href` is provided or no link otherwise.
+   */
+  component: [String, Object]
 })
 
 const computedElement = computed(() => {
-  if (computedHref.value) {
+  if (props.component) {
+    return props.component
+  } else if (computedHref.value) {
     return 'a'
   } else {
     return GvFragment
@@ -33,7 +45,7 @@ const computedHref = computed(() => {
 })
 
 const ariaCurrent = computed(() => {
-  return computedHref.value ? null : 'page'
+  return props.component || computedHref.value ? null : 'page'
 })
 </script>
 
@@ -45,6 +57,7 @@ const ariaCurrent = computed(() => {
       class="govuk-breadcrumbs__link"
       v-bind="$attrs"
     >
+      <!-- @slot The content of the breadcrumbs item. If content is provided in this slot, the `text` prop will be ignored. -->
       <slot>{{ text }}</slot>
     </component>
   </li>

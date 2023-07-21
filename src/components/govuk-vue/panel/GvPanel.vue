@@ -2,7 +2,7 @@
 import hasSlot from '@/composables/useHasSlot'
 
 defineProps({
-  titleText: String,
+  title: String,
   headingLevel: {
     type: Number,
     default: 1,
@@ -10,31 +10,21 @@ defineProps({
       return value >= 1 && value <= 6
     }
   },
-  text: String,
-  classes: {
-    type: String,
-    default: ''
-  }
+  text: String
 })
 </script>
 
 <template>
-  <div :class="`govuk-panel govuk-panel--confirmation ${classes}`">
+  <div class="govuk-panel govuk-panel--confirmation">
     <component :is="`h${headingLevel}`" class="govuk-panel__title">
-      <template v-if="hasSlot('title')">
-        <slot name="title" />
-      </template>
-      <template v-else>
-        {{ titleText }}
-      </template>
+      <slot name="title">
+        {{ title }}
+      </slot>
     </component>
     <div class="govuk-panel__body">
-      <template v-if="hasSlot('default')">
-        <slot />
-      </template>
-      <template v-else>
+      <slot>
         {{ text }}
-      </template>
+      </slot>
     </div>
   </div>
 </template>

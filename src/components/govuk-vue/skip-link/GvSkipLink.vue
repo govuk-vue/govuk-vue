@@ -9,10 +9,6 @@ defineProps({
   href: {
     type: String,
     default: '#'
-  },
-  classes: {
-    type: String,
-    default: ''
   }
 })
 
@@ -51,7 +47,7 @@ function handleClick() {
 </script>
 
 <template>
-  <a :href="href" :class="`govuk-skip-link ${classes}`" @click="handleClick" ref="anchorElement">
+  <a :href="href" class="govuk-skip-link" @click="handleClick" ref="anchorElement">
     <slot>
       {{ text }}
     </slot>

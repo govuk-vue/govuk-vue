@@ -3,32 +3,47 @@ import { computed, ref } from 'vue'
 
 const buttonElement = ref(null)
 const props = defineProps({
-  element: String,
+  /**
+   * Text for the button or link. If content is provided in the default slot, or if `element` is set to `input`, this prop will be ignored.
+   */
   text: String,
+  /**
+   * Name for the `input` or `button`. This has no effect if `element` is `a`.
+   */
   name: String,
+  /**
+   * Type of `input` or `button` - `button`, `submit` or `reset`. This has no effect if `component` is not `input` or `button`.
+   */
   type: {
     type: String,
-    default: 'submit'
+    default: 'button'
   },
+  /**
+   * Value for the `button` tag. This has no effect if `element` is not `button`
+   */
   value: String,
+  /**
+   * Whether the button should be disabled. If `element` is `input` or `button`, `disabled` and `aria-disabled`
+   * attributes will be set automatically.
+   */
   disabled: {
     type: Boolean,
     default: false
   },
+  /**
+   * The URL that the button should link to. If this is set, `element` will be automatically set to `a` if it has not already been defined.
+   */
   href: String,
-  classes: {
-    type: String,
-    default: ''
-  },
-  attributes: Object,
-  preventDoubleClick: {
-    type: Boolean,
-    default: false
-  },
+  /**
+   * Use for the main call to action on your service's start page.
+   */
   isStartButton: {
     type: Boolean,
     default: false
   },
+  /**
+   * The prominence of the button.
+   */
   variant: {
     type: String,
     default: 'primary',
@@ -36,19 +51,39 @@ const props = defineProps({
       return ['primary', 'secondary', 'warning'].includes(e)
     }
   },
-  id: String
+  /**
+   * The ID of the button.
+   */
+  id: String,
+  /**
+   * The component used to render the button, for example `RouterLink`. Will default to `a` if an `href` is provided or `button` otherwise.
+   */
+  component: [String, Object]
 })
 
 const computedElement = computed(() => {
-  if (props.element) {
-    return props.element
+  if (props.component) {
+    return props.component
+  } else if (props.href) {
+    return 'a'
   } else {
-    if (props.href) {
-      return 'a'
-    } else {
-      return 'button'
-    }
+    return 'button'
   }
+})
+
+const isLink = computed(() => {
+  if (
+    typeof computedElement.value === 'string' &&
+    ['input', 'button'].includes(computedElement.value)
+  ) {
+    return false
+  }
+
+  return true
+})
+
+const isInput = computed(() => {
+  return computedElement.value === 'input'
 })
 
 const variantClass = computed(() => {
@@ -75,32 +110,29 @@ function handleKeyDownSpace(): void {
 </script>
 
 <template>
-  <!-- TODO implement custom attributes -->
   <!-- TODO implement prevent double click (if necessary) -->
   <component
     ref="buttonElement"
     :is="computedElement"
     :id="id"
     :name="name"
-    :class="`govuk-button ${classes} ${variantClass} ${
-      isStartButton ? 'govuk-button--start' : ''
-    } ${disabled ? 'govuk-button--disabled' : ''}`"
+    :class="`govuk-button ${variantClass} ${isStartButton ? 'govuk-button--start' : ''} ${
+      disabled ? 'govuk-button--disabled' : ''
+    }`"
     :disabled="disabled ? 'disabled' : null"
     :aria-disabled="disabled ? 'true' : null"
-    :href="computedElement === 'a' ? (href ? href : '#') : null"
-    :role="computedElement === 'a' ? 'button' : null"
-    :draggable="computedElement === 'a' ? 'false' : null"
-    :value="computedElement === 'input' ? text : null"
-    :type="computedElement === 'input' ? type : null"
+    :href="isLink ? (href ? href : '#') : null"
+    :role="isLink ? 'button' : null"
+    :draggable="isLink ? 'false' : null"
+    :value="computedElement === 'input' ? text : value"
+    :type="isLink ? null : type"
     v-on:keydown.space="handleKeyDownSpace"
   >
-    <template v-if="['a', 'button'].includes(computedElement)">
-      <template v-if="$slots.default">
-        <slot />
-      </template>
-      <template v-else>
+    <template v-if="!isInput">
+      <!-- @slot The content of the button. If content is provided in this slot, the `text` prop will be ignored. -->
+      <slot>
         {{ text }}
-      </template>
+      </slot>
 
       <svg
         v-if="isStartButton"

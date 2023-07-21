@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from 'uuid'
+let id = 0
 
 export function createUid(prefix: String = '') {
-  return `${prefix}${prefix ? '-' : ''}${uuidv4()}`
+  return `${prefix}${prefix ? '-' : ''}${(id++).toString(36)}`
 }

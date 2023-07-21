@@ -3,27 +3,46 @@ import { computed, onMounted, Ref, ref, toRef } from 'vue'
 import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
+  /**
+   * The text that displays in the notification banner. If content is provided in the default slot, this prop will be ignored.
+   */
   text: String,
-  classes: {
-    type: String,
-    default: ''
-  },
+  /**
+   * The type of notification to render. You can only use `success` with this option. If you set `type` to `success`, the
+   * notification banner sets `role` to `alert` and keyboard focus will move to the banner when it's mounted (unless you set `disableAutoFocus`).
+   * If you do not set `type`, the notification banner sets `role` to `region`.
+   */
   type: {
     type: String,
     validator(value: string) {
-      return value === 'success'
+      return ['success'].includes(value)
     }
   },
-  titleText: String,
+  /**
+   * The title text that displays in the notification banner. If you don't set a title, it will default to `Success` if `type` is `success` or `Important` if you don't set a `type`.
+   */
+  title: String,
+  /**
+   * Sets heading level for the title only, from `1` to `6`.
+   */
   titleHeadingLevel: {
     type: Number,
-    default: 1,
+    default: 2,
     validator(value: number) {
       return value >= 1 && value <= 6
     }
   },
+  /**
+   * The `id` for the banner title, and the `aria-labelledby` attribute in the banner. If you don't provide an ID, one will be generated automatically.
+   */
   titleId: String,
+  /**
+   * Overrides the value of the `role` attribute for the notification banner. Defaults to `region`. If you set `type` to `success`, `role` defaults to `alert`.
+   */
   role: String,
+  /**
+   * If `true`, keyboard focus will not be moved to the banner when it's mounted, even if you've set `type` to `success` or `role` to `alert`.
+   */
   disableAutoFocus: {
     type: Boolean,
     default: false
@@ -55,9 +74,9 @@ const computedRole = computed(() => {
   }
 })
 
-const computedTitleText = computed(() => {
-  if (props.titleText) {
-    return props.titleText
+const computedTitle = computed(() => {
+  if (props.title) {
+    return props.title
   } else {
     if (isSuccessBanner.value) {
       return 'Success'
@@ -84,9 +103,10 @@ function handleBannerBlur() {
 
 <template>
   <div
-    :class="`govuk-notification-banner ${classes} ${
-      isSuccessBanner ? 'govuk-notification-banner--success' : ''
-    }`"
+    class="govuk-notification-banner"
+    :class="{
+      'govuk-notification-banner--success': isSuccessBanner
+    }"
     :role="computedRole"
     :aria-labelledby="computedTitleId"
     ref="bannerElement"
@@ -99,12 +119,14 @@ function handleBannerBlur() {
         class="govuk-notification-banner__title"
         :id="computedTitleId"
       >
+        <!-- @slot The title that displays in the notification banner. If content is provided in this slot, the `title` prop will be ignored. -->
         <slot name="title">
-          {{ computedTitleText }}
+          {{ computedTitle }}
         </slot>
       </component>
     </div>
     <div class="govuk-notification-banner__content">
+      <!-- @slot The content that displays in the notification banner. If content is provided in this slot, the `text` prop will be ignored. -->
       <slot>
         <p class="govuk-notification-banner__heading">{{ text }}</p>
       </slot>

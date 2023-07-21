@@ -26,20 +26,20 @@ export const textareaProps = {
     default: ''
   },
   //Label props
-  labelText: String,
+  label: String,
   labelIsPageHeading: {
     type: Boolean,
     default: false
   },
   labelClasses: String,
   //hint props
-  hintText: String,
+  hint: String,
   hintClasses: {
     type: String,
     default: ''
   },
   //error message props
-  errorMessageText: String,
+  errorMessage: String,
   errorMessageClasses: {
     type: String,
     default: ''

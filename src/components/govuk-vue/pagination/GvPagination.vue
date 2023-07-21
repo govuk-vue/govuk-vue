@@ -3,27 +3,33 @@ import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: Number,
+  /**
+   * Whether to show the radios on top of each other (stacked) or side-by-side (inline)
+   */
+  direction: {
+    type: String,
+    default: 'stacked',
+    validator(value: string) {
+      return ['stacked', 'inline'].includes(value)
+    }
+  },
   totalPages: Number,
   landmarkLabel: {
     type: String,
     default: 'results'
   },
-  classes: {
-    type: String,
-    default: ''
-  },
   previousText: {
     type: String,
     default: 'Previous'
   },
-  previousLabelText: {
+  previousLabel: {
     type: String
   },
   nextText: {
     type: String,
     default: 'Next'
   },
-  nextLabelText: {
+  nextLabel: {
     type: String
   },
   skipPagesThreshold: {
@@ -47,7 +53,7 @@ const showPrevious = computed(() => {
   if (props.modelValue && props.totalPages) {
     return props.modelValue > 1
   } else {
-    return props.previousText !== null
+    return props.previousText !== ''
   }
 })
 
@@ -55,7 +61,7 @@ const showNext = computed(() => {
   if (props.modelValue && props.totalPages) {
     return props.modelValue < props.totalPages
   } else {
-    return props.nextText !== null
+    return props.nextText !== ''
   }
 })
 
@@ -106,7 +112,8 @@ function handleNextClick() {
 
 <template>
   <nav
-    :class="`govuk-pagination ${classes} ${isBlockLevel ? 'govuk-pagination--block' : ''}`"
+    class="govuk-pagination"
+    :class="{ 'govuk-pagination--block': isBlockLevel }"
     role="navigation"
     :aria-label="landmarkLabel"
   >
@@ -132,13 +139,13 @@ function handleNextClick() {
         </svg>
         <span
           class="govuk-pagination__link-title"
-          :class="{ 'govuk-pagination__link-title--decorated': isBlockLevel && !previousLabelText }"
+          :class="{ 'govuk-pagination__link-title--decorated': isBlockLevel && !previousLabel }"
         >
           {{ previousText }}
         </span>
-        <template v-if="previousLabelText && isBlockLevel">
+        <template v-if="previousLabel && isBlockLevel">
           <span class="govuk-visually-hidden">:</span>
-          <span class="govuk-pagination__link-label">{{ previousLabelText }}</span>
+          <span class="govuk-pagination__link-label">{{ previousLabel }}</span>
         </template>
       </a>
     </div>
@@ -191,13 +198,13 @@ function handleNextClick() {
         </svg>
         <span
           class="govuk-pagination__link-title"
-          :class="{ 'govuk-pagination__link-title--decorated': isBlockLevel && !previousLabelText }"
+          :class="{ 'govuk-pagination__link-title--decorated': isBlockLevel && !previousLabel }"
         >
           {{ nextText }}
         </span>
-        <template v-if="nextLabelText && isBlockLevel">
+        <template v-if="nextLabel && isBlockLevel">
           <span class="govuk-visually-hidden">:</span>
-          <span class="govuk-pagination__link-label">{{ nextLabelText }}</span>
+          <span class="govuk-pagination__link-label">{{ nextLabel }}</span>
         </template>
         <svg
           v-if="!isBlockLevel"

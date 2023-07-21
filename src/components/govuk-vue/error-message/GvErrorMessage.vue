@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import hasSlot from '@/composables/useHasSlot'
-
 defineProps({
+  /**
+   * Text to use within the error message. If content is provided in the default slot, this prop will be ignored.
+   */
   text: String,
+  /**
+   * ID attribute to add to the error message `<p>` tag.
+   */
   id: String,
-  classes: {
-    type: String,
-    default: ''
-  },
+  /**
+   * A visually hidden prefix used before the error message.
+   */
   visuallyHiddenText: {
     type: String,
     default: 'Error'
@@ -16,13 +19,11 @@ defineProps({
 </script>
 
 <template>
-  <div :id="id" :class="`govuk-error-message ${classes}`">
+  <p :id="id" class="govuk-error-message">
     <span v-if="visuallyHiddenText" class="govuk-visually-hidden">{{ visuallyHiddenText }}:</span>
-    <template v-if="hasSlot('default')">
-      <slot />
-    </template>
-    <template v-else>
+    <!-- @slot The content of the error message. If content is provided in this slot, the `text` prop will be ignored. -->
+    <slot>
       {{ text }}
-    </template>
-  </div>
+    </slot>
+  </p>
 </template>

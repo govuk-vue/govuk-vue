@@ -1,3 +1,9 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script setup lang="ts">
 import GvTextarea from '@/components/govuk-vue/textarea/GvTextarea.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
@@ -13,10 +19,6 @@ const props = defineProps({
     default: 5
   },
   describedBy: String,
-  classes: {
-    type: String,
-    default: ''
-  },
   autocomplete: String,
   spellcheck: {
     type: Boolean,
@@ -24,27 +26,30 @@ const props = defineProps({
   },
   disabled: Boolean,
   //Form group props
-  formGroupClasses: {
-    type: String,
+  formGroupClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //Label props
-  labelText: String,
+  label: String,
   labelIsPageHeading: {
     type: Boolean,
     default: false
   },
-  labelClasses: String,
+  labelClass: {
+    type: [String, Array, Object],
+    default: ''
+  },
   //hint props
-  hintText: String,
-  hintClasses: {
-    type: String,
+  hint: String,
+  hintClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //error message props
-  errorMessageText: String,
-  errorMessageClasses: {
-    type: String,
+  errorMessage: String,
+  errorMessageClass: {
+    type: [String, Array, Object],
     default: ''
   },
   errorMessageVisuallyHiddenText: String,
@@ -57,11 +62,11 @@ const props = defineProps({
       return value >= 0 && value <= 100
     }
   },
-  messageClasses: {
-    type: String,
+  messageClass: {
+    type: [String, Array, Object],
     default: ''
   },
-  textareaDescriptionText: String,
+  textareaDescription: String,
   charactersUnderLimitText: {
     type: String,
     default: 'You have ${count} characters remaining'
@@ -162,9 +167,9 @@ const isOverMaxLength = computed(() => {
   return currentLength.value > maxLength.value
 })
 
-const computedTextareaDescriptionText = computed(() => {
-  if (props.textareaDescriptionText) {
-    return replaceCount(props.textareaDescriptionText, maxLength.value)
+const computedTextareaDescription = computed(() => {
+  if (props.textareaDescription) {
+    return replaceCount(props.textareaDescription, maxLength.value)
   } else {
     if (props.maxWords) {
       return replaceCount('You can enter up to ${count} words', maxLength.value)
@@ -253,26 +258,30 @@ function replaceCount(str: string, count: Number) {
       :name="name"
       :rows="rows"
       :described-by="textareaDescribedBy"
-      :classes="`${classes} ${isOverMaxLength ? 'govuk-textarea--error' : ''}`"
+      :class="{
+        'govuk-textarea--error': isOverMaxLength
+      }"
       :autocomplete="autocomplete"
       :spellcheck="spellcheck"
       :disabled="disabled"
-      :form-group-classes="formGroupClasses"
-      :label-text="labelText"
+      :form-group-class="formGroupClass"
+      :label="label"
       :label-is-page-heading="labelIsPageHeading"
-      :label-classes="labelClasses"
-      :hint-text="hintText"
-      :hint-classes="hintClasses"
-      :error-message-text="errorMessageText"
-      :error-message-classes="errorMessageClasses"
+      :label-class="labelClass"
+      :hint="hint"
+      :hint-class="hintClass"
+      :error-message="errorMessage"
+      :error-message-class="errorMessageClass"
       :error-message-visually-hidden-text="errorMessageVisuallyHiddenText"
       @update:modelValue="(newValue) => $emit('update:modelValue', newValue)"
+      v-bind="$attrs"
     >
+      <slot />
       <template v-slot:below-textarea>
         <gv-hint
           :id="accessibleHintId"
-          classes="govuk-character-count__message govuk-visually-hidden"
-          :text="computedTextareaDescriptionText"
+          class="govuk-character-count__message govuk-visually-hidden"
+          :text="computedTextareaDescription"
         />
         <div
           class="govuk-character-count__message govuk-character-count__status"
@@ -295,6 +304,4 @@ function replaceCount(str: string, count: Number) {
       </template>
     </gv-textarea>
   </div>
-  <!--todo slots-->
-  <!--todo - hint should be static text, screen reader version should be a div below-->
 </template>

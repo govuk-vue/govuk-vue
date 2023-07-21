@@ -1,26 +1,48 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script setup lang="ts">
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import hasSlot from '@/composables/useHasSlot'
-import { computed, toRef } from 'vue'
+import { computed, normalizeClass, toRef } from 'vue'
 import GvFragment from '@/components/util/GvFragment.vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
 import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
+  /**
+   * The value of the input. In most cases you should use `v-model` instead of setting this prop directly.
+   */
   modelValue: String,
+  /**
+   * The ID of the input
+   *
+   * If you don't provide an ID, one will be generated automatically.
+   */
   id: String,
+  /**
+   * The name of the input, which is submitted with the form data.
+   */
   name: String,
+  /**
+   * Type of input control to render, for example, a password input control. Defaults to `text`.
+   */
   type: {
     type: String,
     default: 'text'
   },
+  /**
+   * Optional value for [inputmode](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode).
+   */
   inputmode: String,
+  /**
+   * One or more element IDs to add to the `aria-describedby` attribute, used to provide additional descriptive information for screenreader users.
+   */
   describedBy: String,
-  classes: {
-    type: String,
-    default: ''
-  },
   autocomplete: String,
   pattern: String,
   spellcheck: {
@@ -29,39 +51,42 @@ const props = defineProps({
   },
   disabled: Boolean,
   //Form group props
-  formGroupClasses: {
-    type: String,
+  formGroupClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //Label props
-  labelText: String,
+  label: String,
   labelIsPageHeading: {
     type: Boolean,
     default: false
   },
-  labelClasses: String,
+  labelClass: {
+    type: [String, Array, Object],
+    default: ''
+  },
   //hint props
-  hintText: String,
-  hintClasses: {
-    type: String,
+  hint: String,
+  hintClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //prefix props
-  prefixText: String,
-  prefixClasses: {
-    type: String,
+  prefix: String,
+  prefixClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //suffix props
-  suffixText: String,
-  suffixClasses: {
-    type: String,
+  suffix: String,
+  suffixClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //error message props
-  errorMessageText: String,
-  errorMessageClasses: {
-    type: String,
+  errorMessage: String,
+  errorMessageClass: {
+    type: [String, Array, Object],
     default: ''
   },
   errorMessageVisuallyHiddenText: String
@@ -69,7 +94,8 @@ const props = defineProps({
 defineEmits(['update:modelValue'])
 
 const hasHint = computed(() => {
-  return props.hintText || hasSlot('hint')
+  console.log(`hint for ${props.label}: ${hasSlot('hint')}`)
+  return props.hint || hasSlot('hint')
 })
 
 const hintId = computed(() => {
@@ -77,15 +103,15 @@ const hintId = computed(() => {
 })
 
 const hasPrefix = computed(() => {
-  return props.prefixText || hasSlot('prefix')
+  return props.prefix || hasSlot('prefix')
 })
 
 const hasSuffix = computed(() => {
-  return props.suffixText || hasSlot('suffix')
+  return props.suffix || hasSlot('suffix')
 })
 
 const hasErrorMessage = computed(() => {
-  return props.errorMessageText || hasSlot('error-message')
+  return props.errorMessage || hasSlot('error-message')
 })
 
 const errorMessageId = computed(() => {
@@ -108,29 +134,33 @@ const computedDescribedBy = computed(() => {
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
   return value.length > 0 ? value : null
 })
+
+const normalizedFormGroupClass = computed(() => {
+  return normalizeClass(props.formGroupClass)
+})
 </script>
 
 <template>
   <div
-    :class="`govuk-form-group ${formGroupClasses} ${
+    :class="`govuk-form-group ${normalizedFormGroupClass} ${
       hasErrorMessage ? 'govuk-form-group--error' : ''
     }`"
   >
     <gv-label
       :for-id="computedId"
-      :text="labelText"
-      :classes="labelClasses"
+      :text="label"
+      :class="labelClass"
       :is-page-heading="labelIsPageHeading"
     >
       <slot name="label" />
     </gv-label>
-    <gv-hint v-if="hasHint" :text="hintText" :classes="hintClasses" :id="hintId">
+    <gv-hint v-if="hasHint" :text="hint" :class="hintClass" :id="hintId">
       <slot name="hint" />
     </gv-hint>
     <gv-error-message
       v-if="hasErrorMessage"
-      :text="errorMessageText"
-      :classes="errorMessageClasses"
+      :text="errorMessage"
+      :class="errorMessageClass"
       :id="errorMessageId"
     >
       <slot name="error-message" />
@@ -139,18 +169,18 @@ const computedDescribedBy = computed(() => {
       :is="computedWrapperElement"
       :class="hasPrefix || hasSuffix ? 'govuk-input__wrapper' : ''"
     >
-      <div v-if="hasPrefix" :class="`govuk-input__prefix ${prefixClasses}`" aria-hidden="true">
-        <template v-if="hasSlot('prefix')">
-          <slot name="prefix" />
-        </template>
-        <template v-else>
-          {{ prefixText }}
-        </template>
+      <div v-if="hasPrefix" class="govuk-input__prefix" :class="prefixClass" aria-hidden="true">
+        <slot name="prefix">
+          {{ prefix }}
+        </slot>
       </div>
       <input
         :id="computedId"
         :name="name"
-        :class="`govuk-input ${hasErrorMessage ? 'govuk-input--error' : ''} ${classes}`"
+        class="govuk-input"
+        :class="{
+          'govuk-input--error': hasErrorMessage
+        }"
         :spellcheck="spellcheck"
         :value="modelValue"
         :disabled="disabled"
@@ -158,15 +188,14 @@ const computedDescribedBy = computed(() => {
         :autocomplete="autocomplete"
         :pattern="pattern"
         :inputmode="inputmode"
+        :type="type"
         @input="$emit('update:modelValue', $event.target.value)"
+        v-bind="$attrs"
       />
-      <div v-if="hasSuffix" :class="`govuk-input__suffix ${suffixClasses}`" aria-hidden="true">
-        <template v-if="hasSlot('suffix')">
-          <slot name="suffix" />
-        </template>
-        <template v-else>
-          {{ suffixText }}
-        </template>
+      <div v-if="hasSuffix" class="govuk-input__suffix" :class="suffixClass" aria-hidden="true">
+        <slot name="suffix">
+          {{ suffix }}
+        </slot>
       </div>
     </component>
   </div>

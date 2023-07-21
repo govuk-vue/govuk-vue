@@ -9,20 +9,24 @@ import { computed, inject, onBeforeMount, onBeforeUnmount, ref, useAttrs } from 
 import {
   SummaryListRowActionsCountInjectionKey,
   SummaryListRegisterRowActionFunctionInjectionKey,
-  SummaryListUnregisterRowActionFunctionInjectionKey
+  SummaryListUnregisterRowActionFunctionInjectionKey,
+  SummaryListRowKeyTextInjectionKey
 } from '@/components/govuk-vue/summary-list/SummaryListInjectionKeys'
 import GvFragment from '@/components/util/GvFragment.vue'
 
 const attrs = useAttrs()
 
 const props = defineProps({
-  classes: {
-    type: String,
-    default: ''
-  },
   text: String,
   href: String,
-  visuallyHiddenText: String
+  visuallyHiddenText: String,
+  /**
+   * The component used to render the link, for example `RouterLink`.
+   */
+  component: {
+    type: [String, Object],
+    default: 'a'
+  }
 })
 
 const key = Symbol()
@@ -55,17 +59,27 @@ const computedHref = computed(() => {
     return props.href
   }
 })
+
+const rowKeyText = inject(SummaryListRowKeyTextInjectionKey)
+
+const computedVisuallyHiddenText = computed(() => {
+  if (props.visuallyHiddenText) {
+    return props.visuallyHiddenText
+  } else {
+    return rowKeyText
+  }
+})
 </script>
 
 <template>
   <component :is="computedWrapperElement" class="govuk-summary-list__actions-list-item">
-    <a :class="`govuk-link ${classes}`" :href="computedHref" v-bind="$attrs">
+    <component :is="component" class="govuk-link" :href="computedHref" v-bind="$attrs">
       <slot>{{ text }}</slot>
-      <span v-if="visuallyHiddenText" class="govuk-visually-hidden"
-        >&nbsp;{{ visuallyHiddenText }}
+      <span v-if="computedVisuallyHiddenText" class="govuk-visually-hidden"
+        >&nbsp;{{ computedVisuallyHiddenText }}
       </span>
       <!-- The nbsp above is needed so that screen readers put a space between the visible text and
       the visually hidden text - Vue removes normal spaces -->
-    </a>
+    </component>
   </component>
 </template>

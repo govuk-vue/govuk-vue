@@ -22,11 +22,8 @@ const hasText = computed(() => {
     <slot name="items" />
   </ul>
   <div class="govuk-footer__meta-custom" v-if="hasText">
-    <template v-if="hasSlot('default')">
-      <slot />
-    </template>
-    <template v-else>
+    <slot>
       {{ text }}
-    </template>
+    </slot>
   </div>
 </template>

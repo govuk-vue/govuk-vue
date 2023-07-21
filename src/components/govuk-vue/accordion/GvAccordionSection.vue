@@ -16,42 +16,72 @@ import {
 import {
   AccordionHeadingLevelInjectionKey,
   AccordionHideSectionTextInjectionKey,
-  AccordionHideSectionAriaLabelTextInjectionKey,
+  AccordionHideSectionAriaLabelInjectionKey,
   AccordionShowSectionTextInjectionKey,
-  AccordionShowSectionAriaLabelTextInjectionKey,
+  AccordionShowSectionAriaLabelInjectionKey,
+  AccordionRememberExpandedInjectionKey,
   AccordionRegisterSectionFunctionInjectionKey,
   AccordionUnregisterSectionFunctionInjectionKey
 } from '@/components/govuk-vue/accordion/AccordionInjectionKeys'
 import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
+  /**
+   * The ID for this section. If you don't provide an ID, one will be generated automatically.
+   */
   id: String,
-  headingText: String,
-  summaryText: String,
-  contentText: String,
-  expanded: {
+  /**
+   * The title of the section.
+   */
+  heading: String,
+  /**
+   * Text content for the summary line. If content is provided in the `summary` slot, this prop will be ignored.
+   */
+  summary: String,
+  /**
+   * Text content of this section, which is hidden when the section is closed. If content is provided in the default
+   * slot, this prop will be ignored.
+   */
+  content: String,
+  /**
+   * Sets whether the section is expanded. If set, the model value will override any stored expansion state if
+   * `rememberExpanded` has been set on the parent `GvAccordion`. In most cases you should use `v-model` instead of setting this prop directly.
+   */
+  modelValue: {
     type: Boolean,
-    default: false
-  },
-  rememberExpanded: {
-    type: Boolean,
-    default: true
+    default: null
   }
 })
+const emit = defineEmits(['update:modelValue'])
 
 const key = Symbol()
-const expandedMutable = ref(props.expanded)
+const modelValueMutable = ref(props.modelValue)
+
+watch(modelValueMutable, (newModelValueMutable) => {
+  emit('update:modelValue', newModelValueMutable)
+})
+
 const contentElement: Ref<HTMLDivElement | null> = ref(null)
 const computedId = useComputedId(toRef(props, 'id'), 'gv-accordion-section')
 
-onBeforeMount(() => {
-  registerSection({ key: key, expanded: expandedMutable })
+const headingLevel = inject(AccordionHeadingLevelInjectionKey)
+const hideSectionText = inject(AccordionHideSectionTextInjectionKey)
+const hideSectionAriaLabel = inject(AccordionHideSectionAriaLabelInjectionKey)
+const showSectionText = inject(AccordionShowSectionTextInjectionKey)
+const showSectionAriaLabel = inject(AccordionShowSectionAriaLabelInjectionKey)
+const rememberExpanded = inject(AccordionRememberExpandedInjectionKey, ref(true))
+const registerSection = inject(AccordionRegisterSectionFunctionInjectionKey, () => {})
+const unregisterSection = inject(AccordionUnregisterSectionFunctionInjectionKey, () => {})
 
-  if (props.rememberExpanded) {
+onBeforeMount(() => {
+  registerSection({ key: key, expanded: modelValueMutable })
+
+  // We only use the stored expansion state if an expansion state wasn't explicitly provided as a prop
+  if (rememberExpanded.value && props.modelValue === null) {
     const contentState = window.sessionStorage.getItem(contentId.value)
 
     if (contentState !== null) {
-      expandedMutable.value = contentState === 'true'
+      modelValueMutable.value = contentState === 'true'
     }
   }
 })
@@ -72,20 +102,20 @@ onUnmounted(() => {
  When the expanded state changes (via clicking the button, the prop changing or show/hide all sections being clicked)
  store the new state in session storage
  */
-watch(expandedMutable, () => {
+watch(modelValueMutable, () => {
   storeState()
 })
 
-const headingLevel = inject(AccordionHeadingLevelInjectionKey)
-const hideSectionText = inject(AccordionHideSectionTextInjectionKey)
-const hideSectionAriaLabelText = inject(AccordionHideSectionAriaLabelTextInjectionKey)
-const showSectionText = inject(AccordionShowSectionTextInjectionKey)
-const showSectionAriaLabelText = inject(AccordionShowSectionAriaLabelTextInjectionKey)
-const registerSection = inject(AccordionRegisterSectionFunctionInjectionKey, () => {})
-const unregisterSection = inject(AccordionUnregisterSectionFunctionInjectionKey, () => {})
+// If the modelValue prop changes, copy that change to our mutable version of the modelValue
+watch(
+  () => props.modelValue,
+  (newModelValue) => {
+    modelValueMutable.value = newModelValue
+  }
+)
 
 const hasSummary = computed(() => {
-  return props.summaryText || hasSlot('summary')
+  return props.summary || hasSlot('summary')
 })
 
 const contentId = computed(() => {
@@ -98,25 +128,25 @@ const headingId = computed(() => {
 
 const buttonAriaLabel = computed(() => {
   const labelParts = []
-  labelParts.push(props.headingText)
+  labelParts.push(props.heading)
 
   if (hasSummary.value) {
     if (hasSlot('summary')) {
       labelParts.push(getSlotText('summary'))
     } else {
-      labelParts.push(props.summaryText)
+      labelParts.push(props.summary)
     }
   }
 
   labelParts.push(
-    expandedMutable.value ? hideSectionAriaLabelText?.value : showSectionAriaLabelText?.value
+    modelValueMutable.value ? hideSectionAriaLabel?.value : showSectionAriaLabel?.value
   )
 
   return labelParts.join(' , ')
 })
 
 const showHideText = computed(() => {
-  return expandedMutable.value ? hideSectionText?.value : showSectionText?.value
+  return modelValueMutable.value ? hideSectionText?.value : showSectionText?.value
 })
 
 const computedHeaderElement = computed(() => {
@@ -124,16 +154,16 @@ const computedHeaderElement = computed(() => {
 })
 
 const contentHiddenAttribute = computed(() => {
-  return expandedMutable.value ? null : 'until-found'
+  return modelValueMutable.value ? null : 'until-found'
 })
 
 function toggleExpanded() {
-  expandedMutable.value = !expandedMutable.value
+  modelValueMutable.value = !modelValueMutable.value
 }
 
 function storeState() {
-  if (props.rememberExpanded) {
-    window.sessionStorage.setItem(contentId.value, expandedMutable.value ? 'true' : 'false')
+  if (rememberExpanded.value) {
+    window.sessionStorage.setItem(contentId.value, modelValueMutable.value ? 'true' : 'false')
   }
 }
 </script>
@@ -141,7 +171,7 @@ function storeState() {
 <template>
   <div
     class="govuk-accordion__section"
-    :class="{ 'govuk-accordion__section--expanded': expandedMutable }"
+    :class="{ 'govuk-accordion__section--expanded': modelValueMutable }"
   >
     <div class="govuk-accordion__section-header">
       <component :is="computedHeaderElement" class="govuk-accordion__section-heading">
@@ -155,7 +185,7 @@ function storeState() {
         >
           <span class="govuk-accordion__section-heading-text" :id="headingId">
             <span class="govuk-accordion__section-heading-text-focus">
-              {{ headingText }}
+              {{ heading }}
             </span>
           </span>
           <template v-if="hasSummary">
@@ -164,8 +194,9 @@ function storeState() {
               class="govuk-accordion__section-summary govuk-body"
               id="accordion-with-summary-sections-summary-1"
               ><span class="govuk-accordion__section-summary-focus">
+                <!-- @slot The content of the summary. If content is provided in this slot, the `summary` prop will be ignored. -->
                 <slot name="summary">
-                  {{ summaryText }}
+                  {{ summary }}
                 </slot>
               </span></span
             >
@@ -175,7 +206,7 @@ function storeState() {
             <span class="govuk-accordion__section-toggle-focus">
               <span
                 class="govuk-accordion-nav__chevron"
-                :class="{ 'govuk-accordion-nav__chevron--down': !expandedMutable }"
+                :class="{ 'govuk-accordion-nav__chevron--down': !modelValueMutable }"
               ></span>
               <span class="govuk-accordion__section-toggle-text">{{ showHideText }}</span>
             </span>
@@ -190,8 +221,9 @@ function storeState() {
       :hidden.attr="contentHiddenAttribute"
       ref="contentElement"
     >
+      <!-- @slot The content of the accordion section. If content is provided in this slot, the `content` prop will be ignored. -->
       <slot>
-        <p class="govuk-body">{{ contentText }}</p>
+        <p class="govuk-body">{{ content }}</p>
       </slot>
     </div>
   </div>

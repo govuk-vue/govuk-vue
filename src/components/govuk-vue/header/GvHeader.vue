@@ -5,10 +5,6 @@ import { useIsDesktop } from '@/composables/useIsDesktop'
 import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
-  classes: {
-    type: String,
-    default: ''
-  },
   homepageUrl: {
     type: String,
     default: '/'
@@ -24,8 +20,8 @@ const props = defineProps({
     type: String,
     default: 'Menu'
   },
-  navigationClasses: {
-    type: String,
+  navigationClass: {
+    type: [String, Array, Object],
     default: ''
   },
   menuButtonLabel: {
@@ -53,7 +49,7 @@ const computedNavigationId = useComputedId(toRef(props, 'navigationId'), 'gv-hea
 </script>
 
 <template>
-  <header :class="`govuk-header ${classes}`" role="banner">
+  <header class="govuk-header" role="banner">
     <div class="govuk-header__container govuk-width-container">
       <div class="govuk-header__logo">
         <a :href="homepageUrl" class="govuk-header__link govuk-header__link--homepage">
@@ -87,7 +83,8 @@ const computedNavigationId = useComputedId(toRef(props, 'navigationId'), 'gv-hea
         <nav
           v-if="hasSlot('default')"
           :aria-label="navigationLabel"
-          :class="`govuk-header__navigation ${classes}`"
+          class="govuk-header__navigation"
+          :class="navigationClass"
         >
           <button
             type="button"

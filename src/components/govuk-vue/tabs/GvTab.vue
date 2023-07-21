@@ -3,7 +3,6 @@ import {
   computed,
   getCurrentInstance,
   inject,
-  onBeforeMount,
   onBeforeUnmount,
   ref,
   Ref,
@@ -22,12 +21,20 @@ import { useIsDesktop } from '@/composables/useIsDesktop'
 import { createUid } from '@/util/createUid'
 
 const props = defineProps({
+  /**
+   * The text label of the tab. If content is provided in the `label` slot, this prop will be ignored.
+   */
   label: String,
+  /**
+   * The ID for this tab.
+   *
+   * If you don't provide an ID, one will be generated automatically.
+   */
   id: String,
-  classes: {
-    type: String,
-    default: ''
-  },
+  /**
+   * Whether this tab should default to selected. If no tab in the tab group is set to `:selected="true"`,
+   * the first tab in the group will be selected.
+   */
   selected: {
     type: Boolean,
     default: false
@@ -52,9 +59,7 @@ const selectTab = inject(TabsSelectTabFunctionInjectionKey, () => {})
 const selectPreviousTab = inject(TabsSelectPreviousTabFunctionInjectionKey, () => {})
 const selectNextTab = inject(TabsSelectNextTabFunctionInjectionKey, () => {})
 
-onBeforeMount(() => {
-  registerTab(tab)
-})
+registerTab(tab)
 
 onBeforeUnmount(() => {
   unregisterTab(tab)
@@ -124,9 +129,8 @@ const tabindex = computed(() => {
 
 <template>
   <li
-    :class="`govuk-tabs__list-item ${classes} ${
-      tab.selected ? 'govuk-tabs__list-item--selected' : ''
-    }`"
+    class="govuk-tabs__list-item"
+    :class="{ 'govuk-tabs__list-item--selected': tab.selected }"
     :role="isDesktop ? 'presentation' : null"
   >
     <a

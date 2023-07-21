@@ -1,11 +1,19 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script setup lang="ts">
 import { computed, provide, ref, Ref } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
+import getSlotText from '@/composables/useGetSlotText'
 import type { SummaryListCardAction } from '@/components/govuk-vue/summary-list/SummaryListCardAction'
 import type { SummaryListRow } from '@/components/govuk-vue/summary-list/SummaryListRow'
 import {
   SummaryListAnyRowHasActionsInjectionKey,
   SummaryListCardActionsCountInjectionKey,
+  SummaryListCardTitleInjectionKey,
   SummaryListRegisterCardActionFunctionInjectionKey,
   SummaryListRegisterRowFunctionInjectionKey,
   SummaryListUnregisterCardActionFunctionInjectionKey,
@@ -13,21 +21,17 @@ import {
 } from '@/components/govuk-vue/summary-list/SummaryListInjectionKeys'
 
 const props = defineProps({
-  classes: {
-    type: String,
-    default: ''
-  },
   showBorders: {
     type: Boolean,
     default: true
   },
   //Card props
-  cardClasses: {
-    type: String,
+  cardClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //Card title props
-  cardTitleText: String,
+  cardTitle: String,
   cardTitleHeadingLevel: {
     type: Number,
     default: 2,
@@ -35,13 +39,13 @@ const props = defineProps({
       return value >= 1 && value <= 6
     }
   },
-  cardTitleClasses: {
-    type: String,
+  cardTitleClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //Card actions props
-  cardActionsClasses: {
-    type: String,
+  cardActionsClass: {
+    type: [String, Array, Object],
     default: ''
   }
 })
@@ -87,16 +91,29 @@ provide(SummaryListAnyRowHasActionsInjectionKey, anyRowHasActions)
 
 const isCard = computed(() => {
   return (
-    props.cardTitleText !== undefined ||
+    props.cardTitle !== undefined ||
     hasSlot('card-title') ||
     hasSlot('card-actions') ||
-    props.cardClasses !== ''
+    props.cardClass !== ''
   )
 })
 
 const hasCardTitle = computed(() => {
-  return props.cardTitleText || hasSlot('card-title')
+  return props.cardTitle || hasSlot('card-title')
 })
+
+// We provide the card title to child components so that actions can use it as visually hidden text at the end of link text
+const cardTitleVisuallyHidden = computed(() => {
+  if (hasSlot('card-title')) {
+    return getSlotText('card-title')
+  } else if (props.cardTitle) {
+    return props.cardTitle
+  } else {
+    return undefined
+  }
+})
+
+provide(SummaryListCardTitleInjectionKey, cardTitleVisuallyHidden)
 
 const computedActionsWrapperElement = computed(() => {
   if (cardActionsCount.value > 1) {
@@ -108,46 +125,40 @@ const computedActionsWrapperElement = computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="isCard"
-    :class="`govuk-summary-card ${cardClasses} ${
-      !showBorders ? 'govuk-summary-list--no-border' : ''
-    }`"
-  >
+  <div v-if="isCard" class="govuk-summary-card" :class="cardClass">
     <div class="govuk-summary-card__title-wrapper">
       <component
         v-if="hasCardTitle"
         :is="`h${cardTitleHeadingLevel}`"
-        :class="`govuk-summary-card__title ${cardTitleClasses}`"
+        class="govuk-summary-card__title"
+        :class="cardTitleClass"
       >
         <slot name="card-title">
-          {{ cardTitleText }}
+          {{ cardTitle }}
         </slot>
       </component>
       <component
         v-if="hasSlot('card-actions')"
         :is="computedActionsWrapperElement"
-        :class="`govuk-summary-card__actions ${cardActionsClasses}`"
+        class="govuk-summary-card__actions"
+        :class="cardActionsClass"
       >
         <slot name="card-actions" />
       </component>
     </div>
 
     <div class="govuk-summary-card__content">
-      <dl
-        :class="`govuk-summary-list ${classes} ${
-          !showBorders ? 'govuk-summary-list--no-border' : ''
-        }`"
-      >
+      <dl class="govuk-summary-list" v-bind="$attrs">
         <slot />
       </dl>
     </div>
   </div>
   <dl
     v-else
-    :class="`govuk-summary-list ${classes} ${!showBorders ? 'govuk-summary-list--no-border' : ''}`"
+    class="govuk-summary-list"
+    v-bind="$attrs"
+    :class="{ 'govuk-summary-list--no-border': !showBorders }"
   >
     <slot />
-    <slot name="card-actions" />
   </dl>
 </template>

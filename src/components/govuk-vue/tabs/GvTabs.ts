@@ -1,4 +1,4 @@
-import { defineComponent, h, onBeforeMount, ref, provide, onMounted } from 'vue'
+import { defineComponent, h, ref, provide, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import type { Tab } from '@/components/govuk-vue/tabs/Tab'
 import {
@@ -26,9 +26,13 @@ function findTabKeys(items: any[]) {
 
   return tabKeys
 }
-
+/* @slot describe destructured default */
 export default defineComponent({
   props: {
+    /**
+     * Title for the tabs table of contents. This will only be shown on smaller screens, where the tab list
+     * is displayed as a vertical list of links.
+     */
     title: String
   },
   setup(props, { slots }) {

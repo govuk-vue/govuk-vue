@@ -6,3 +6,5 @@ export const CheckboxesModelValueInjectionKey: InjectionKey<Ref<Array<any>>> =
 export const CheckboxesUpdateModelValueFunctionInjectionKey: InjectionKey<Function> = Symbol(
   'CheckboxesUpdateModelValueFunction'
 )
+
+export const CheckboxesNameInjectionKey: InjectionKey<Ref<String>> = Symbol('CheckboxesName')

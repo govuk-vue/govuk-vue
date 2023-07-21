@@ -1,14 +1,6 @@
-<script setup lang="ts">
-defineProps({
-  classes: {
-    type: String,
-    default: ''
-  }
-})
-</script>
-
 <template>
-  <tbody :class="`govuk-table__body ${classes}`">
+  <tbody class="govuk-table__body">
+    <!-- @slot A list of `GvTableRow`s containing `GvTableHeader`s and/or `GvTableCell`s -->
     <slot />
   </tbody>
 </template>

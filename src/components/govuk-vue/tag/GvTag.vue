@@ -2,11 +2,13 @@
 import hasSlot from '@/composables/useHasSlot'
 
 defineProps({
+  /**
+   * Text to use within the tag component. If content is provided in the default slot, this prop will be ignored.
+   */
   text: String,
-  classes: {
-    type: String,
-    default: ''
-  },
+  /**
+   * The colour of the tag.
+   */
   colour: {
     type: String,
     validator(value: string) {
@@ -27,12 +29,10 @@ defineProps({
 </script>
 
 <template>
-  <strong :class="`govuk-tag ${classes} ${colour ? `govuk-tag--${colour}` : ''}`">
-    <template v-if="hasSlot('default')">
-      <slot />
-    </template>
-    <template v-else>
+  <strong class="govuk-tag" :class="`${colour ? `govuk-tag--${colour}` : ''}`">
+    <!-- @slot The content of the tag. If content is provided in this slot, the `text` prop will be ignored. -->
+    <slot>
       {{ text }}
-    </template>
+    </slot>
   </strong>
 </template>

@@ -1,5 +1,11 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script setup lang="ts">
-import { computed, ref, toRef, watch } from 'vue'
+import { computed, normalizeClass, ref, toRef, watch } from 'vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
@@ -10,35 +16,37 @@ const props = defineProps({
   modelValue: [String, Number, Boolean, Object],
   id: String,
   name: String,
-  classes: {
-    type: String,
-    default: ''
-  },
   describedBy: String,
   disabled: Boolean,
   //Label props
-  labelText: String,
+  label: String,
   labelIsPageHeading: {
     type: Boolean,
     default: false
   },
-  labelClasses: String,
+  /**
+   * Classes to add to the label tag. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
+  labelClass: {
+    type: [String, Array, Object],
+    default: ''
+  },
   //hint props
-  hintText: String,
-  hintClasses: {
-    type: String,
+  hint: String,
+  hintClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //error message props
-  errorMessageText: String,
-  errorMessageClasses: {
-    type: String,
+  errorMessage: String,
+  errorMessageClass: {
+    type: [String, Array, Object],
     default: ''
   },
   errorMessageVisuallyHiddenText: String,
   //Form group props
-  formGroupClasses: {
-    type: String,
+  formGroupClass: {
+    type: [String, Array, Object],
     default: ''
   }
 })
@@ -51,11 +59,11 @@ watch(modelValueMutable, (newModelValueMutable) => {
 })
 
 const hasHint = computed(() => {
-  return props.hintText || hasSlot('hint')
+  return props.hint || hasSlot('hint')
 })
 
 const hasErrorMessage = computed(() => {
-  return props.errorMessageText || hasSlot('error-message')
+  return props.errorMessage || hasSlot('error-message')
 })
 
 const errorMessageId = computed(() => {
@@ -74,29 +82,33 @@ const computedDescribedBy = computed(() => {
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
   return value.length > 0 ? value : null
 })
+
+const normalizedFormGroupClass = computed(() => {
+  return normalizeClass(props.formGroupClass)
+})
 </script>
 
 <template>
   <div
-    :class="`govuk-form-group ${formGroupClasses} ${
+    :class="`govuk-form-group ${normalizedFormGroupClass} ${
       hasErrorMessage ? 'govuk-form-group--error' : ''
     }`"
   >
     <gv-label
       :for-id="computedId"
-      :text="labelText"
-      :classes="labelClasses"
+      :text="label"
+      :class="labelClass"
       :is-page-heading="labelIsPageHeading"
     >
       <slot name="label" />
     </gv-label>
-    <gv-hint v-if="hasHint" :text="hintText" :classes="hintClasses" :id="hintId">
+    <gv-hint v-if="hasHint" :text="hint" :class="hintClass" :id="hintId">
       <slot name="hint" />
     </gv-hint>
     <gv-error-message
       v-if="hasErrorMessage"
-      :text="errorMessageText"
-      :classes="errorMessageClasses"
+      :text="errorMessage"
+      :class="errorMessageClass"
       :id="errorMessageId"
     >
       <slot name="error-message" />
@@ -105,10 +117,14 @@ const computedDescribedBy = computed(() => {
     <select
       :id="computedId"
       :name="name"
-      :class="`govuk-select ${hasErrorMessage ? 'govuk-select--error' : ''} ${classes}`"
+      class="govuk-select"
+      :class="{
+        'govuk-select--error': hasErrorMessage
+      }"
       v-model="modelValueMutable"
       :disabled="disabled"
       :aria-describedby="computedDescribedBy"
+      v-bind="$attrs"
     >
       <slot />
     </select>

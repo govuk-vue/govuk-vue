@@ -1,6 +1,11 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script setup lang="ts">
 import { computed } from 'vue'
-import hasSlot from '@/composables/useHasSlot'
 import GvFragment from '@/components/util/GvFragment.vue'
 
 const props = defineProps({
@@ -13,10 +18,6 @@ const props = defineProps({
   isPageHeading: {
     type: Boolean,
     default: false
-  },
-  classes: {
-    type: String,
-    default: ''
   }
 })
 
@@ -31,13 +32,10 @@ const computedWrapperElement = computed(() => {
 
 <template>
   <component :is="computedWrapperElement" :class="isPageHeading ? 'govuk-label-wrapper' : ''">
-    <label :for="forId" :class="`govuk-label ${classes}`">
-      <template v-if="hasSlot('default')">
-        <slot />
-      </template>
-      <template v-else>
+    <label :for="forId" class="govuk-label" v-bind="$attrs">
+      <slot>
         {{ text }}
-      </template>
+      </slot>
     </label>
   </component>
 </template>

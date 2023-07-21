@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import hasSlot from '@/composables/useHasSlot'
-
-const props = defineProps({
+defineProps({
   text: String,
   value: {
     type: [String, Number, Boolean, Object],
@@ -12,11 +10,8 @@ const props = defineProps({
 
 <template>
   <option :value="value">
-    <template v-if="hasSlot('default')">
-      <slot />
-    </template>
-    <template v-else>
+    <slot>
       {{ text }}
-    </template>
+    </slot>
   </option>
 </template>

@@ -24,7 +24,6 @@ export const SummaryListAnyRowHasActionsInjectionKey: InjectionKey<Ref<boolean>>
   'SummaryListAnyRowHasActions'
 )
 
-
 export const SummaryListRegisterRowActionFunctionInjectionKey: InjectionKey<Function> = Symbol(
   'SummaryListRegisterRowActionFunction'
 )
@@ -36,3 +35,9 @@ export const SummaryListUnregisterRowActionFunctionInjectionKey: InjectionKey<Fu
 export const SummaryListRowActionsCountInjectionKey: InjectionKey<Ref<number>> = Symbol(
   'SummaryListRowActionsCount'
 )
+
+export const SummaryListCardTitleInjectionKey: InjectionKey<Ref<string | undefined>> =
+  Symbol('SummaryListCardTitle')
+
+export const SummaryListRowKeyTextInjectionKey: InjectionKey<Ref<string | undefined>> =
+  Symbol('SummaryListRowKeyText')

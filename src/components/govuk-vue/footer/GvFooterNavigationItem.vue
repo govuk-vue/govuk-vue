@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import hasSlot from '@/composables/useHasSlot'
-
 defineProps({
   text: String,
   href: {
     type: String,
     required: true
+  },
+  /**
+   * The component used to render the link, for example `RouterLink`.
+   */
+  component: {
+    type: [String, Object],
+    default: 'a'
   }
 })
 </script>
 
 <template>
   <li class="govuk-footer__list-item">
-    <a class="govuk-footer__link" :href="href">
-      <template v-if="hasSlot('default')">
-        <slot />
-      </template>
-      <template v-else>
+    <component :is="component" class="govuk-footer__link" :href="href">
+      <slot>
         {{ text }}
-      </template>
-    </a>
+      </slot>
+    </component>
   </li>
 </template>

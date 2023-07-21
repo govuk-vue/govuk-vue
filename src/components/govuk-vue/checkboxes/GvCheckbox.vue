@@ -1,40 +1,89 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script setup lang="ts">
 import { computed, inject, ref, toRef, watch } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
-import { createUid } from '@/util/createUid'
 import {
   CheckboxesModelValueInjectionKey,
-  CheckboxesUpdateModelValueFunctionInjectionKey
+  CheckboxesUpdateModelValueFunctionInjectionKey,
+  CheckboxesNameInjectionKey
 } from '@/components/govuk-vue/checkboxes/CheckboxesInjectionKeys'
 import { looseEqual } from '@/util/looseEqual'
 import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
+  /**
+   * True if the checkbox is checked, false otherwise (or the value of the `trueValue` or `falseValue` props if they have been set). In most cases you should use `v-model` instead of setting this prop directly.
+   */
   modelValue: null,
+  /**
+   * The value to set the `v-model` to if the checkbox is checked.
+   */
   trueValue: {
     default: true
   },
+  /**
+   * The value to set the `v-model` to if the checkbox is not checked.
+   */
   falseValue: {
     default: false
   },
+  /**
+   * The ID for this checkbox.
+   *
+   * If you don't provide an ID, one will be generated automatically.
+   */
   id: String,
+  /**
+   * The value of the `name` attribute for this checkbox.
+   *
+   * If you don't provide a name, one will be generated automatically.
+   */
   name: String,
+  /**
+   * If the parent checkbox group has a `v-model` array, this value will be added to the array if the checkbox is checked.
+   */
   value: null,
+  /**
+   * The divider text to show above the checkbox if this checkbox is exclusive. This should usually be 'or'.
+   */
   divider: String,
+  /**
+   * Whether checking this checkbox should deselect all other checkboxes in this group.
+   */
   exclusive: Boolean,
+  /**
+   * If `true`, checkbox will be disabled.
+   */
   disabled: Boolean,
   //label props
-  labelText: String,
-  labelClasses: {
-    type: String,
+  /**
+   * Text to use within the label. If content is provided in the default slot, this prop will be ignored.
+   */
+  label: String,
+  /**
+   * Classes to add to the label tag. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
+  labelClass: {
+    type: [String, Array, Object],
     default: ''
   },
   //hint props
-  hintText: String,
-  hintClasses: {
-    type: String,
+  /**
+   * Text to use within the hint. If content is provided in the `hint` slot, this prop will be ignored.
+   */
+  hint: String,
+  /**
+   * Classes to add to the hint span tag. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
+  hintClass: {
+    type: [String, Array, Object],
     default: ''
   }
 })
@@ -91,7 +140,7 @@ watch(
 )
 
 const hasHint = computed(() => {
-  return props.hintText || hasSlot('hint')
+  return props.hint || hasSlot('hint')
 })
 
 const hintId = computed(() => {
@@ -108,8 +157,16 @@ const conditionalId = computed(() => {
 
 const computedId = useComputedId(toRef(props, 'id'), 'gv-checkbox')
 
+const parentName = inject(CheckboxesNameInjectionKey)
+
 const computedName = computed(() => {
-  return props.name ? props.name : computedId.value
+  if (props.name) {
+    return props.name
+  } else if (parentName) {
+    return parentName.value
+  } else {
+    return computedId
+  }
 })
 
 const checked = computed(() => {
@@ -154,7 +211,6 @@ function handleParentModelValueChanged(newParentModelValue: any) {
 </script>
 
 <template>
-  {{ computedId }}
   <div v-if="divider" class="govuk-checkboxes__divider">{{ divider }}</div>
   <div class="govuk-checkboxes__item">
     <input
@@ -170,20 +226,20 @@ function handleParentModelValueChanged(newParentModelValue: any) {
       :aria-controls="conditionalId"
       :aria-expanded="hasConditional && checked"
       :aria-describedby="hintId"
+      v-bind="$attrs"
     />
-    <gv-label
-      :text="labelText"
-      :classes="`govuk-checkboxes__label ${labelClasses}`"
-      :forId="computedId"
-    >
-      <slot name="label" />
+    <gv-label :text="label" class="govuk-checkboxes__label" :class="labelClass" :forId="computedId">
+      <!-- @slot The content of the label. If content is provided in this slot, the `label` prop will be ignored. -->
+      <slot />
     </gv-label>
     <gv-hint
       v-if="hasHint"
       :id="hintId"
-      :text="hintText"
-      :classes="`govuk-checkboxes__hint ${hintClasses}`"
+      :text="hint"
+      class="govuk-checkboxes__hint"
+      :class="hintClass"
     >
+      <!-- @slot The content of the hint. If content is provided in this slot, the `hint` prop will be ignored. -->
       <slot name="hint" />
     </gv-hint>
   </div>
@@ -193,6 +249,7 @@ function handleParentModelValueChanged(newParentModelValue: any) {
     :class="{ 'govuk-checkboxes__conditional--hidden': !checked }"
     :id="conditionalId"
   >
+    <!-- @slot Content to show if the checkbox is checked. -->
     <slot name="conditional" />
   </div>
 </template>

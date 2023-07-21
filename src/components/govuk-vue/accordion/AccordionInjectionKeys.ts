@@ -6,14 +6,18 @@ export const AccordionHeadingLevelInjectionKey: InjectionKey<Ref<Number>> =
 export const AccordionHideSectionTextInjectionKey: InjectionKey<Ref<String>> = Symbol(
   'AccordionHideSectionText'
 )
-export const AccordionHideSectionAriaLabelTextInjectionKey: InjectionKey<Ref<String>> = Symbol(
-  'AccordionHideSectionAriaLabelText'
+export const AccordionHideSectionAriaLabelInjectionKey: InjectionKey<Ref<String>> = Symbol(
+  'AccordionHideSectionAriaLabel'
 )
 export const AccordionShowSectionTextInjectionKey: InjectionKey<Ref<String>> = Symbol(
   'AccordionShowSectionText'
 )
-export const AccordionShowSectionAriaLabelTextInjectionKey: InjectionKey<Ref<String>> = Symbol(
-  'AccordionShowSectionAriaLabelText'
+export const AccordionShowSectionAriaLabelInjectionKey: InjectionKey<Ref<String>> = Symbol(
+  'AccordionShowSectionAriaLabel'
+)
+
+export const AccordionRememberExpandedInjectionKey: InjectionKey<Ref<Boolean>> = Symbol(
+  'AccordionRememberExpanded'
 )
 
 export const AccordionRegisterSectionFunctionInjectionKey: InjectionKey<Function> = Symbol(
