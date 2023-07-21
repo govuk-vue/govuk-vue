@@ -58,7 +58,13 @@ const hasTag = computed(() => {
 <template>
   <div class="govuk-phase-banner">
     <p class="govuk-phase-banner__content" :class="contentClass">
-      <gv-tag v-if="hasTag" :text="tag" class="govuk-phase-banner__content__tag" :class="tagClass">
+      <gv-tag
+        v-if="hasTag"
+        :text="tag"
+        class="govuk-phase-banner__content__tag"
+        :class="tagClass"
+        :colour="tagColour"
+      >
         <!-- @slot The content of the tag. If content is provided in this slot, the `tag` prop will be ignored. -->
         <slot name="tag" />
       </gv-tag>
