@@ -1,6 +1,6 @@
 {
   "name": "govuk-vue",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.1",
   "license": "MIT",
   "author": {
     "name": "Matt Eason"
@@ -19,12 +19,8 @@
   "peerDependencies": {
     "vue": "^3.2.47"
   },
-  "dependencies": {
-    "@types/uuid": "^9.0.1",
-    "govuk-frontend": "^4.6.0",
-    "uuid": "^9.0.0"
-  },
   "devDependencies": {
+    "govuk-frontend": "^4.6.0",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/jsdom": "^21.1.0",
     "@types/node": "^18.14.2",
