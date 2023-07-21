@@ -2,17 +2,8 @@
 import hasSlot from '@/composables/useHasSlot'
 import getSlotText from '@/composables/useGetSlotText'
 
-import {
-  computed,
-  inject,
-  onBeforeMount,
-  onMounted,
-  onUnmounted,
-  Ref,
-  ref,
-  toRef,
-  watch
-} from 'vue'
+import { computed, inject, onBeforeMount, onMounted, onUnmounted, ref, toRef, watch } from 'vue'
+import type { Ref } from 'vue'
 import {
   AccordionHeadingLevelInjectionKey,
   AccordionHideSectionTextInjectionKey,
@@ -154,7 +145,7 @@ const computedHeaderElement = computed(() => {
 })
 
 const contentHiddenAttribute = computed(() => {
-  return modelValueMutable.value ? null : 'until-found'
+  return modelValueMutable.value ? undefined : 'until-found'
 })
 
 function toggleExpanded() {
@@ -179,7 +170,7 @@ function storeState() {
           type="button"
           :aria-controls="contentId"
           class="govuk-accordion__section-button"
-          :aria-expanded="expanded"
+          :aria-expanded="modelValueMutable"
           :aria-label="buttonAriaLabel"
           @click="toggleExpanded"
         >

@@ -144,7 +144,7 @@ const hasHint = computed(() => {
 })
 
 const hintId = computed(() => {
-  return hasHint.value ? `${computedId.value}-hint` : null
+  return hasHint.value ? `${computedId.value}-hint` : undefined
 })
 
 const hasConditional = computed(() => {
@@ -152,7 +152,7 @@ const hasConditional = computed(() => {
 })
 
 const conditionalId = computed(() => {
-  return hasConditional.value ? `conditional-${computedId.value}` : null
+  return hasConditional.value ? `conditional-${computedId.value}` : undefined
 })
 
 const computedId = useComputedId(toRef(props, 'id'), 'gv-checkbox')
@@ -165,7 +165,7 @@ const computedName = computed(() => {
   } else if (parentName) {
     return parentName.value
   } else {
-    return computedId
+    return computedId.value
   }
 })
 

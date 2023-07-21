@@ -38,7 +38,12 @@ const props = defineProps({
   /**
    * Optional value for [inputmode](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode).
    */
-  inputmode: String,
+  inputmode: {
+    type: String,
+    validator(e: string) {
+      return ['text', 'none', 'tel', 'url', 'email', 'numeric', 'decimal', 'search'].includes(e)
+    }
+  },
   /**
    * One or more element IDs to add to the `aria-describedby` attribute, used to provide additional descriptive information for screenreader users.
    */
@@ -132,7 +137,7 @@ const computedDescribedBy = computed(() => {
   const value = `${props.describedBy ? props.describedBy : ''} ${
     hasHint.value ? hintId.value : ''
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
-  return value.length > 0 ? value : null
+  return value.length > 0 ? value : undefined
 })
 
 const normalizedFormGroupClass = computed(() => {
@@ -189,7 +194,7 @@ const normalizedFormGroupClass = computed(() => {
         :pattern="pattern"
         :inputmode="inputmode"
         :type="type"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         v-bind="$attrs"
       />
       <div v-if="hasSuffix" class="govuk-input__suffix" :class="suffixClass" aria-hidden="true">

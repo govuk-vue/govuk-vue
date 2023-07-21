@@ -6,6 +6,7 @@ defineProps({
   },
   columns: {
     type: Number,
+    default: 1,
     validator(value: number) {
       return [1, 2, 3].includes(value)
     }

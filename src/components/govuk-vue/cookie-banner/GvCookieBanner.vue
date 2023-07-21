@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, nextTick, Ref, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
+import type { Ref } from 'vue'
 import GvButton from '@/components/govuk-vue/button/GvButton.vue'
 
 const props = defineProps({

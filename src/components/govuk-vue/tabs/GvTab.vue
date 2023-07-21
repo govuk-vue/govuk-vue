@@ -1,14 +1,6 @@
 <script setup lang="ts">
-import {
-  computed,
-  getCurrentInstance,
-  inject,
-  onBeforeUnmount,
-  ref,
-  Ref,
-  useSlots,
-  watch
-} from 'vue'
+import { computed, getCurrentInstance, inject, onBeforeUnmount, ref, useSlots, watch } from 'vue'
+import type { Ref } from 'vue'
 import {
   TabsRegisterTabFunctionInjectionKey,
   TabsSelectNextTabFunctionInjectionKey,
@@ -120,9 +112,9 @@ function handleKeyDown(e: Event, key: String) {
 
 const tabindex = computed(() => {
   if (isDesktop.value) {
-    return tab.value.selected ? '0' : '-1'
+    return tab.value.selected ? 0 : -1
   } else {
-    return null
+    return undefined
   }
 })
 </script>
@@ -131,15 +123,15 @@ const tabindex = computed(() => {
   <li
     class="govuk-tabs__list-item"
     :class="{ 'govuk-tabs__list-item--selected': tab.selected }"
-    :role="isDesktop ? 'presentation' : null"
+    :role="isDesktop ? 'presentation' : undefined"
   >
     <a
       ref="anchorElement"
       class="govuk-tabs__tab"
       :href="`#${tab.id}`"
-      :role="isDesktop ? 'tab' : null"
-      :aria-controls="isDesktop ? tab.id : null"
-      :aria-selected="isDesktop ? tab.selected : null"
+      :role="isDesktop ? 'tab' : undefined"
+      :aria-controls="isDesktop ? tab.id : undefined"
+      :aria-selected="isDesktop ? tab.selected : undefined"
       :tabindex="tabindex"
       @click="handleTabClick"
       @keydown.left="(e) => handleKeyDown(e, 'LEFT')"

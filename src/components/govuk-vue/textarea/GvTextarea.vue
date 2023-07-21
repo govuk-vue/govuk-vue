@@ -146,7 +146,7 @@ const computedDescribedBy = computed(() => {
   const value = `${props.describedBy ? props.describedBy : ''} ${
     hasHint.value ? hintId.value : ''
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
-  return value.length > 0 ? value : null
+  return value.length > 0 ? value : undefined
 })
 
 const normalizedFormGroupClass = computed(() => {
@@ -190,7 +190,7 @@ const normalizedFormGroupClass = computed(() => {
         'govuk-textarea--error': hasErrorMessage
       }"
       :rows="rows"
-      :spellcheck="spellcheck === null ? null : spellcheck"
+      :spellcheck="spellcheck === null ? undefined : spellcheck"
       :disabled="disabled"
       :aria-describedby="computedDescribedBy"
       :autocomplete="autocomplete"

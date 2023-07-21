@@ -45,7 +45,7 @@ const computedHref = computed(() => {
 })
 
 const ariaCurrent = computed(() => {
-  return props.component || computedHref.value ? null : 'page'
+  return props.component || computedHref.value ? undefined : 'page'
 })
 </script>
 

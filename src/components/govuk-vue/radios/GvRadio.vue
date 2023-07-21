@@ -73,7 +73,7 @@ const hasHint = computed(() => {
 })
 
 const hintId = computed(() => {
-  return hasHint.value ? `${computedId.value}-hint` : null
+  return hasHint.value ? `${computedId.value}-hint` : undefined
 })
 
 const hasConditional = computed(() => {
@@ -81,7 +81,7 @@ const hasConditional = computed(() => {
 })
 
 const conditionalId = computed(() => {
-  return hasConditional.value ? `conditional-${computedId.value}` : null
+  return hasConditional.value ? `conditional-${computedId.value}` : undefined
 })
 
 const computedId = computed(() => {

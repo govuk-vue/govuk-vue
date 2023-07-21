@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, provide, computed, Ref, toRef } from 'vue'
+import { ref, provide, computed, toRef } from 'vue'
+import type { Ref } from 'vue'
 import {
   AccordionHeadingLevelInjectionKey,
   AccordionHideSectionTextInjectionKey,

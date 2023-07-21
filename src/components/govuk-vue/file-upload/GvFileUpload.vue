@@ -8,7 +8,8 @@ export default {
 import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import hasSlot from '@/composables/useHasSlot'
-import { computed, normalizeClass, ref, Ref, watch } from 'vue'
+import { computed, normalizeClass, ref, watch } from 'vue'
+import type { Ref } from 'vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
 import { createUid } from '@/util/createUid'
 
@@ -128,7 +129,7 @@ const computedDescribedBy = computed(() => {
   const value = `${props.describedBy ? props.describedBy : ''} ${
     hasHint.value ? hintId.value : ''
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
-  return value.length > 0 ? value : null
+  return value.length > 0 ? value : undefined
 })
 
 function handleChange(e: Event) {

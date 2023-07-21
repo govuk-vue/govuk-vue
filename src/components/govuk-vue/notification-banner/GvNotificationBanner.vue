@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, Ref, ref, toRef } from 'vue'
+import { computed, onMounted, ref, toRef } from 'vue'
+import type { Ref } from 'vue'
 import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
@@ -90,9 +91,9 @@ const computedTitleId = useComputedId(toRef(props, 'titleId'), 'govuk-notificati
 
 const tabindex = computed(() => {
   if (computedRole.value === 'alert' && !blurred.value) {
-    return '-1'
+    return -1
   } else {
-    return null
+    return undefined
   }
 })
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, inject, onBeforeMount, onUnmounted, provide, Ref, ref } from 'vue'
+import { computed, inject, onBeforeMount, onUnmounted, provide, ref } from 'vue'
+import type { Ref } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
 import getSlotText from '@/composables/useGetSlotText'
 import {

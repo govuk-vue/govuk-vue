@@ -70,7 +70,7 @@ const pageList = computed(() => {
     return null
   }
 
-  let pages: Array<Number>
+  let pages: Array<number>
 
   if (props.skipPagesThreshold !== undefined && props.totalPages > props.skipPagesThreshold) {
     //Always show page 1
@@ -166,7 +166,7 @@ function handleNextClick() {
             class="govuk-link govuk-pagination__link govuk-link--no-visited-state"
             href="#"
             :aria-label="`Page ${pageNumber}`"
-            :aria-current="pageNumber === modelValue ? 'page' : null"
+            :aria-current="pageNumber === modelValue ? 'page' : undefined"
             @click.prevent="emit('update:modelValue', pageNumber)"
           >
             {{ pageNumber }}

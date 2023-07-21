@@ -35,7 +35,7 @@ const props = defineProps({
   size: {
     type: String,
     default: 'normal',
-    validator(e) {
+    validator(e: string) {
       return ['normal', 'small'].includes(e)
     }
   },
@@ -200,7 +200,7 @@ const computedDescribedBy = computed(() => {
   const value = `${props.fieldsetDescribedBy ? props.fieldsetDescribedBy : ''} ${
     hasHint.value ? hintId.value : ''
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
-  return value.length > 0 ? value : null
+  return value.length > 0 ? value : undefined
 })
 
 const normalizedFormGroupClass = computed(() => {

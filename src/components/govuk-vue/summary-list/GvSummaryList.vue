@@ -5,7 +5,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed, provide, ref, Ref } from 'vue'
+import { computed, provide, ref } from 'vue'
+import type { Ref } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
 import getSlotText from '@/composables/useGetSlotText'
 import type { SummaryListCardAction } from '@/components/govuk-vue/summary-list/SummaryListCardAction'

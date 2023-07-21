@@ -124,6 +124,7 @@ const files = ref(null)
 const fileText = ref('')
 
 watch(files, () => {
+  // @ts-ignore
   if (files.value && files.value.length > 0) {
     const file = files.value[0]
     let reader = new FileReader()
@@ -131,6 +132,7 @@ watch(files, () => {
     reader.readAsText(file)
 
     reader.onload = function () {
+      // @ts-ignore
       fileText.value = reader.result
     }
 

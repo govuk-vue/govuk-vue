@@ -168,7 +168,7 @@ const computedDescribedBy = computed(() => {
   const value = `${props.fieldsetDescribedBy ? props.fieldsetDescribedBy : ''} ${
     hasHint.value ? hintId.value : ''
   } ${hasErrorMessage.value ? errorMessageId.value : ''}`.trim()
-  return value.length > 0 ? value : null
+  return value.length > 0 ? value : undefined
 })
 
 const computedId = useComputedId(toRef(props, 'id'), 'gv-date-input')
@@ -176,15 +176,15 @@ const computedId = useComputedId(toRef(props, 'id'), 'gv-date-input')
 // These are computed because if the ternary statement is placed directly in the :autocomplete prop,
 // Vue ends up adding autocomplete="null" to the element rather than omitting the attribute
 const dayAutocomplete = computed(() => {
-  return props.autocomplete === 'bday' ? 'bday-day' : null
+  return props.autocomplete === 'bday' ? 'bday-day' : undefined
 })
 
 const monthAutocomplete = computed(() => {
-  return props.autocomplete === 'bday' ? 'bday-month' : null
+  return props.autocomplete === 'bday' ? 'bday-month' : undefined
 })
 
 const yearAutocomplete = computed(() => {
-  return props.autocomplete === 'bday' ? 'bday-year' : null
+  return props.autocomplete === 'bday' ? 'bday-year' : undefined
 })
 
 const normalizedFormGroupClass = computed(() => {
