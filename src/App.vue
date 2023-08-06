@@ -610,9 +610,7 @@ How would you like to be contacted?
   </gv-checkboxes>
   {{ nationality }}
 
-  <gv-checkboxes>
-    <gv-checkbox label="I accept the terms and conditions" v-model="termsAccepted" />
-  </gv-checkboxes>
+  <gv-checkbox label="I accept the terms and conditions" v-model="termsAccepted" />
   {{ termsAccepted }}
 
   <h2 class="govuk-heading-l">Radios</h2>

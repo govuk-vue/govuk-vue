@@ -157,7 +157,7 @@ const conditionalId = computed(() => {
 
 const computedId = useComputedId(toRef(props, 'id'), 'gv-checkbox')
 
-const parentName = inject(CheckboxesNameInjectionKey)
+const parentName = inject(CheckboxesNameInjectionKey, null)
 
 const computedName = computed(() => {
   if (props.name) {
