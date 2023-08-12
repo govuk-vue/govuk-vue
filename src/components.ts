@@ -12,6 +12,8 @@ import GvCookieBanner from '@/components/govuk-vue/cookie-banner/GvCookieBanner.
 import GvDateInput from '@/components/govuk-vue/date-input/GvDateInput.vue'
 import GvDetails from '@/components/govuk-vue/details/GvDetails.vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
+import GvErrorSummary from '@/components/govuk-vue/error-summary/GvErrorSummary.vue'
+import GvErrorLink from '@/components/govuk-vue/error-summary/GvErrorLink.vue'
 import GvFieldset from '@/components/govuk-vue/fieldset/GvFieldset.vue'
 import GvFileUpload from '@/components/govuk-vue/file-upload/GvFileUpload.vue'
 import GvFooter from '@/components/govuk-vue/footer/GvFooter.vue'
@@ -71,6 +73,8 @@ export default {
   GvDateInput,
   GvDetails,
   GvErrorMessage,
+  GvErrorSummary,
+  GvErrorLink,
   GvFieldset,
   GvFileUpload,
   GvFooter,

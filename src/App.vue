@@ -48,6 +48,8 @@ import GvTableRow from '@/components/govuk-vue/table/GvTableRow.vue'
 import GvTableCell from '@/components/govuk-vue/table/GvTableCell.vue'
 import GvTableBody from '@/components/govuk-vue/table/GvTableBody.vue'
 import GvFileUpload from '@/components/govuk-vue/file-upload/GvFileUpload.vue'
+import GvErrorSummary from '@/components/govuk-vue/error-summary/GvErrorSummary.vue'
+import GvErrorLink from '@/components/govuk-vue/error-summary/GvErrorLink.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -144,6 +146,22 @@ watch(files, () => {
 </script>
 
 <template>
+  <gv-error-summary title="Uh oh..." description="This should never be shown">
+    <template #title>Title slot</template>
+    <template #description>Error summary description slot</template>
+    <gv-error-link>This is an error with no link</gv-error-link>
+    <gv-error-link target-id="error-summary-test-input">Link to text input</gv-error-link>
+    <gv-error-link target-id="test-date-input-day">Link to date</gv-error-link>
+    <gv-error-link target-id="test-radios">Link to radios</gv-error-link>
+    <gv-error-link href="http://example.com">Link to example.com</gv-error-link>
+    <gv-error-link target-id="error-jump-target">Link to arbitrary element</gv-error-link>
+  </gv-error-summary>
+  <gv-input
+    id="error-summary-test-input"
+    label="Error summary test input"
+    error-message="Enter a something"
+  />
+  <p class="govuk-body" id="error-jump-target">Error jump target</p>
   <gv-input label="xyz">
     <template #hint>Some hint text</template>
   </gv-input>
@@ -615,6 +633,7 @@ How would you like to be contacted?
 
   <h2 class="govuk-heading-l">Radios</h2>
   <gv-radios
+    id="test-radios"
     name="show-england"
     class="govuk-radios--inline govuk-radios--small"
     legend="Show England?"
