@@ -90,7 +90,7 @@ const computedTitle = computed(() => {
 const computedTitleId = useComputedId(toRef(props, 'titleId'), 'govuk-notification-banner-title')
 
 const tabindex = computed(() => {
-  if (computedRole.value === 'alert' && !blurred.value) {
+  if (computedRole.value === 'alert' && !props.disableAutoFocus && !blurred.value) {
     return -1
   } else {
     return undefined
