@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, Ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import type { Ref } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
 
 const props = defineProps({
