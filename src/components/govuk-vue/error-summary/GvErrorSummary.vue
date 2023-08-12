@@ -59,17 +59,20 @@ function handleSummaryBlur() {
   >
     <div role="alert">
       <h2 class="govuk-error-summary__title">
+        <!-- @slot The heading of the error summary block. If content is provided in this slot, the `title` prop will be ignored. -->
         <slot name="title">
           {{ title }}
         </slot>
       </h2>
       <div class="govuk-error-summary__body">
         <p v-if="hasDescription">
+          <!-- @slot The description of the errors. If content is provided in this slot, the `description` prop will be ignored. -->
           <slot name="description">
             {{ description }}
           </slot>
         </p>
         <ul class="govuk-list govuk-error-summary__list">
+          <!-- @slot A list of `gv-error-link`s -->
           <slot />
         </ul>
       </div>
