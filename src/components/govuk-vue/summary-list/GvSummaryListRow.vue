@@ -17,22 +17,43 @@ import type { SummaryListRowAction } from '@/components/govuk-vue/summary-list/S
 import type { SummaryListRow } from '@/components/govuk-vue/summary-list/SummaryListRow'
 
 const props = defineProps({
+  /**
+   * Whether to show a border under this row.
+   */
   showBorder: {
     type: Boolean,
     default: true
   },
   //Key props
+  /**
+   * Text to use for the row key. If content is provided in the `key-text` slot, this prop will be ignored.
+   */
   keyText: String,
+  /**
+   * Classes to add to the key wrapper.
+   * You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   keyClass: {
     type: [String, Array, Object],
     default: ''
   },
   //Value props
+  /**
+   * Text to use for the row value. If content is provided in the `value-text` slot, this prop will be ignored.
+   */
   valueText: String,
+  /**
+   * Classes to add to the value wrapper.
+   * You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   valueClass: {
     type: [String, Array, Object],
     default: ''
   },
+  /**
+   * Classes to add to the actions wrapper.
+   * You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   //Actions props
   actionsClass: {
     type: [String, Array, Object],
@@ -108,17 +129,20 @@ provide(SummaryListRowKeyTextInjectionKey, keyTextVisuallyHidden)
     <!-- The data attribute is only used so we have somewhere innocuous to use that value -->
     <!-- Not sure if this is a Vue bug - test the visually hidden text in child actions still works before removing the data attribute -->
     <dt class="govuk-summary-list__key" :class="keyClass">
+      <!-- @slot The content of the row key. If content is provided in this slot, the `key-text` prop will be ignored. -->
       <slot name="key-text">
         {{ keyText }}
       </slot>
     </dt>
     <dd class="govuk-summary-list__value" :class="valueClass">
+      <!-- @slot The content of the row value. If content is provided in this slot, the `value-text` prop will be ignored. -->
       <slot name="value">
         {{ valueText }}
       </slot>
     </dd>
     <dd v-if="hasSlot('actions')" class="govuk-summary-list__actions" :class="actionsClass">
       <component :is="computedActionsWrapperElement" :class="`govuk-summary-list__actions-list`">
+        <!-- @slot A list of `GvSummaryListRowAction`s. -->
         <slot name="actions" />
       </component>
     </dd>

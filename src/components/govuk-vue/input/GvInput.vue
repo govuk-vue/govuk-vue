@@ -48,52 +48,108 @@ const props = defineProps({
    * One or more element IDs to add to the `aria-describedby` attribute, used to provide additional descriptive information for screenreader users.
    */
   describedBy: String,
+  /**
+   * Attribute to [identify input purpose](https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html),
+   * for example `postal-code` or `username`. See [autofill](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill)
+   * for full list of values that can be used.
+   */
   autocomplete: String,
+  /**
+   * Attribute to [provide a regular expression pattern](https://html.spec.whatwg.org/multipage/input.html#the-pattern-attribute),
+   * used to match allowed character combinations for the input value.
+   */
   pattern: String,
+  /**
+   * Whether to enable or disable the `spellcheck` attribute on the input
+   */
   spellcheck: {
     type: Boolean,
     default: null
   },
+  /**
+   * If `true`, input will be disabled.
+   */
   disabled: Boolean,
   //Form group props
+  /**
+   * Classes to add to the form group. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   formGroupClass: {
     type: [String, Array, Object],
     default: ''
   },
   //Label props
+  /**
+   * Text to use within the label. If content is provided in the default slot, this prop will be ignored.
+   */
   label: String,
+  /**
+   * Whether the label also acts as the heading for the page.
+   */
   labelIsPageHeading: {
     type: Boolean,
     default: false
   },
+  /**
+   * Classes to add to the label tag. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   labelClass: {
     type: [String, Array, Object],
     default: ''
   },
   //hint props
+  /**
+   * Text to use within the hint. If content is provided in the `hint` slot, this prop will be ignored.
+   */
   hint: String,
+  /**
+   * Classes to add to the hint span tag. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   hintClass: {
     type: [String, Array, Object],
     default: ''
   },
   //prefix props
+  /**
+   * Text to use within the prefix. If content is provided in the `prefix` slot, this prop will be ignored.
+   */
   prefix: String,
+  /**
+   * Classes to add to the prefix. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   prefixClass: {
     type: [String, Array, Object],
     default: ''
   },
   //suffix props
+  /**
+   * Text to use within the suffix. If content is provided in the `suffix` slot, this prop will be ignored.
+   */
   suffix: String,
+  /**
+   * Classes to add to the suffix. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   suffixClass: {
     type: [String, Array, Object],
     default: ''
   },
   //error message props
+  /**
+   * Text to use within the error message. If content is provided in the `error-message` slot, this prop will be ignored.
+   */
   errorMessage: String,
+  /**
+   * Classes to add to the error message `<p>` tag. You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   errorMessageClass: {
     type: [String, Array, Object],
     default: ''
   },
+  /**
+   * A visually hidden prefix used before the error message.
+   *
+   * Defaults to `'Error'`.
+   */
   errorMessageVisuallyHiddenText: String
 })
 defineEmits(['update:modelValue'])

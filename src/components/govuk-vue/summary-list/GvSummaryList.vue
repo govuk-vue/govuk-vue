@@ -22,17 +22,30 @@ import {
 } from '@/components/govuk-vue/summary-list/SummaryListInjectionKeys'
 
 const props = defineProps({
+  /**
+   * Whether to show borders under each row.
+   */
   showBorders: {
     type: Boolean,
     default: true
   },
+  /**
+   * Classes to add to the summary card. Setting this prop will force the list to display as a summary card.
+   * You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   //Card props
   cardClass: {
     type: [String, Array, Object],
     default: ''
   },
   //Card title props
+  /**
+   * Text to use within the card title. If content is provided in the `card-title` slot, this prop will be ignored.
+   */
   cardTitle: String,
+  /**
+   * Heading level of the card title, from `1` to `6`.
+   */
   cardTitleHeadingLevel: {
     type: Number,
     default: 2,
@@ -40,11 +53,19 @@ const props = defineProps({
       return value >= 1 && value <= 6
     }
   },
+  /**
+   * Classes to add to the title wrapper.
+   * You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   cardTitleClass: {
     type: [String, Array, Object],
     default: ''
   },
   //Card actions props
+  /**
+   * Classes to add to the actions wrapper.
+   * You can bind a string, an array or an object, as with normal [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   cardActionsClass: {
     type: [String, Array, Object],
     default: ''
@@ -134,6 +155,7 @@ const computedActionsWrapperElement = computed(() => {
         class="govuk-summary-card__title"
         :class="cardTitleClass"
       >
+        <!-- @slot The content of the card title. If content is provided in this slot, the `cardTitle` prop will be ignored. -->
         <slot name="card-title">
           {{ cardTitle }}
         </slot>
@@ -144,12 +166,14 @@ const computedActionsWrapperElement = computed(() => {
         class="govuk-summary-card__actions"
         :class="cardActionsClass"
       >
+        <!-- @slot A list of `GvSummaryCardAction`s -->
         <slot name="card-actions" />
       </component>
     </div>
 
     <div class="govuk-summary-card__content">
       <dl class="govuk-summary-list" v-bind="$attrs">
+        <!-- @slot A list of `GvSummaryListRow`s -->
         <slot />
       </dl>
     </div>
@@ -160,6 +184,7 @@ const computedActionsWrapperElement = computed(() => {
     v-bind="$attrs"
     :class="{ 'govuk-summary-list--no-border': !showBorders }"
   >
+    <!-- @slot A list of `GvSummaryListRow`s -->
     <slot />
   </dl>
 </template>

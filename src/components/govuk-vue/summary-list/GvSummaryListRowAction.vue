@@ -17,8 +17,19 @@ import GvFragment from '@/components/util/GvFragment.vue'
 const attrs = useAttrs()
 
 const props = defineProps({
+  /**
+   * Text to use within the action item. If content is provided in the default slot, this prop will be ignored.
+   */
   text: String,
+  /**
+   * The value of the link's `href` attribute.
+   */
   href: String,
+  /**
+   * Actions rely on context from the surrounding content so may require additional accessible text.
+   * Text supplied to this option is appended to the end. If you don't provide a value, the row key will
+   * be used. Use the default slot for more complicated scenarios.
+   */
   visuallyHiddenText: String,
   /**
    * The component used to render the link, for example `RouterLink`.
@@ -74,6 +85,7 @@ const computedVisuallyHiddenText = computed(() => {
 <template>
   <component :is="computedWrapperElement" class="govuk-summary-list__actions-list-item">
     <component :is="component" class="govuk-link" :href="computedHref" v-bind="$attrs">
+      <!-- @slot The content of the action item. If content is provided in this slot, the `text` prop will be ignored. -->
       <slot>{{ text }}</slot>
       <span v-if="computedVisuallyHiddenText" class="govuk-visually-hidden"
         >&nbsp;{{ computedVisuallyHiddenText }}
