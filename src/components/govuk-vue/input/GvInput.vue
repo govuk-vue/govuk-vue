@@ -213,9 +213,11 @@ const normalizedFormGroupClass = computed(() => {
       :class="labelClass"
       :is-page-heading="labelIsPageHeading"
     >
+      <!-- @slot The content of the label. If content is provided in this slot, the `label` prop will be ignored. -->
       <slot name="label" />
     </gv-label>
     <gv-hint v-if="hasHint" :text="hint" :class="hintClass" :id="hintId">
+      <!-- @slot The content of the hint. If content is provided in this slot, the `hint` prop will be ignored. -->
       <slot name="hint" />
     </gv-hint>
     <gv-error-message
@@ -224,6 +226,7 @@ const normalizedFormGroupClass = computed(() => {
       :class="errorMessageClass"
       :id="errorMessageId"
     >
+      <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
       <slot name="error-message" />
     </gv-error-message>
     <component
@@ -231,6 +234,7 @@ const normalizedFormGroupClass = computed(() => {
       :class="hasPrefix || hasSuffix ? 'govuk-input__wrapper' : ''"
     >
       <div v-if="hasPrefix" class="govuk-input__prefix" :class="prefixClass" aria-hidden="true">
+        <!-- @slot The content of the prefix. If content is provided in this slot, the `prefix` prop will be ignored. -->
         <slot name="prefix">
           {{ prefix }}
         </slot>
@@ -254,6 +258,7 @@ const normalizedFormGroupClass = computed(() => {
         v-bind="$attrs"
       />
       <div v-if="hasSuffix" class="govuk-input__suffix" :class="suffixClass" aria-hidden="true">
+        <!-- @slot The content of the suffix. If content is provided in this slot, the `suffix` prop will be ignored. -->
         <slot name="suffix">
           {{ suffix }}
         </slot>
