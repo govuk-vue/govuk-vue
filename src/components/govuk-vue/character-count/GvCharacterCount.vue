@@ -7,7 +7,7 @@ export default {
 <script setup lang="ts">
 import GvTextarea from '@/components/govuk-vue/textarea/GvTextarea.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
@@ -108,7 +108,13 @@ const props = defineProps({
     default: 'You have ${count} word too many'
   }
 })
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
+
+const modelValueMutable = ref(props.modelValue ? props.modelValue : null)
+
+watch(modelValueMutable, (newModelValueMutable) => {
+  emit('update:modelValue', newModelValueMutable)
+})
 
 const accessibleHintId = computed(() => {
   return `${computedId.value}-info`
@@ -132,14 +138,14 @@ const message = computed(() => {
 
 const currentLength = computed(() => {
   if (props.maxWords) {
-    if (props.modelValue) {
-      const tokens = props.modelValue.match(/\S+/g) || [] // Matches consecutive non-whitespace chars
+    if (modelValueMutable.value) {
+      const tokens = modelValueMutable.value.match(/\S+/g) || [] // Matches consecutive non-whitespace chars
       return tokens.length
     } else {
       return 0
     }
   } else if (props.maxChars) {
-    return props.modelValue ? props.modelValue.length : 0
+    return modelValueMutable.value ? modelValueMutable.value.length : 0
   } else {
     return 0
   }
@@ -253,7 +259,7 @@ function replaceCount(str: string, count: Number) {
 <template>
   <div class="govuk-character-count">
     <gv-textarea
-      :model-value="modelValue"
+      v-model="modelValueMutable"
       :id="computedId"
       :name="name"
       :rows="rows"
@@ -273,7 +279,6 @@ function replaceCount(str: string, count: Number) {
       :error-message="errorMessage"
       :error-message-class="errorMessageClass"
       :error-message-visually-hidden-text="errorMessageVisuallyHiddenText"
-      @update:modelValue="(newValue) => $emit('update:modelValue', newValue)"
       v-bind="$attrs"
     >
       <template #label>

@@ -15,7 +15,10 @@ function isEmptySlot(items: any[]) {
 function hasSlotContent(item: any) {
   const type = item.type.toString()
   if (type === 'Symbol(Comment)') return false
+  if (type === 'Symbol(v-cmt)') return false
   if (type === 'Symbol(Text)' && !item.children.trim()) return false
+  if (type === 'Symbol(v-txt)' && !item.children.trim()) return false
   if (type === 'Symbol(Fragment)' && !item.children.length) return false
+  if (type === 'Symbol(v-fgt)' && !item.children.length) return false
   return true
 }
