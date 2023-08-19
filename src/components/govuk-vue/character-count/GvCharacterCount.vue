@@ -276,8 +276,17 @@ function replaceCount(str: string, count: Number) {
       @update:modelValue="(newValue) => $emit('update:modelValue', newValue)"
       v-bind="$attrs"
     >
+      <template #label>
+        <slot name="label" />
+      </template>
+      <template #hint>
+        <slot name="hint" />
+      </template>
+      <template #error-message>
+        <slot name="error-message" />
+      </template>
       <slot />
-      <template v-slot:below-textarea>
+      <template #below-textarea>
         <gv-hint
           :id="accessibleHintId"
           class="govuk-character-count__message govuk-visually-hidden"
