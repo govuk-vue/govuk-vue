@@ -413,7 +413,6 @@ function replaceCount(str: string, count: Number) {
         <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
         <slot name="error-message" />
       </template>
-      <slot />
       <template #below-textarea>
         <gv-hint
           :id="accessibleHintId"
