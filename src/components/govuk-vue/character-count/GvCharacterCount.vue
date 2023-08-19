@@ -11,50 +11,122 @@ import { computed, ref, toRef, watch } from 'vue'
 import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
+  /**
+   * The value of the textarea. In most cases you should use `v-model` instead of setting this prop directly.
+   */
   modelValue: String,
+  /**
+   * The ID for this textarea.
+   *
+   * If you don't provide an ID, one will be generated automatically.
+   */
   id: String,
+  /**
+   * The name of the textarea, which is submitted with the form data.
+   */
   name: String,
+  /**
+   * Number of textarea rows
+   */
   rows: {
     type: Number,
     default: 5
   },
+  /**
+   * 	One or more element IDs to add to the `aria-describedby` attribute, used to provide additional descriptive
+   * 	information for screenreader users.
+   */
   describedBy: String,
+  /**
+   * Attribute to [identify input purpose](https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html),
+   * for example `street-address`. See [autofill](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill)
+   * for full list of values that can be used.
+   */
   autocomplete: String,
+  /**
+   * Sets the `spellcheck` attribute on the textarea
+   */
   spellcheck: {
     type: Boolean,
     default: null
   },
+  /**
+   * If `true`, textarea will be disabled.
+   */
   disabled: Boolean,
   //Form group props
+  /**
+   * Classes to add to the form group. You can bind a string, an array or an object, as with normal
+   * [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   formGroupClass: {
     type: [String, Array, Object],
     default: ''
   },
   //Label props
+  /**
+   * Text to use within the label. If content is provided in the default slot, this prop will be ignored.
+   */
   label: String,
+  /**
+   * Whether the label also acts as the heading for the page.
+   */
   labelIsPageHeading: {
     type: Boolean,
     default: false
   },
+  /**
+   * Classes to add to the label tag. You can bind a string, an array or an object, as with normal
+   * [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   labelClass: {
     type: [String, Array, Object],
     default: ''
   },
   //hint props
+  /**
+   * Text to use within the hint. If content is provided in the `hint` slot, this prop will be ignored.
+   */
   hint: String,
+  /**
+   * Classes to add to the hint span tag. You can bind a string, an array or an object, as with normal
+   * [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   hintClass: {
     type: [String, Array, Object],
     default: ''
   },
   //error message props
+  /**
+   * Text to use within the error message. If content is provided in the `error-message` slot, this prop will be ignored.
+   */
   errorMessage: String,
+  /**
+   * Classes to add to the error message `<p>` tag. You can bind a string, an array or an object, as with normal
+   * [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   errorMessageClass: {
     type: [String, Array, Object],
     default: ''
   },
+  /**
+   * A visually hidden prefix used before the error message.
+   *
+   * Defaults to `'Error'`.
+   */
   errorMessageVisuallyHiddenText: String,
+  /**
+   * The maximum number of characters. If `maxWords` is provided, the `maxChars` option will be ignored.
+   */
   maxChars: Number,
+  /**
+   * The maximum number of words. If `maxWords` is provided, the `maxChars` option will be ignored.
+   */
   maxWords: Number,
+  /**
+   * The percentage value of the limit at which point the count message is displayed. If this prop is set, the count
+   * message will be hidden by default.
+   */
   threshold: {
     type: Number,
     default: 0,
@@ -62,50 +134,98 @@ const props = defineProps({
       return value >= 0 && value <= 100
     }
   },
+  /**
+   * Classes to add to the count message. You can bind a string, an array or an object, as with normal
+   * [Vue class bindings](https://vuejs.org/guide/essentials/class-and-style.html#binding-html-classes).
+   */
   messageClass: {
     type: [String, Array, Object],
     default: ''
   },
+  /**
+   * Message made available to assistive technologies to describe that the component accepts only a limited amount of
+   * content. The component will replace the `%{count}` placeholder with the value of the maxChars or maxWords param.
+   */
   textareaDescription: String,
+  /**
+   * Message displayed when the number of characters is under the configured maximum, `maxChars`. This message is
+   * displayed visually and through assistive technologies. The component will replace the `%{count}` placeholder
+   * with the number of remaining characters.
+   */
   charactersUnderLimitText: {
     type: String,
     default: 'You have ${count} characters remaining'
   },
+  /**
+   * Message used instead of `charactersUnderLimitText` when there is only one character remaining.
+   */
   charactersUnderLimitTextOne: {
     type: String,
-    default: 'You have ${count} character remaining'
+    default: 'You have 1 character remaining'
   },
+  /**
+   * Message displayed when the number of characters reaches the configured maximum, `maxChars`. This message is
+   * displayed visually and through assistive technologies.
+   */
   charactersAtLimitText: {
     type: String,
-    default: 'You have ${count} characters remaining'
+    default: 'You have 0 characters remaining'
   },
+  /**
+   * Message displayed when the number of characters is over the configured maximum, `maxChars`. This message is
+   * displayed visually and through assistive technologies. The component will replace the `%{count}` placeholder
+   * with the number of remaining characters.
+   */
   charactersOverLimitText: {
     type: String,
     default: 'You have ${count} characters too many'
   },
+  /**
+   * Message used instead of `charactersOverLimitText` when the text is one character over.
+   */
   charactersOverLimitTextOne: {
     type: String,
-    default: 'You have ${count} character too many'
+    default: 'You have 1 character too many'
   },
+  /**
+   * Message displayed when the number of words is under the configured maximum, `maxWords`. This message is
+   * displayed visually and through assistive technologies. The component will replace the `%{count}` placeholder
+   * with the number of remaining characters.
+   */
   wordsUnderLimitText: {
     type: String,
     default: 'You have ${count} words remaining'
   },
+  /**
+   * Message used instead of `wordsUnderLimitText` when there is only one word remaining.
+   */
   wordsUnderLimitTextOne: {
     type: String,
-    default: 'You have ${count} word remaining'
+    default: 'You have 1 word remaining'
   },
+  /**
+   * Message displayed when the number of words reaches the configured maximum, `maxWords`. This message is
+   * displayed visually and through assistive technologies.
+   */
   wordsAtLimitText: {
     type: String,
-    default: 'You have ${count} words remaining'
+    default: 'You have 0 words remaining'
   },
+  /**
+   * Message displayed when the number of words is over the configured maximum, `maxWords`. This message is
+   * displayed visually and through assistive technologies. The component will replace the `%{count}` placeholder
+   * with the number of remaining characters.
+   */
   wordsOverLimitText: {
     type: String,
     default: 'You have ${count} words too many'
   },
+  /**
+   * Message used instead of `wordsOverLimitText` when the text is one word over.
+   */
   wordsOverLimitTextOne: {
     type: String,
-    default: 'You have ${count} word too many'
+    default: 'You have 1 word too many'
   }
 })
 const emit = defineEmits(['update:modelValue'])
@@ -282,12 +402,15 @@ function replaceCount(str: string, count: Number) {
       v-bind="$attrs"
     >
       <template #label>
+        <!-- @slot The content of the label. If content is provided in this slot, the `label` prop will be ignored. -->
         <slot name="label" />
       </template>
       <template #hint>
+        <!-- @slot The content of the hint. If content is provided in this slot, the `hint` prop will be ignored. -->
         <slot name="hint" />
       </template>
       <template #error-message>
+        <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
         <slot name="error-message" />
       </template>
       <slot />
