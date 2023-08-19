@@ -33,6 +33,7 @@ All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://
 | Details             | Yes    |        |                                       |
 | Error message       | Yes    |        |                                       |
 | Error summary       | Yes    |        |                                       |
+| Exit this page      |        |        |                                       |
 | Fieldset            | Yes    |        |                                       |
 | File upload         | Yes    |        |                                       |
 | Footer              | Yes    |        |                                       |
