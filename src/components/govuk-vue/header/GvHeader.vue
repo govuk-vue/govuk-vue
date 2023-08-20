@@ -13,7 +13,7 @@ const props = defineProps({
     default: '/'
   },
   /**
-   * The component used to render the homepage link, for example `RouterLink`. Will default to `a` if an `href` is provided or `button` otherwise.
+   * The component used to render the homepage link, for example `RouterLink`.
    */
   homepageLinkComponent: {
     type: [String, Object],
