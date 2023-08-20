@@ -174,7 +174,7 @@ const normalizedFormGroupClass = computed(() => {
       :aria-describedby="computedDescribedBy"
       v-bind="$attrs"
     >
-      <!-- @slot A list of `GvSelectOptions`s -->
+      <!-- @slot A list of `GvSelectOption`s -->
       <slot />
     </select>
   </div>
