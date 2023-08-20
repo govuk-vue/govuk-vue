@@ -13,10 +13,7 @@ defineProps({
   /**
    * Href attribute for the meta link item.
    */
-  href: {
-    type: String,
-    required: true
-  },
+  href: String,
   /**
    * The component used to render the link, for example `RouterLink`.
    */
