@@ -3,13 +3,19 @@ import { ref } from 'vue'
 import type { Ref } from 'vue'
 
 defineProps({
+  /**
+   * Text to use within the skip link component. If content is provided in the default slot, this prop will be ignored.
+   */
   text: {
     type: String,
     default: 'Skip to main content'
   },
+  /**
+   * The value of the skip link’s `href` attribute.
+   */
   href: {
     type: String,
-    default: '#'
+    default: '#content'
   }
 })
 
@@ -49,6 +55,7 @@ function handleClick() {
 
 <template>
   <a :href="href" class="govuk-skip-link" @click="handleClick" ref="anchorElement">
+    <!-- @slot The content of the skip link. If content is provided in this slot, the ``text`` prop will be ignored. -->
     <slot>
       {{ text }}
     </slot>

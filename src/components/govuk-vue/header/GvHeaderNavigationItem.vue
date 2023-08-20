@@ -10,8 +10,17 @@ import { computed } from 'vue'
 import GvFragment from '@/components/util/GvFragment.vue'
 
 const props = defineProps({
+  /**
+   * Text for the navigation item. If content is provided in the default slot, this prop will be ignored.
+   */
   text: String,
+  /**
+   * URL of the navigation item anchor.
+   */
   href: String,
+  /**
+   * Whether the navigation item is active or not. Set this to `true` if the link is for the current page or one of its children.
+   */
   active: Boolean,
   /**
    * The component used to render the link, for example `RouterLink`. Will default to `a` if an `href` is provided or no link otherwise.
@@ -36,12 +45,9 @@ const computedLinkElement = computed(() => {
     :class="{ 'govuk-header__navigation-item--active': active }"
   >
     <component :is="computedLinkElement" class="govuk-header__link" :href="href">
-      <template v-if="hasSlot('default')">
-        <slot />
-      </template>
-      <template v-else>
+      <slot>
         {{ text }}
-      </template>
+      </slot>
     </component>
   </li>
 </template>
