@@ -1,6 +1,12 @@
 <script setup lang="ts">
 defineProps({
+  /**
+   * Text for the navigation link item. If content is provided in the default slot, this prop will be ignored.
+   */
   text: String,
+  /**
+   * Href attribute for the navigation link item.
+   */
   href: {
     type: String,
     required: true
@@ -18,6 +24,7 @@ defineProps({
 <template>
   <li class="govuk-footer__list-item">
     <component :is="component" class="govuk-footer__link" :href="href">
+      <!-- @slot The content of the navigation link. If content is provided in this slot, the `text` prop will be ignored. -->
       <slot>
         {{ text }}
       </slot>

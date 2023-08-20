@@ -1,9 +1,15 @@
 <script setup lang="ts">
 defineProps({
+  /**
+   * Title for the navigation section
+   */
   title: {
     type: String,
     required: true
   },
+  /**
+   * Amount of columns to display items in navigation section.
+   */
   columns: {
     type: Number,
     default: 1,
@@ -11,6 +17,9 @@ defineProps({
       return [1, 2, 3].includes(value)
     }
   },
+  /**
+   * Width of each navigation section in the footer. You can pass any GOV.UK Design System grid width here.
+   */
   width: {
     type: String,
     default: 'full',
@@ -35,6 +44,7 @@ defineProps({
       class="govuk-footer__list"
       :class="columns > 1 ? `govuk-footer__list--columns-${columns}` : ''"
     >
+      <!-- @slot A list of `GvFooterNavigationItem`s -->
       <slot />
     </ul>
   </div>
