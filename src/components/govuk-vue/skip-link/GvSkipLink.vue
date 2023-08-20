@@ -55,7 +55,7 @@ function handleClick() {
 
 <template>
   <a :href="href" class="govuk-skip-link" @click="handleClick" ref="anchorElement">
-    <!-- @slot The content of the skip link. If content is provided in this slot, the ``text`` prop will be ignored. -->
+    <!-- @slot The content of the skip link. If content is provided in this slot, the `text` prop will be ignored. -->
     <slot>
       {{ text }}
     </slot>
