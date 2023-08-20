@@ -45,6 +45,7 @@ const computedLinkElement = computed(() => {
     :class="{ 'govuk-header__navigation-item--active': active }"
   >
     <component :is="computedLinkElement" class="govuk-header__link" :href="href" v-bind="$attrs">
+      <!-- @slot The content of the navigation item. If content is provided in this slot, the `text` prop will be ignored. -->
       <slot>
         {{ text }}
       </slot>
