@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import hasSlot from '@/composables/useHasSlot'
+import { computed, useSlots } from 'vue'
 
 defineProps({
   /**
@@ -22,6 +23,18 @@ defineProps({
    */
   copyright: String
 })
+
+//We don't use the usual hasSlot() function here because in this case we don't care if the slot has content or not.
+//If they pass an empty slot, we still want to hide the content licence or copyright
+const hasContentLicenceSlot = computed(() => {
+  const slots = useSlots()
+  return slots['content-licence'] != undefined
+})
+
+const hasCopyrightSlot = computed(() => {
+  const slots = useSlots()
+  return slots['copyright'] != undefined
+})
 </script>
 
 <template>
@@ -40,7 +53,7 @@ defineProps({
           <slot name="meta" />
 
           <span class="govuk-footer__licence-description">
-            <template v-if="hasSlot('content-licence')">
+            <template v-if="hasContentLicenceSlot">
               <!-- @slot The content licence information. If content is provided in this slot, the `content-licence` prop will be ignored. -->
               <slot name="content-licence" />
             </template>
@@ -74,7 +87,7 @@ defineProps({
           </span>
         </div>
         <div class="govuk-footer__meta-item">
-          <template v-if="hasSlot('copyright')">
+          <template v-if="hasCopyrightSlot">
             <!-- @slot The copyright licence information. If content is provided in this slot, the `copyright` prop will be ignored. -->
             <slot name="copyright" />
           </template>
