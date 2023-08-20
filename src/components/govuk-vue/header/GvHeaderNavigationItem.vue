@@ -44,7 +44,7 @@ const computedLinkElement = computed(() => {
     class="govuk-header__navigation-item"
     :class="{ 'govuk-header__navigation-item--active': active }"
   >
-    <component :is="computedLinkElement" class="govuk-header__link" :href="href">
+    <component :is="computedLinkElement" class="govuk-header__link" :href="href" v-bind="$attrs">
       <slot>
         {{ text }}
       </slot>
