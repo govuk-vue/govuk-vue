@@ -166,26 +166,26 @@ const pageList = computed(() => {
 })
 
 function handlePreviousClick(e: MouseEvent) {
+  currentPageMutable.value -= 1
+  emit('previousClicked')
   if (computedPreviousHref.value === '#') {
-    emit('previousClicked')
-    currentPageMutable.value -= 1
     e.preventDefault()
   }
   // If the computedPreviousHref isn't # they've provided a custom URL, so clicking the link will take them there
 }
 
 function handleNextClick(e: MouseEvent) {
+  currentPageMutable.value += 1
+  emit('nextClicked')
   if (computedNextHref.value === '#') {
-    emit('nextClicked')
-    currentPageMutable.value += 1
     e.preventDefault()
   }
   // If the computedPreviousHref isn't # they've provided a custom URL, so clicking the link will take them there
 }
 
 function handlePageClick(e: MouseEvent, pageNumber: number) {
+  currentPageMutable.value = pageNumber
   if (props.pageHref === '#') {
-    currentPageMutable.value = pageNumber
     e.preventDefault()
   }
   // If the pageHref isn't # they've provided a custom URL, so clicking the link will take them there
