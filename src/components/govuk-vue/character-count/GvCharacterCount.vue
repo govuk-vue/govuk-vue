@@ -173,7 +173,7 @@ const props = defineProps({
   },
   /**
    * Message displayed when the number of characters is over the configured maximum, `maxChars`. This message is
-   * displayed visually and through assistive technologies. The component will replace the `%{count}` placeholder
+   * displayed visually and through assistive technologies. The component will replace the `${count}` placeholder
    * with the number of remaining characters.
    */
   charactersOverLimitText: {
@@ -189,7 +189,7 @@ const props = defineProps({
   },
   /**
    * Message displayed when the number of words is under the configured maximum, `maxWords`. This message is
-   * displayed visually and through assistive technologies. The component will replace the `%{count}` placeholder
+   * displayed visually and through assistive technologies. The component will replace the `${count}` placeholder
    * with the number of remaining characters.
    */
   wordsUnderLimitText: {
@@ -213,7 +213,7 @@ const props = defineProps({
   },
   /**
    * Message displayed when the number of words is over the configured maximum, `maxWords`. This message is
-   * displayed visually and through assistive technologies. The component will replace the `%{count}` placeholder
+   * displayed visually and through assistive technologies. The component will replace the `${count}` placeholder
    * with the number of remaining characters.
    */
   wordsOverLimitText: {
