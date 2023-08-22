@@ -779,9 +779,20 @@ How would you like to be contacted?
   {{ typeof selectDataObject }} {{ selectDataObject.name }}
 
   <h3 class="govuk-heading-m">Pagination</h3>
+  <h4 class="govuk-heading-s">No props</h4>
+  <gv-pagination />
+  <h4 class="govuk-heading-s">Total pages prop</h4>
+  <gv-pagination :total-pages="10" v-model:currentPage="currentPage" />
+  <gv-pagination :total-pages="3" v-model:currentPage="currentPage" variant="block" />
+  <gv-pagination
+    :total-pages="20"
+    v-model:currentPage="currentPage"
+    :skip-pages-threshold="15"
+    :before-after-count="3"
+  />
   Current page: {{ currentPage }}
   <gv-pagination
-    v-model="currentPage"
+    v-model:currentPage="currentPage"
     :total-pages="20"
     :skip-pages-threshold="5"
     :before-after-count="2"

@@ -1,40 +1,71 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps({
-  modelValue: Number,
   /**
-   * Whether to show the radios on top of each other (stacked) or side-by-side (inline)
+   * The number of the currently selected page. In most cases you should use `v-model:currentPage` instead of setting this prop directly.
    */
-  direction: {
+  currentPage: {
+    type: Number,
+    default: 1
+  },
+  /**
+   * Whether to show the pagination controls on top of each other as 'Previous' and 'Next' links (`block`) or as a list of numbers (`list`).
+   */
+  variant: {
     type: String,
-    default: 'stacked',
     validator(value: string) {
-      return ['stacked', 'inline'].includes(value)
+      return ['block', 'list'].includes(value)
     }
   },
+  /**
+   * The total number of pages in the pagination. Required if `variant` is `list`
+   */
   totalPages: Number,
+  /**
+   * The label for the navigation landmark that wraps the pagination.
+   */
   landmarkLabel: {
     type: String,
     default: 'results'
   },
+  /**
+   * The link text to the previous page.
+   */
   previousText: {
     type: String,
     default: 'Previous'
   },
+  /**
+   * The optional label that goes underneath the link to the previous page, providing further context for the user about where the link goes.
+   */
   previousLabel: {
     type: String
   },
+  /**
+   * The link text to the previous page.
+   */
   nextText: {
     type: String,
     default: 'Next'
   },
+  /**
+   * The optional label that goes underneath the link to the next page, providing further context for the user about where the link goes.
+   */
   nextLabel: {
     type: String
   },
+  /**
+   * If `totalPages` is above this threshold, the pagination control will show an ellipsis (...) to skip all
+   * pages except the first and last and a certain number of pages around the current page (see `beforeAfterCount`).
+   */
   skipPagesThreshold: {
     type: Number
   },
+  /**
+   * If the pagination control is skipping pages, this is the number of pages around the current page which will be shown.
+   * For example, if this is set to 2 and the current page is 15 out of 100, the pagination will show '1 .. 13 14 [15] 16 17 .. 100'
+   */
   beforeAfterCount: {
     type: Number,
     default: 1,
@@ -43,30 +74,44 @@ const props = defineProps({
     }
   }
 })
-const emit = defineEmits(['update:modelValue', 'previousClicked', 'nextClicked'])
+const emit = defineEmits(['update:currentPage', 'previousClicked', 'nextClicked'])
+
+const currentPageMutable = ref(props.currentPage)
+
+watch(currentPageMutable, (newCurrentPageMutable) => {
+  emit('update:currentPage', newCurrentPageMutable)
+})
+
+// If the modelValue prop changes, copy that change to our mutable version of the modelValue
+watch(
+  () => props.currentPage,
+  (newCurrentPageMutable) => {
+    currentPageMutable.value = newCurrentPageMutable
+  }
+)
 
 const isBlockLevel = computed(() => {
-  return !props.modelValue && (props.previousText || props.nextText)
+  return props.variant === 'block' || !props.totalPages
 })
 
 const showPrevious = computed(() => {
-  if (props.modelValue && props.totalPages) {
-    return props.modelValue > 1
+  if (props.totalPages) {
+    return currentPageMutable.value > 1
   } else {
     return props.previousText !== ''
   }
 })
 
 const showNext = computed(() => {
-  if (props.modelValue && props.totalPages) {
-    return props.modelValue < props.totalPages
+  if (props.totalPages) {
+    return currentPageMutable.value < props.totalPages
   } else {
     return props.nextText !== ''
   }
 })
 
 const pageList = computed(() => {
-  if (!props.modelValue || !props.totalPages) {
+  if (isBlockLevel.value || !props.totalPages) {
     return null
   }
 
@@ -77,8 +122,8 @@ const pageList = computed(() => {
     pages = [1]
 
     //Show numbers around the current page
-    const from = Math.max(props.modelValue - props.beforeAfterCount, 2)
-    const to = Math.min(props.modelValue + props.beforeAfterCount, props.totalPages - 1)
+    const from = Math.max(currentPageMutable.value - props.beforeAfterCount, 2)
+    const to = Math.min(currentPageMutable.value + props.beforeAfterCount, props.totalPages - 1)
 
     for (let i = from; i <= to; i++) {
       pages.push(i)
@@ -94,19 +139,13 @@ const pageList = computed(() => {
 })
 
 function handlePreviousClick() {
-  if (props.modelValue) {
-    emit('update:modelValue', props.modelValue - 1)
-  } else {
-    emit('previousClicked')
-  }
+  emit('previousClicked')
+  currentPageMutable.value -= 1
 }
 
 function handleNextClick() {
-  if (props.modelValue) {
-    emit('update:modelValue', props.modelValue + 1)
-  } else {
-    emit('nextClicked')
-  }
+  emit('nextClicked')
+  currentPageMutable.value += 1
 }
 </script>
 
@@ -160,14 +199,14 @@ function handleNextClick() {
         </li>
         <li
           class="govuk-pagination__item"
-          :class="{ 'govuk-pagination__item--current': pageNumber === modelValue }"
+          :class="{ 'govuk-pagination__item--current': pageNumber === currentPageMutable }"
         >
           <a
             class="govuk-link govuk-pagination__link govuk-link--no-visited-state"
             href="#"
             :aria-label="`Page ${pageNumber}`"
-            :aria-current="pageNumber === modelValue ? 'page' : undefined"
-            @click.prevent="emit('update:modelValue', pageNumber)"
+            :aria-current="pageNumber === currentPageMutable ? 'page' : undefined"
+            @click.prevent="currentPageMutable = pageNumber"
           >
             {{ pageNumber }}
           </a>
