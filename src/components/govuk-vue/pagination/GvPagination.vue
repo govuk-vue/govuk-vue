@@ -19,9 +19,17 @@ const props = defineProps({
     }
   },
   /**
-   * The total number of pages in the pagination. Required if `variant` is `list`
+   * The total number of pages in the pagination. Required if `variant` is `list`.
    */
   totalPages: Number,
+  /**
+   * The URL the user should be taken to when they click a page number.
+   * The `${pageNumber}` placeholder will be replaced with the number of the selected page.
+   */
+  pageHref: {
+    type: String,
+    default: '#'
+  },
   /**
    * The label for the navigation landmark that wraps the pagination.
    */
@@ -43,6 +51,12 @@ const props = defineProps({
     type: String
   },
   /**
+   * The URL the user should be taken to when they click the 'Previous' link.
+   * The `${pageNumber}` placeholder will be replaced with the number of the previous page.
+   * If you've provided `totalPages` and `pageHref`, this will default to `pageHref` with the number of the previous page replacing the `${pageNumber}` placeholder.
+   */
+  previousHref: String,
+  /**
    * The link text to the previous page.
    */
   nextText: {
@@ -56,6 +70,12 @@ const props = defineProps({
     type: String
   },
   /**
+   * The URL the user should be taken to when they click the 'Next' link.
+   * The `${pageNumber}` placeholder will be replaced with the number of the next page.
+   * If you've provided `totalPages` and `pageHref`, this will default to `pageHref` with the number of the next page replacing the `${pageNumber}` placeholder.
+   */
+  nextHref: String,
+  /**
    * If `totalPages` is above this threshold, the pagination control will show an ellipsis (...) to skip all
    * pages except the first and last and a certain number of pages around the current page (see `beforeAfterCount`).
    */
@@ -64,7 +84,7 @@ const props = defineProps({
   },
   /**
    * If the pagination control is skipping pages, this is the number of pages around the current page which will be shown.
-   * For example, if this is set to 2 and the current page is 15 out of 100, the pagination will show '1 .. 13 14 [15] 16 17 .. 100'
+   * For example, if this is set to 2 and the current page is 15 out of 100, the pagination will show '1 ... 13 14 [15] 16 17 ... 100'
    */
   beforeAfterCount: {
     type: Number,
@@ -72,6 +92,13 @@ const props = defineProps({
     validator(value: Number) {
       return value > 0
     }
+  },
+  /**
+   * The component used to render previous, next and page links, for example `RouterLink`.
+   */
+  linkComponent: {
+    type: [String, Object],
+    default: 'a'
   }
 })
 const emit = defineEmits(['update:currentPage', 'previousClicked', 'nextClicked'])
@@ -138,14 +165,58 @@ const pageList = computed(() => {
   return pages
 })
 
-function handlePreviousClick() {
-  emit('previousClicked')
-  currentPageMutable.value -= 1
+function handlePreviousClick(e: MouseEvent) {
+  if (computedPreviousHref.value === '#') {
+    emit('previousClicked')
+    currentPageMutable.value -= 1
+    e.preventDefault()
+  }
+  // If the computedPreviousHref isn't # they've provided a custom URL, so clicking the link will take them there
 }
 
-function handleNextClick() {
-  emit('nextClicked')
-  currentPageMutable.value += 1
+function handleNextClick(e: MouseEvent) {
+  if (computedNextHref.value === '#') {
+    emit('nextClicked')
+    currentPageMutable.value += 1
+    e.preventDefault()
+  }
+  // If the computedPreviousHref isn't # they've provided a custom URL, so clicking the link will take them there
+}
+
+function handlePageClick(e: MouseEvent, pageNumber: number) {
+  if (props.pageHref === '#') {
+    currentPageMutable.value = pageNumber
+    e.preventDefault()
+  }
+  // If the pageHref isn't # they've provided a custom URL, so clicking the link will take them there
+}
+
+function hrefForPageNumber(pageNumber: number) {
+  return replacePageNumber(props.pageHref, pageNumber)
+}
+
+const computedPreviousHref = computed(() => {
+  if (props.previousHref) {
+    return replacePageNumber(props.previousHref, currentPageMutable.value - 1)
+  } else if (props.totalPages) {
+    return hrefForPageNumber(currentPageMutable.value - 1)
+  } else {
+    return '#'
+  }
+})
+
+const computedNextHref = computed(() => {
+  if (props.nextHref) {
+    return replacePageNumber(props.nextHref, currentPageMutable.value + 1)
+  } else if (props.totalPages) {
+    return hrefForPageNumber(currentPageMutable.value + 1)
+  } else {
+    return '#'
+  }
+})
+
+function replacePageNumber(str: string, pageNumber: number) {
+  return str.replace(/\$\{pageNumber}/g, pageNumber.toString())
 }
 </script>
 
@@ -157,11 +228,16 @@ function handleNextClick() {
     :aria-label="landmarkLabel"
   >
     <div v-if="showPrevious" class="govuk-pagination__prev">
-      <a
+      <component
+        :is="linkComponent"
         class="govuk-link govuk-pagination__link govuk-link--no-visited-state"
-        href="#"
+        :href="computedPreviousHref"
         rel="prev"
-        @click.prevent="handlePreviousClick"
+        @click="
+          (e) => {
+            handlePreviousClick(e)
+          }
+        "
       >
         <svg
           class="govuk-pagination__icon govuk-pagination__icon--prev"
@@ -186,7 +262,7 @@ function handleNextClick() {
           <span class="govuk-visually-hidden">:</span>
           <span class="govuk-pagination__link-label">{{ previousLabel }}</span>
         </template>
-      </a>
+      </component>
     </div>
 
     <ul v-if="pageList" class="govuk-pagination__list">
@@ -201,25 +277,35 @@ function handleNextClick() {
           class="govuk-pagination__item"
           :class="{ 'govuk-pagination__item--current': pageNumber === currentPageMutable }"
         >
-          <a
+          <component
+            :is="linkComponent"
             class="govuk-link govuk-pagination__link govuk-link--no-visited-state"
-            href="#"
+            :href="hrefForPageNumber(pageNumber)"
             :aria-label="`Page ${pageNumber}`"
             :aria-current="pageNumber === currentPageMutable ? 'page' : undefined"
-            @click.prevent="currentPageMutable = pageNumber"
+            @click="
+              (e) => {
+                handlePageClick(e, pageNumber)
+              }
+            "
           >
             {{ pageNumber }}
-          </a>
+          </component>
         </li>
       </template>
     </ul>
 
     <div v-if="showNext" class="govuk-pagination__next">
-      <a
+      <component
+        :is="linkComponent"
         class="govuk-link govuk-pagination__link govuk-link--no-visited-state"
-        href="#"
+        :href="computedNextHref"
         rel="next"
-        @click.prevent="handleNextClick"
+        @click="
+          (e) => {
+            handleNextClick(e)
+          }
+        "
       >
         <svg
           v-if="isBlockLevel"
@@ -259,7 +345,7 @@ function handleNextClick() {
             d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
           ></path>
         </svg>
-      </a>
+      </component>
     </div>
   </nav>
 </template>

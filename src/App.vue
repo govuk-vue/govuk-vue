@@ -782,7 +782,13 @@ How would you like to be contacted?
   <h4 class="govuk-heading-s">No props</h4>
   <gv-pagination />
   <h4 class="govuk-heading-s">Total pages prop</h4>
-  <gv-pagination :total-pages="10" v-model:currentPage="currentPage" />
+  <gv-pagination
+    :total-pages="10"
+    v-model:currentPage="currentPage"
+    page-href="http://example.com/${pageNumber}"
+    previous-href="http://example.com/prev/${pageNumber}"
+    next-href="http://example.com/next/${pageNumber}"
+  />
   <gv-pagination :total-pages="3" v-model:currentPage="currentPage" variant="block" />
   <gv-pagination
     :total-pages="20"
