@@ -1,6 +1,6 @@
 # GOV.UK Vue
 
-GOV.UK Vue is a Vue 3 component library for [GOV.UK Frontend](https://github.com/alphagov/govuk-frontend). It enables you to build Vue apps based on the [GOV.UK Design System](https://design-system.service.gov.uk/).
+[GOV.UK Vue](https://govukvue.org) is a Vue 3 component library for [GOV.UK Frontend](https://github.com/alphagov/govuk-frontend). It enables you to build Vue apps based on the [GOV.UK Design System](https://design-system.service.gov.uk/).
 
 ![An illustration of a big green 'Start now' button connected to its Vue code](https://github.com/govuk-vue/govuk-vue/assets/1935173/1576c792-0fe8-4d47-8ffb-e046ba4e3521)
 
@@ -16,7 +16,7 @@ GOV.UK Vue is currently in alpha, so things may change between now and the first
 
 The source for this demo is available in the [govuk-vue-minimal-example](https://github.com/govuk-vue/govuk-vue-minimal-example) repo.
 
-## Getting started
+## Getting started and documentation
 
 [govukvue.org](https://govukvue.org) has detailed instructions on [how to install GOV.UK Vue](https://govukvue.org/get-started/installing-govuk-vue), including [how to use GOV.UK Vue with Nuxt](https://govukvue.org/get-started/using-govuk-vue-with-nuxt).
 
