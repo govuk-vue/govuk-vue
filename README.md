@@ -24,6 +24,8 @@ In almost all cases GOV.UK Vue provides every option available in the original N
 
 Styling is entirely provided by GOV.UK Frontend. GOV.UK Vue does not reimplement any of the Frontend styling, or provide any of its own.
 
+Accessibility is the #1 priority of GOV.UK Vue. It provides full support for all accessibility features in GOV.UK Frontend, and any accessibility issues will be given priority over new features.
+
 All JavaScript functionality from GOV.UK Frontend, such as [accordions](https://design-system.service.gov.uk/components/accordion/) and [character counts](https://design-system.service.gov.uk/components/character-count/), is reimplemented in TypeScript within individual Vue components. No JavaScript files from GOV.UK Frontend are used. No external dependencies are used in components beyond Vue.
 
 ## License and credit
