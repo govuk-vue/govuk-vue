@@ -8,6 +8,14 @@ You can use GOV.UK Vue to build easy-to-use, accessible apps whether you're work
 
 GOV.UK Vue is currently in alpha, so things may change between now and the first stable release - please share any feedback by starting a [discussion](https://github.com/govuk-vue/govuk-vue/discussions) or raise an [issue](https://github.com/govuk-vue/govuk-vue/issues) for any problems.
 
+## Demo
+
+![A simple GOV.UK-style page with a text input component](https://github.com/govuk-vue/govuk-vue/assets/1935173/3b0c72b3-6539-4ecc-a4d7-703b090dbad6)
+
+**[See a minimal example of a GOV.UK-style page using this library](https://govuk-vue.github.io/govuk-vue-minimal-example/)**.
+
+The source for this demo is available in the [govuk-vue-minimal-example](https://github.com/govuk-vue/govuk-vue-minimal-example) repo.
+
 ## Getting started
 
 [govukvue.org](https://govukvue.org) has detailed instructions on [how to install GOV.UK Vue](https://govukvue.org/get-started/installing-govuk-vue), including [how to use GOV.UK Vue with Nuxt](https://govukvue.org/get-started/using-govuk-vue-with-nuxt).
