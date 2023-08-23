@@ -101,12 +101,12 @@ const props = defineProps({
     default: 'a'
   }
 })
-const emit = defineEmits(['update:currentPage', 'previousClicked', 'nextClicked'])
+const emit = defineEmits(['update:current-page', 'previousClicked', 'nextClicked'])
 
 const currentPageMutable = ref(props.currentPage)
 
 watch(currentPageMutable, (newCurrentPageMutable) => {
-  emit('update:currentPage', newCurrentPageMutable)
+  emit('update:current-page', newCurrentPageMutable)
 })
 
 // If the modelValue prop changes, copy that change to our mutable version of the modelValue
@@ -234,7 +234,7 @@ function replacePageNumber(str: string, pageNumber: number) {
         :href="computedPreviousHref"
         rel="prev"
         @click="
-          (e) => {
+          (e: MouseEvent) => {
             handlePreviousClick(e)
           }
         "
@@ -284,7 +284,7 @@ function replacePageNumber(str: string, pageNumber: number) {
             :aria-label="`Page ${pageNumber}`"
             :aria-current="pageNumber === currentPageMutable ? 'page' : undefined"
             @click="
-              (e) => {
+              (e: MouseEvent) => {
                 handlePageClick(e, pageNumber)
               }
             "
