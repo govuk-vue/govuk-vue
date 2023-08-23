@@ -15,36 +15,36 @@ const props = defineProps({
    */
   id: String,
   /**
-   * The open state of the details element. In most cases you should use `v-model` instead of setting this prop directly.
+   * The open state of the details element. Use `v-model:open` to keep track of the open state.
    */
-  modelValue: Boolean
+  open: Boolean
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:open'])
 
-// We operate on a copy of the modelValue. If we used modelValue directly, opening the details
+// We operate on a copy of the open prop. If we used the prop directly, opening the details
 // wouldn't work if no v-model was provided because the .prevent on the click handler stops the
-// details from opening natively and the modelValue prop doesn't update because there's no v-model
-const modelValueMutable = ref(props.modelValue)
+// details from opening natively and the open prop doesn't update because there's no v-model
+const openMutable = ref(props.open)
 
-watch(modelValueMutable, (newModelValueMutable) => {
-  emit('update:modelValue', newModelValueMutable)
+watch(openMutable, (newOpenMutable) => {
+  emit('update:open', newOpenMutable)
 })
 
 // If the modelValue prop changes, copy that change to our mutable version of the modelValue
 watch(
-  () => props.modelValue,
-  (newModelValue) => {
-    modelValueMutable.value = newModelValue
+  () => props.open,
+  (newOpen) => {
+    openMutable.value = newOpen
   }
 )
 
 function handleSummaryClick() {
-  modelValueMutable.value = !modelValueMutable.value
+  openMutable.value = !openMutable.value
 }
 </script>
 
 <template>
-  <details :id="id" class="govuk-details" :open="modelValueMutable">
+  <details :id="id" class="govuk-details" :open="openMutable">
     <summary class="govuk-details__summary" @click.prevent="handleSummaryClick">
       <span class="govuk-details__summary-text">
         <!-- @slot The content of the summary element (the visible part of the details element). If content is provided in this slot, the `summary` prop will be ignored. -->

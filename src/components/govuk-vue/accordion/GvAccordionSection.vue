@@ -36,21 +36,29 @@ const props = defineProps({
   content: String,
   /**
    * Sets whether the section is expanded. If set, the model value will override any stored expansion state if
-   * `rememberExpanded` has been set on the parent `GvAccordion`. In most cases you should use `v-model` instead of setting this prop directly.
+   * `rememberExpanded` has been set on the parent `GvAccordion`. Use `v-model:expanded` to keep track of the expansion state.
    */
-  modelValue: {
+  expanded: {
     type: Boolean,
     default: null
   }
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:expanded'])
 
 const key = Symbol()
-const modelValueMutable = ref(props.modelValue)
+const expandedMutable = ref(props.expanded)
 
-watch(modelValueMutable, (newModelValueMutable) => {
-  emit('update:modelValue', newModelValueMutable)
+watch(expandedMutable, (newExpandedMutable) => {
+  emit('update:expanded', newExpandedMutable)
 })
+
+// If the expanded prop changes, copy that change to our mutable version of the prop
+watch(
+  () => props.expanded,
+  (newExpanded) => {
+    expandedMutable.value = newExpanded
+  }
+)
 
 const contentElement: Ref<HTMLDivElement | null> = ref(null)
 const computedId = useComputedId(toRef(props, 'id'), 'gv-accordion-section')
@@ -65,14 +73,14 @@ const registerSection = inject(AccordionRegisterSectionFunctionInjectionKey, () 
 const unregisterSection = inject(AccordionUnregisterSectionFunctionInjectionKey, () => {})
 
 onBeforeMount(() => {
-  registerSection({ key: key, expanded: modelValueMutable })
+  registerSection({ key: key, expanded: expandedMutable })
 
   // We only use the stored expansion state if an expansion state wasn't explicitly provided as a prop
-  if (rememberExpanded.value && props.modelValue === null) {
+  if (rememberExpanded.value && props.expanded === null) {
     const contentState = window.sessionStorage.getItem(contentId.value)
 
     if (contentState !== null) {
-      modelValueMutable.value = contentState === 'true'
+      expandedMutable.value = contentState === 'true'
     }
   }
 })
@@ -93,17 +101,9 @@ onUnmounted(() => {
  When the expanded state changes (via clicking the button, the prop changing or show/hide all sections being clicked)
  store the new state in session storage
  */
-watch(modelValueMutable, () => {
+watch(expandedMutable, () => {
   storeState()
 })
-
-// If the modelValue prop changes, copy that change to our mutable version of the modelValue
-watch(
-  () => props.modelValue,
-  (newModelValue) => {
-    modelValueMutable.value = newModelValue
-  }
-)
 
 const hasSummary = computed(() => {
   return props.summary || hasSlot('summary')
@@ -129,15 +129,13 @@ const buttonAriaLabel = computed(() => {
     }
   }
 
-  labelParts.push(
-    modelValueMutable.value ? hideSectionAriaLabel?.value : showSectionAriaLabel?.value
-  )
+  labelParts.push(expandedMutable.value ? hideSectionAriaLabel?.value : showSectionAriaLabel?.value)
 
   return labelParts.join(' , ')
 })
 
 const showHideText = computed(() => {
-  return modelValueMutable.value ? hideSectionText?.value : showSectionText?.value
+  return expandedMutable.value ? hideSectionText?.value : showSectionText?.value
 })
 
 const computedHeaderElement = computed(() => {
@@ -145,16 +143,16 @@ const computedHeaderElement = computed(() => {
 })
 
 const contentHiddenAttribute = computed(() => {
-  return modelValueMutable.value ? undefined : 'until-found'
+  return expandedMutable.value ? undefined : 'until-found'
 })
 
 function toggleExpanded() {
-  modelValueMutable.value = !modelValueMutable.value
+  expandedMutable.value = !expandedMutable.value
 }
 
 function storeState() {
   if (rememberExpanded.value) {
-    window.sessionStorage.setItem(contentId.value, modelValueMutable.value ? 'true' : 'false')
+    window.sessionStorage.setItem(contentId.value, expandedMutable.value ? 'true' : 'false')
   }
 }
 </script>
@@ -162,7 +160,7 @@ function storeState() {
 <template>
   <div
     class="govuk-accordion__section"
-    :class="{ 'govuk-accordion__section--expanded': modelValueMutable }"
+    :class="{ 'govuk-accordion__section--expanded': expandedMutable }"
   >
     <div class="govuk-accordion__section-header">
       <component :is="computedHeaderElement" class="govuk-accordion__section-heading">
@@ -170,7 +168,7 @@ function storeState() {
           type="button"
           :aria-controls="contentId"
           class="govuk-accordion__section-button"
-          :aria-expanded="modelValueMutable"
+          :aria-expanded="expandedMutable"
           :aria-label="buttonAriaLabel"
           @click="toggleExpanded"
         >
@@ -197,7 +195,7 @@ function storeState() {
             <span class="govuk-accordion__section-toggle-focus">
               <span
                 class="govuk-accordion-nav__chevron"
-                :class="{ 'govuk-accordion-nav__chevron--down': !modelValueMutable }"
+                :class="{ 'govuk-accordion-nav__chevron--down': !expandedMutable }"
               ></span>
               <span class="govuk-accordion__section-toggle-text">{{ showHideText }}</span>
             </span>
