@@ -206,7 +206,6 @@ function storeState() {
     <div
       :id="contentId"
       class="govuk-accordion__section-content"
-      :aria-labelledby="headingId"
       :hidden.attr="contentHiddenAttribute"
       ref="contentElement"
     >
