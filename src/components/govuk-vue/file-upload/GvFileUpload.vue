@@ -99,7 +99,19 @@ const props = defineProps({
    *
    * Defaults to `'Error'`.
    */
-  errorMessageVisuallyHiddenText: String
+  errorMessageVisuallyHiddenText: String,
+  /**
+   * Text to add before the input. If content is provided in the `before-input` slot, this prop will be ignored.
+   */
+  beforeInput: {
+    type: String
+  },
+  /**
+   * Text to add after the input. If content is provided in the `after-input` slot, this prop will be ignored.
+   */
+  afterInput: {
+    type: String
+  }
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -179,6 +191,10 @@ const normalizedFormGroupClass = computed(() => {
       <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
       <slot name="error-message" />
     </gv-error-message>
+    <!-- @slot Content to add before the input. If content is provided in this slot, the `beforeInput` prop will be ignored. -->
+    <slot name="before-input">
+      {{ beforeInput }}
+    </slot>
     <input
       type="file"
       :id="computedId"
@@ -194,5 +210,9 @@ const normalizedFormGroupClass = computed(() => {
       ref="fileInputElement"
       v-bind="$attrs"
     />
+    <!-- @slot Content to add after the input. If content is provided in this slot, the `afterInput` prop will be ignored. -->
+    <slot name="after-input">
+      {{ afterInput }}
+    </slot>
   </div>
 </template>

@@ -150,7 +150,19 @@ const props = defineProps({
    *
    * Defaults to `'Error'`.
    */
-  errorMessageVisuallyHiddenText: String
+  errorMessageVisuallyHiddenText: String,
+  /**
+   * Text to add before the input. If content is provided in the `before-input` slot, this prop will be ignored.
+   */
+  beforeInput: {
+    type: String
+  },
+  /**
+   * Text to add after the input. If content is provided in the `after-input` slot, this prop will be ignored.
+   */
+  afterInput: {
+    type: String
+  }
 })
 defineEmits(['update:modelValue'])
 
@@ -171,6 +183,14 @@ const hasSuffix = computed(() => {
   return props.suffix || hasSlot('suffix')
 })
 
+const hasBeforeInput = computed(() => {
+  return props.beforeInput || hasSlot('before-input')
+})
+
+const hasAfterInput = computed(() => {
+  return props.afterInput || hasSlot('after-input')
+})
+
 const hasErrorMessage = computed(() => {
   return props.errorMessage || hasSlot('error-message')
 })
@@ -182,7 +202,7 @@ const errorMessageId = computed(() => {
 const computedId = useComputedId(toRef(props, 'id'), 'gv-input')
 
 const computedWrapperElement = computed(() => {
-  if (hasPrefix.value || hasSuffix.value) {
+  if (hasPrefix.value || hasSuffix.value || hasBeforeInput.value || hasAfterInput.value) {
     return 'div'
   } else {
     return GvFragment
@@ -231,8 +251,14 @@ const normalizedFormGroupClass = computed(() => {
     </gv-error-message>
     <component
       :is="computedWrapperElement"
-      :class="hasPrefix || hasSuffix ? 'govuk-input__wrapper' : ''"
+      :class="
+        hasPrefix || hasSuffix || hasBeforeInput || hasAfterInput ? 'govuk-input__wrapper' : ''
+      "
     >
+      <!-- @slot Content to add before the input. If content is provided in this slot, the `beforeInput` prop will be ignored. -->
+      <slot name="before-input">
+        {{ beforeInput }}
+      </slot>
       <div v-if="hasPrefix" class="govuk-input__prefix" :class="prefixClass" aria-hidden="true">
         <!-- @slot The content of the prefix. If content is provided in this slot, the `prefix` prop will be ignored. -->
         <slot name="prefix">
@@ -263,6 +289,10 @@ const normalizedFormGroupClass = computed(() => {
           {{ suffix }}
         </slot>
       </div>
+      <!-- @slot Content to add after the input. If content is provided in this slot, the `afterInput` prop will be ignored. -->
+      <slot name="after-input">
+        {{ afterInput }}
+      </slot>
     </component>
   </div>
 </template>

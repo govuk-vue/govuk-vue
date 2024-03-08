@@ -128,7 +128,19 @@ const props = defineProps({
    *
    * Defaults to `'Error'`.
    */
-  errorMessageVisuallyHiddenText: String
+  errorMessageVisuallyHiddenText: String,
+  /**
+   * Text to add before the inputs. If content is provided in the `before-inputs` slot, this prop will be ignored.
+   */
+  beforeInputs: {
+    type: String
+  },
+  /**
+   * Text to add after the inputs. If content is provided in the `after-inputs` slot, this prop will be ignored.
+   */
+  afterInputs: {
+    type: String
+  }
 })
 const emit = defineEmits(['update:day', 'update:month', 'update:year'])
 
@@ -225,6 +237,10 @@ const normalizedFormGroupClass = computed(() => {
       </gv-error-message>
 
       <div :id="computedId" class="govuk-date-input" v-bind="$attrs">
+        <!-- @slot Content to add before the inputs. If content is provided in this slot, the `beforeInputs` prop will be ignored. -->
+        <slot name="before-inputs">
+          {{ beforeInputs }}
+        </slot>
         <div class="govuk-date-input__item">
           <gv-input
             label="Day"
@@ -270,6 +286,10 @@ const normalizedFormGroupClass = computed(() => {
             :autocomplete="yearAutocomplete"
           />
         </div>
+        <!-- @slot Content to add after the inputs. If content is provided in this slot, the `afterInputs` prop will be ignored. -->
+        <slot name="after-inputs">
+          {{ afterInputs }}
+        </slot>
       </div>
     </gv-fieldset>
   </div>

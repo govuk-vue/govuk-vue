@@ -226,6 +226,18 @@ const props = defineProps({
   wordsOverLimitTextOne: {
     type: String,
     default: 'You have 1 word too many'
+  },
+  /**
+   * Text to add before the textarea. If content is provided in the `before-input` slot, this prop will be ignored.
+   */
+  beforeInput: {
+    type: String
+  },
+  /**
+   * Text to add after the textarea. If content is provided in the `after-input` slot, this prop will be ignored.
+   */
+  afterInput: {
+    type: String
   }
 })
 const emit = defineEmits(['update:modelValue'])
@@ -413,7 +425,17 @@ function replaceCount(str: string, count: Number) {
         <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
         <slot name="error-message" />
       </template>
-      <template #below-textarea>
+      <template #before-input>
+        <!-- @slot Content to add before the textarea. If content is provided in this slot, the `beforeInput` prop will be ignored. -->
+        <slot name="before-input">
+          {{ beforeInput }}
+        </slot>
+      </template>
+      <template #after-input>
+        <!-- @slot Content to add after the textarea. If content is provided in this slot, the `afterInput` prop will be ignored. -->
+        <slot name="after-input">
+          {{ afterInput }}
+        </slot>
         <gv-hint
           :id="accessibleHintId"
           class="govuk-character-count__message govuk-visually-hidden"
