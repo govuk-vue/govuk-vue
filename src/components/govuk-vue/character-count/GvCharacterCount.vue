@@ -389,77 +389,75 @@ function replaceCount(str: string, count: Number) {
 </script>
 
 <template>
-  <div class="govuk-character-count">
-    <gv-textarea
-      v-model="modelValueMutable"
-      :id="computedId"
-      :name="name"
-      :rows="rows"
-      :described-by="textareaDescribedBy"
-      :class="{
-        'govuk-textarea--error': isOverMaxLength
-      }"
-      :autocomplete="autocomplete"
-      :spellcheck="spellcheck"
-      :disabled="disabled"
-      :form-group-class="formGroupClass"
-      :label="label"
-      :label-is-page-heading="labelIsPageHeading"
-      :label-class="labelClass"
-      :hint="hint"
-      :hint-class="hintClass"
-      :error-message="errorMessage"
-      :error-message-class="errorMessageClass"
-      :error-message-visually-hidden-text="errorMessageVisuallyHiddenText"
-      v-bind="$attrs"
-    >
-      <template #label>
-        <!-- @slot The content of the label. If content is provided in this slot, the `label` prop will be ignored. -->
-        <slot name="label" />
-      </template>
-      <template #hint>
-        <!-- @slot The content of the hint. If content is provided in this slot, the `hint` prop will be ignored. -->
-        <slot name="hint" />
-      </template>
-      <template #error-message>
-        <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
-        <slot name="error-message" />
-      </template>
-      <template #before-input>
-        <!-- @slot Content to add before the textarea. If content is provided in this slot, the `beforeInput` prop will be ignored. -->
-        <slot name="before-input">
-          {{ beforeInput }}
-        </slot>
-      </template>
-      <template #after-input>
-        <!-- @slot Content to add after the textarea. If content is provided in this slot, the `afterInput` prop will be ignored. -->
-        <slot name="after-input">
-          {{ afterInput }}
-        </slot>
-        <gv-hint
-          :id="accessibleHintId"
-          class="govuk-character-count__message govuk-visually-hidden"
-          :text="computedTextareaDescription"
-        />
-        <div
-          class="govuk-character-count__message govuk-character-count__status"
-          :class="{
-            'govuk-character-count__message--disabled': !isOverThreshold,
-            'govuk-hint': !isOverMaxLength,
-            'govuk-error-message': isOverMaxLength
-          }"
-          aria-hidden="true"
-        >
-          {{ message }}
-        </div>
-        <div
-          class="govuk-character-count__sr-status govuk-visually-hidden"
-          aria-live="polite"
-          :aria-hidden="!isOverThreshold"
-        >
-          {{ message }}
-        </div>
-      </template>
-    </gv-textarea>
-  </div>
+  <gv-textarea
+    v-model="modelValueMutable"
+    :id="computedId"
+    :name="name"
+    :rows="rows"
+    :described-by="textareaDescribedBy"
+    :class="{
+      'govuk-textarea--error': isOverMaxLength
+    }"
+    :autocomplete="autocomplete"
+    :spellcheck="spellcheck"
+    :disabled="disabled"
+    :form-group-class="`govuk-character-count ${formGroupClass}`"
+    :label="label"
+    :label-is-page-heading="labelIsPageHeading"
+    :label-class="labelClass"
+    :hint="hint"
+    :hint-class="hintClass"
+    :error-message="errorMessage"
+    :error-message-class="errorMessageClass"
+    :error-message-visually-hidden-text="errorMessageVisuallyHiddenText"
+    v-bind="$attrs"
+  >
+    <template #label>
+      <!-- @slot The content of the label. If content is provided in this slot, the `label` prop will be ignored. -->
+      <slot name="label" />
+    </template>
+    <template #hint>
+      <!-- @slot The content of the hint. If content is provided in this slot, the `hint` prop will be ignored. -->
+      <slot name="hint" />
+    </template>
+    <template #error-message>
+      <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
+      <slot name="error-message" />
+    </template>
+    <template #before-input>
+      <!-- @slot Content to add before the textarea. If content is provided in this slot, the `beforeInput` prop will be ignored. -->
+      <slot name="before-input">
+        {{ beforeInput }}
+      </slot>
+    </template>
+    <template #after-input>
+      <!-- @slot Content to add after the textarea. If content is provided in this slot, the `afterInput` prop will be ignored. -->
+      <slot name="after-input">
+        {{ afterInput }}
+      </slot>
+      <gv-hint
+        :id="accessibleHintId"
+        class="govuk-character-count__message govuk-visually-hidden"
+        :text="computedTextareaDescription"
+      />
+      <div
+        class="govuk-character-count__message govuk-character-count__status"
+        :class="{
+          'govuk-character-count__message--disabled': !isOverThreshold,
+          'govuk-hint': !isOverMaxLength,
+          'govuk-error-message': isOverMaxLength
+        }"
+        aria-hidden="true"
+      >
+        {{ message }}
+      </div>
+      <div
+        class="govuk-character-count__sr-status govuk-visually-hidden"
+        aria-live="polite"
+        :aria-hidden="!isOverThreshold"
+      >
+        {{ message }}
+      </div>
+    </template>
+  </gv-textarea>
 </template>
