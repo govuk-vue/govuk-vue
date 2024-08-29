@@ -18,7 +18,7 @@ defineProps({
   <div class="govuk-warning-text">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text">
-      <span class="govuk-warning-text__assistive">{{ iconFallbackText }}</span>
+      <span class="govuk-visually-hidden">{{ iconFallbackText }}</span>
       <!-- @slot HTML to use within the warning text component. If content is provided in this slot, the `text` prop will be ignored. -->
       <slot>
         {{ text }}
