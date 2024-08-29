@@ -73,11 +73,7 @@ const computedHref = computed(() => {
 })
 
 const computedVisuallyHiddenText = computed(() => {
-  if (props.visuallyHiddenText) {
-    return props.visuallyHiddenText
-  } else {
-    return cardTitle
-  }
+  return `${props.visuallyHiddenText ?? ''} ${cardTitle.value ? `(${cardTitle.value})` : ''}`
 })
 </script>
 
