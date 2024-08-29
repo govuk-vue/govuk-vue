@@ -224,7 +224,6 @@ function replacePageNumber(str: string, pageNumber: number) {
   <nav
     class="govuk-pagination"
     :class="{ 'govuk-pagination--block': isBlockLevel }"
-    role="navigation"
     :aria-label="landmarkLabel"
   >
     <div v-if="showPrevious" class="govuk-pagination__prev">

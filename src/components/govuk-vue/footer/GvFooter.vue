@@ -38,7 +38,7 @@ const hasCopyrightSlot = computed(() => {
 </script>
 
 <template>
-  <footer class="govuk-footer" role="contentinfo">
+  <footer class="govuk-footer">
     <div class="govuk-width-container" :class="containerClass">
       <template v-if="hasSlot('navigation')">
         <div class="govuk-footer__navigation">
