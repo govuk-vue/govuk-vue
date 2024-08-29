@@ -31,9 +31,9 @@ const props = defineProps({
     default: '#'
   },
   /**
-   * The label for the navigation landmark that wraps the pagination.
+   * The `aria-label` for the navigation landmark that wraps the pagination.
    */
-  landmarkLabel: {
+  ariaLabel: {
     type: String,
     default: 'Pagination'
   },
@@ -224,7 +224,7 @@ function replacePageNumber(str: string, pageNumber: number) {
   <nav
     class="govuk-pagination"
     :class="{ 'govuk-pagination--block': isBlockLevel }"
-    :aria-label="landmarkLabel"
+    :aria-label="ariaLabel"
   >
     <div v-if="showPrevious" class="govuk-pagination__prev">
       <component
