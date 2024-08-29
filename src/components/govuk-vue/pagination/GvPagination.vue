@@ -35,7 +35,7 @@ const props = defineProps({
    */
   landmarkLabel: {
     type: String,
-    default: 'results'
+    default: 'Pagination'
   },
   /**
    * The link text to the previous page.
