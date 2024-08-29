@@ -167,7 +167,6 @@ const props = defineProps({
 defineEmits(['update:modelValue'])
 
 const hasHint = computed(() => {
-  console.log(`hint for ${props.label}: ${hasSlot('hint')}`)
   return props.hint || hasSlot('hint')
 })
 
