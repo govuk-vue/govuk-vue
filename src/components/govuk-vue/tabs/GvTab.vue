@@ -136,8 +136,6 @@ const tabindex = computed(() => {
       @click="handleTabClick"
       @keydown.left="(e) => handleKeyDown(e, 'LEFT')"
       @keydown.right="(e) => handleKeyDown(e, 'RIGHT')"
-      @keydown.up="(e) => handleKeyDown(e, 'LEFT')"
-      @keydown.down="(e) => handleKeyDown(e, 'RIGHT')"
     >
       <slot name="label">
         {{ label }}
