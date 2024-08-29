@@ -116,9 +116,7 @@ function handleKeyDownSpace(): void {
     :is="computedElement"
     :id="id"
     :name="name"
-    :class="`govuk-button ${variantClass} ${isStartButton ? 'govuk-button--start' : ''} ${
-      disabled ? 'govuk-button--disabled' : ''
-    }`"
+    :class="`govuk-button ${variantClass} ${isStartButton ? 'govuk-button--start' : ''}`"
     :disabled="disabled ? 'disabled' : null"
     :aria-disabled="disabled ? 'true' : null"
     :href="isLink ? (href ? href : '#') : null"
