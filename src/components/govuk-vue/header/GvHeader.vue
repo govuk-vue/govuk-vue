@@ -93,7 +93,7 @@ const computedNavigationLabel = props.navigationLabel ? props.navigationLabel : 
 </script>
 
 <template>
-  <header class="govuk-header" role="banner">
+  <header class="govuk-header">
     <div class="govuk-header__container govuk-width-container">
       <!-- @slot The logo shown on the left of the header. Defaults to the GOV.UK crown and text -->
       <slot name="logo">
