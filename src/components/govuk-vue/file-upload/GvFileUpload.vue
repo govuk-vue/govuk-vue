@@ -187,6 +187,7 @@ const normalizedFormGroupClass = computed(() => {
       :text="errorMessage"
       :class="errorMessageClass"
       :id="errorMessageId"
+      :visually-hidden-text="errorMessageVisuallyHiddenText"
     >
       <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
       <slot name="error-message" />

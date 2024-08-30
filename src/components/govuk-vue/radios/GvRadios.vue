@@ -189,7 +189,7 @@ provide(RadiosNameInjectionKey, computedName)
       :legend-class="legendClass"
       :legend-is-page-heading="legendIsPageHeading"
     >
-      <template v-slot:legend>
+      <template #legend>
         <!-- @slot The content of the legend. If content is provided in this slot, the `legend` prop will be ignored. -->
         <slot name="legend" />
       </template>
@@ -202,6 +202,7 @@ provide(RadiosNameInjectionKey, computedName)
         :text="errorMessage"
         :class="errorMessageClass"
         :id="errorMessageId"
+        :visually-hidden-text="errorMessageVisuallyHiddenText"
       >
         <!-- @slot The content of the error message. If content is provided in this slot, the `errorMessage` prop will be ignored. -->
         <slot name="error-message" />
