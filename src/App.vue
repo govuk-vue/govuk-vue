@@ -50,6 +50,8 @@ import GvTableBody from '@/components/govuk-vue/table/GvTableBody.vue'
 import GvFileUpload from '@/components/govuk-vue/file-upload/GvFileUpload.vue'
 import GvErrorSummary from '@/components/govuk-vue/error-summary/GvErrorSummary.vue'
 import GvErrorLink from '@/components/govuk-vue/error-summary/GvErrorLink.vue'
+import GvTaskList from '@/components/govuk-vue/task-list/GvTaskList.vue'
+import GvTaskListItem from '@/components/govuk-vue/task-list/GvTaskListItem.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -512,7 +514,7 @@ watch(files, () => {
     v-model="characterCountData"
     id="test-character-count-1"
     label="Test character count"
-    hint="It has a threshold of 25% and a max length of 100 characters"
+    hint="It has a threshold of 25% and a max length of 100 words"
     :rows="10"
     :max-words="100"
     :threshold="25"
@@ -872,6 +874,22 @@ How would you like to be contacted?
     accept="text/plain"
   />
   {{ fileText }}
+
+  <h3 class="govuk-heading-m">Task list</h3>
+  <gv-task-list>
+    <gv-task-list-item href="http://bbc.co.uk" status="Completed"> Item 1 name </gv-task-list-item>
+    <gv-task-list-item hint="Can't start this one yet"> Item 2 name </gv-task-list-item>
+    <gv-task-list-item
+      href="http://google.com"
+      title="Prop title 3 name"
+      :status-class="['test-class-1', 'test-class-2']"
+    >
+      <template v-slot:hint>Hint slot</template>
+      <template v-slot:status>
+        <gv-tag>Incomplete</gv-tag>
+      </template>
+    </gv-task-list-item>
+  </gv-task-list>
 
   <gv-footer
     copyright-href="xyz"
