@@ -52,6 +52,8 @@ import GvErrorSummary from '@/components/govuk-vue/error-summary/GvErrorSummary.
 import GvErrorLink from '@/components/govuk-vue/error-summary/GvErrorLink.vue'
 import GvTaskList from '@/components/govuk-vue/task-list/GvTaskList.vue'
 import GvTaskListItem from '@/components/govuk-vue/task-list/GvTaskListItem.vue'
+import GvPasswordInput from '@/components/govuk-vue/password-input/GvPasswordInput.vue'
+import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -78,6 +80,9 @@ const maxPeriod = 'week'
 
 const lastTabSelected = ref(false)
 const currentPage = ref(1)
+
+const password = ref('')
+const passwordShown = ref(true)
 
 function handleStartClick() {
   alert('Start clicked!')
@@ -890,6 +895,29 @@ How would you like to be contacted?
       </template>
     </gv-task-list-item>
   </gv-task-list>
+
+  <h3 class="govuk-heading-m">Password input</h3>
+
+  <gv-password-input
+    v-model="password"
+    label="Password"
+    v-model:password-visible="passwordShown"
+    show-password-text="Reveal"
+    hide-password-text="Conceal"
+    show-password-aria-label="Reveal password"
+    hide-password-aria-label="Conceal password"
+    password-shown-announcement-text="Your password is showing"
+    password-hidden-announcement-text="Your password is no longer showing"
+    error-message="Your password is not valid"
+    error-message-visually-hidden-text="Uh oh"
+    hint="At least 8 characters"
+    id="my-password-input"
+    autocomplete="new-password"
+    :label-is-page-heading="true"
+    label-class="govuk-label--l"
+  />
+  Password shown: {{ passwordShown }}
+  <button @click="() => (passwordShown = !passwordShown)">Toggle password visibility</button>
 
   <gv-footer
     copyright-href="xyz"
