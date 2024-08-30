@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue'
 
 const props = defineProps({
   /**
-   * The number of the currently selected page. Use `v-model:currentPage` to keep track of the current page.
+   * The number of the currently selected page. Use `v-model:current-page` to keep track of the current page.
    */
   currentPage: {
     type: Number,
