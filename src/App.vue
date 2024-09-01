@@ -54,6 +54,8 @@ import GvTaskList from '@/components/govuk-vue/task-list/GvTaskList.vue'
 import GvTaskListItem from '@/components/govuk-vue/task-list/GvTaskListItem.vue'
 import GvPasswordInput from '@/components/govuk-vue/password-input/GvPasswordInput.vue'
 import GvErrorMessage from '@/components/govuk-vue/error-message/GvErrorMessage.vue'
+import GvServiceNavigation from '@/components/govuk-vue/service-navigation/GvServiceNavigation.vue'
+import GvServiceNavigationItem from '@/components/govuk-vue/service-navigation/GvServiceNavigationItem.vue'
 
 const showOptionalAccordionSection = ref(true)
 const textInputData = ref('Hello world')
@@ -153,6 +155,48 @@ watch(files, () => {
 </script>
 
 <template>
+  <gv-cookie-banner
+    :message-class="{ foo: false, baz: true }"
+    heading="Cookies?"
+    cookie-information="GOV.UK Vue doesn't use cookies, but here's a cookie banner anyway."
+    accept-button-text="Accept some cookies"
+    reject-button-text="Reject some cookies"
+    view-cookies-link-text="View cookies"
+    view-cookies-link-href="/cookies"
+    @acceptClicked="acceptCookies"
+    @rejectClicked="rejectCookies"
+    @viewCookiesClicked="viewCookies"
+  >
+    <template #accepted><p class="govuk-body">You've accepted cookies</p></template>
+    <template #rejected><p class="govuk-body">You've rejected cookies</p></template>
+  </gv-cookie-banner>
+  <gv-skip-link href="#skiplinktarget">Skip to the skip link target</gv-skip-link>
+  <gv-header
+    product-name="Test"
+    homepage-url="foo"
+    service-name="Test service name"
+    service-url="bar"
+    menu-button-text="Menu button text"
+    menu-button-label="Menu button label"
+    navigation-label="Test navigation label"
+    navigation-id="main-navigation"
+  >
+    <gv-header-navigation-item href="x">Test navigation item 1</gv-header-navigation-item>
+    <gv-header-navigation-item href="y" text="This should never be shown" :active="true"
+      >Test navigation item 2</gv-header-navigation-item
+    >
+    <gv-header-navigation-item text="Test navigation item 3 without href" />
+  </gv-header>
+  <gv-phase-banner tag="Pre-alpha" text="This should never be shown">
+    This library is still in early development
+  </gv-phase-banner>
+  <gv-service-navigation service-name="Service name" service-url="https://govukvue.org">
+    <gv-service-navigation-item :active="true" :current="true" href="http://bbc.co.uk"
+      >Link one</gv-service-navigation-item
+    >
+    <gv-service-navigation-item>Text item</gv-service-navigation-item>
+    <gv-service-navigation-item href="http://bbc.co.uk" text="Link 2 (prop)" />
+  </gv-service-navigation>
   <gv-error-summary title="Uh oh..." description="This should never be shown">
     <template #title>Title slot</template>
     <template #description>Error summary description slot</template>
@@ -302,42 +346,6 @@ watch(files, () => {
       </template>
     </gv-summary-list-row>
   </gv-summary-list>
-
-  <gv-cookie-banner
-    :message-class="{ foo: false, baz: true }"
-    heading="Cookies?"
-    cookie-information="GOV.UK Vue doesn't use cookies, but here's a cookie banner anyway."
-    accept-button-text="Accept some cookies"
-    reject-button-text="Reject some cookies"
-    view-cookies-link-text="View cookies"
-    view-cookies-link-href="/cookies"
-    @acceptClicked="acceptCookies"
-    @rejectClicked="rejectCookies"
-    @viewCookiesClicked="viewCookies"
-  >
-    <template #accepted><p class="govuk-body">You've accepted cookies</p></template>
-    <template #rejected><p class="govuk-body">You've rejected cookies</p></template>
-  </gv-cookie-banner>
-  <gv-skip-link href="#skiplinktarget">Skip to the skip link target</gv-skip-link>
-  <gv-header
-    product-name="Test"
-    homepage-url="foo"
-    service-name="Test service name"
-    service-url="bar"
-    menu-button-text="Menu button text"
-    menu-button-label="Menu button label"
-    navigation-label="Test navigation label"
-    navigation-id="main-navigation"
-  >
-    <gv-header-navigation-item href="x">Test navigation item 1</gv-header-navigation-item>
-    <gv-header-navigation-item href="y" text="This should never be shown" :active="true"
-      >Test navigation item 2</gv-header-navigation-item
-    >
-    <gv-header-navigation-item text="Test navigation item 3 without href" />
-  </gv-header>
-  <gv-phase-banner tag="Pre-alpha" text="This should never be shown">
-    This library is still in early development
-  </gv-phase-banner>
 
   <gv-label forId="foo" :class="{ bar: true }" :is-page-heading="true">Test label</gv-label>
 
