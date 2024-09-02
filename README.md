@@ -6,7 +6,7 @@
 
 You can use GOV.UK Vue to build easy-to-use, accessible apps whether you're working on a government service or not.
 
-GOV.UK Vue is currently in alpha, so things may change between now and the first stable release - please share any feedback by starting a [discussion](https://github.com/govuk-vue/govuk-vue/discussions) or raise an [issue](https://github.com/govuk-vue/govuk-vue/issues) for any problems.
+Please share any feedback by starting a [discussion](https://github.com/govuk-vue/govuk-vue/discussions) or raise an [issue](https://github.com/govuk-vue/govuk-vue/issues) for any problems.
 
 ## Demo
 
