@@ -30,11 +30,14 @@ import GvLabel from '@/components/govuk-vue/label/GvLabel.vue'
 import GvNotificationBanner from '@/components/govuk-vue/notification-banner/GvNotificationBanner.vue'
 import GvPagination from '@/components/govuk-vue/pagination/GvPagination.vue'
 import GvPanel from '@/components/govuk-vue/panel/GvPanel.vue'
+import GvPasswordInput from '@/components/govuk-vue/password-input/GvPasswordInput.vue'
 import GvPhaseBanner from '@/components/govuk-vue/phase-banner/GvPhaseBanner.vue'
 import GvRadio from '@/components/govuk-vue/radios/GvRadio.vue'
 import GvRadios from '@/components/govuk-vue/radios/GvRadios.vue'
 import GvSelect from '@/components/govuk-vue/select/GvSelect.vue'
 import GvSelectOption from '@/components/govuk-vue/select/GvSelectOption.vue'
+import GvServiceNavigation from '@/components/govuk-vue/service-navigation/GvServiceNavigation.vue'
+import GvServiceNavigationItem from '@/components/govuk-vue/service-navigation/GvServiceNavigationItem.vue'
 import GvSkipLink from '@/components/govuk-vue/skip-link/GvSkipLink.vue'
 import GvSummaryList from '@/components/govuk-vue/summary-list/GvSummaryList.vue'
 import GvSummaryCardAction from '@/components/govuk-vue/summary-list/GvSummaryCardAction.vue'
@@ -55,6 +58,8 @@ import GvTr from '@/components/govuk-vue/table/GvTableRow.vue'
 import GvTab from '@/components/govuk-vue/tabs/GvTab.vue'
 import GvTabs from '@/components/govuk-vue/tabs/GvTabs'
 import GvTag from '@/components/govuk-vue/tag/GvTag.vue'
+import GvTaskList from '@/components/govuk-vue/task-list/GvTaskList.vue'
+import GvTaskListItem from '@/components/govuk-vue/task-list/GvTaskListItem.vue'
 import GvTextarea from '@/components/govuk-vue/textarea/GvTextarea.vue'
 import GvWarningText from '@/components/govuk-vue/warning-text/GvWarningText.vue'
 
@@ -91,11 +96,14 @@ export default {
   GvNotificationBanner,
   GvPagination,
   GvPanel,
+  GvPasswordInput,
   GvPhaseBanner,
   GvRadio,
   GvRadios,
   GvSelect,
   GvSelectOption,
+  GvServiceNavigation,
+  GvServiceNavigationItem,
   GvSkipLink,
   GvSummaryList,
   GvSummaryCardAction,
@@ -115,6 +123,8 @@ export default {
   GvTab,
   GvTabs,
   GvTag,
+  GvTaskList,
+  GvTaskListItem,
   GvTextarea,
   GvWarningText
 }
