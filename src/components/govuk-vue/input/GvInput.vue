@@ -19,7 +19,7 @@ const props = defineProps({
    */
   modelValue: String,
   /**
-   * The ID of the input
+   * The ID of the input.
    *
    * If you don't provide an ID, one will be generated automatically.
    */
