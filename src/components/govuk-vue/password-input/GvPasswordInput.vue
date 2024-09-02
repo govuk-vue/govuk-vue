@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import GvInput from '@/components/govuk-vue/input/GvInput.vue'
 import GvButton from '@/components/govuk-vue/button/GvButton.vue'
-import { computed, normalizeClass, ref, watch } from 'vue'
+import { computed, normalizeClass, ref, watch, onMounted } from 'vue'
 import { createUid } from '@/util/createUid'
-import GvTextarea from '@/components/govuk-vue/textarea/GvTextarea.vue'
 
 const props = defineProps({
   /**
@@ -11,7 +10,7 @@ const props = defineProps({
    */
   modelValue: String,
   /**
-   * The ID of the input
+   * The ID of the input.
    *
    * If you don't provide an ID, one will be generated automatically.
    */
@@ -229,10 +228,12 @@ function toggleVisibility() {
 }
 
 // If the page is restored from bfcache and the password is visible, hide it again
-window.addEventListener('pageshow', (event) => {
-  if (event.persisted && passwordVisibleMutable) {
-    toggleVisibility()
-  }
+onMounted(() => {
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted && passwordVisibleMutable) {
+      toggleVisibility()
+    }
+  })
 })
 </script>
 <template>
