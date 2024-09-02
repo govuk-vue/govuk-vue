@@ -42,7 +42,11 @@ const props = defineProps({
   statusClass: {
     type: [String, Array, Object],
     default: ''
-  }
+  },
+  /**
+   * Set to `true` if the task cannot be started yet. This will make the status text grey.
+   */
+  cannotStartYet: Boolean
 })
 
 const id = createUid('gv-task-list-item')
@@ -83,6 +87,10 @@ const statusId = computed(() => {
   return hasStatus.value ? `${id}-status` : undefined
 })
 
+const computedStatusClass = computed(() => {
+  return `${props.cannotStartYet ? 'govuk-task-list__status--cannot-start-yet' : ''} ${normalizeClass(props.statusClass)}`
+})
+
 const computedDescribedBy = computed(() => {
   if (computedTitleElement.value === 'div') {
     return undefined
@@ -116,7 +124,7 @@ const computedDescribedBy = computed(() => {
         </slot>
       </div>
     </div>
-    <div :id="statusId" class="govuk-task-list__status" :class="statusClass">
+    <div :id="statusId" class="govuk-task-list__status" :class="computedStatusClass">
       <!-- @slot The content of the status, usually a `GvTag`. If content is provided in this slot, the `hint` prop will be ignored. -->
       <slot name="status">
         {{ status }}
