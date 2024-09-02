@@ -156,7 +156,7 @@ const hasNavigation = computed(() => {
         </nav>
       </div>
       <!-- @slot Content injected at the end of the service header container -->
-      <slot name="start" />
+      <slot name="end" />
     </div>
   </component>
 </template>
