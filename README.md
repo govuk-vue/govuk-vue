@@ -6,6 +6,8 @@
 
 You can use GOV.UK Vue to build easy-to-use, accessible apps whether you're working on a government service or not.
 
+GOV.UK Vue is a community resource of the GOV.UK Design System. The Design System team is not responsible for it and cannot support you with using it. Contact [Matt Eason](https://github.com/matteason) directly if you need help or you want to request a feature. 
+
 Please share any feedback by starting a [discussion](https://github.com/govuk-vue/govuk-vue/discussions) or raise an [issue](https://github.com/govuk-vue/govuk-vue/issues) for any problems.
 
 ## Demo
