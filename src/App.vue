@@ -927,11 +927,7 @@ How would you like to be contacted?
   Password shown: {{ passwordShown }}
   <button @click="() => (passwordShown = !passwordShown)">Toggle password visibility</button>
 
-  <gv-footer
-    copyright-href="xyz"
-    copyright-text="Test copyright text"
-    content-licence-text="test content licence text"
-  >
+  <gv-footer copyright-href="xyz" copyright-text="Test copyright text">
     <template v-slot:navigation>
       <gv-footer-navigation title="Section 1" width="one-third">
         <gv-footer-navigation-item href="abc" text="This should never be shown"
@@ -948,13 +944,11 @@ How would you like to be contacted?
     </template>
     <template v-slot:meta>
       <gv-footer-meta text="This text should never be shown">
-        <template v-slot:items>
-          <gv-footer-meta-item href="abc" text="This should never be shown">
-            Link 1
-          </gv-footer-meta-item>
-          <gv-footer-meta-item href="def" text="Link 2" />
-        </template>
-        Built by Matt Eason
+        <gv-footer-meta-item href="abc" text="This should never be shown">
+          Link 1
+        </gv-footer-meta-item>
+        <gv-footer-meta-item href="def" text="Link 2" />
+        <template v-slot:text> Built by Matt Eason </template>
       </gv-footer-meta>
     </template>
   </gv-footer>
