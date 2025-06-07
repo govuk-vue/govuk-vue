@@ -149,7 +149,7 @@ const props = defineProps({
   textareaDescription: String,
   /**
    * Message displayed when the number of characters is under the configured maximum, `maxChars`. This message is
-   * displayed visually and through assistive technologies. The component will replace the `%{count}` placeholder
+   * displayed visually and through assistive technologies. The component will replace the `${count}` placeholder
    * with the number of remaining characters.
    */
   charactersUnderLimitText: {

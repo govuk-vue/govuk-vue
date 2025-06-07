@@ -6,7 +6,7 @@ import { useComputedId } from '@/composables/useComputedId'
 
 const props = defineProps({
   /**
-   * The URL of the homepage, linked to by the logo. Defaults to `/`
+   * The URL of the homepage, linked to by the logo.
    */
   homepageUrl: {
     type: String,
