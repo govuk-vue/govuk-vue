@@ -12,7 +12,7 @@ Please share any feedback by starting a [discussion](https://github.com/govuk-vu
 
 ## Demo
 
-![A simple GOV.UK-style page with a text input component](https://github.com/govuk-vue/govuk-vue/assets/1935173/3b0c72b3-6539-4ecc-a4d7-703b090dbad6)
+![A simple GOV.UK-style page with a text input component](https://github.com/user-attachments/assets/ef666cbc-7973-4be1-b5b2-67a72b192041)
 
 **[See a minimal example of a GOV.UK-style page using this library](https://govuk-vue.github.io/govuk-vue-minimal-example/)**.
 
