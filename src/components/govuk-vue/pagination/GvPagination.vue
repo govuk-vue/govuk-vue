@@ -268,7 +268,7 @@ function replacePageNumber(str: string, pageNumber: number) {
       <template v-for="(pageNumber, i) in pageList" :key="pageNumber">
         <li
           v-if="i > 0 && pageNumber !== pageList[i - 1] + 1"
-          class="govuk-pagination__item govuk-pagination__item--ellipses"
+          class="govuk-pagination__item govuk-pagination__item--ellipsis"
         >
           &ctdot;
         </li>
