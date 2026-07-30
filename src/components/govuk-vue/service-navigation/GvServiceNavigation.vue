@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, provide, type Ref, ref } from 'vue'
 import hasSlot from '@/composables/useHasSlot'
 import { useIsTablet } from '@/composables/useIsTablet'
+import type { ServiceNavItem } from '@/components/govuk-vue/service-navigation/ServiceNavItem'
+import {
+  ServiceNavRegisterItemFunctionInjectionKey,
+  ServiceNavUnregisterItemFunctionInjectionKey
+} from '@/components/govuk-vue/service-navigation/ServiceNavInjectionKeys'
 
 const props = defineProps({
   /**
@@ -42,6 +47,13 @@ const props = defineProps({
     default: ''
   },
   /**
+   * Whether the navigation should be collapsed inside a menu on mobile. Defaults to `true` if there is more than one navigation item.
+   */
+  collapseNavigationOnMobile: {
+    type: Boolean,
+    default: null
+  },
+  /**
    * The name of your service.
    */
   serviceName: String,
@@ -63,7 +75,7 @@ function handleMenuButtonClick() {
 }
 
 const showMenu = computed(() => {
-  return menuIsOpen.value || isTablet.value
+  return menuIsOpen.value || isTablet.value || !computedCollapseNavigationOnMobile.value
 })
 
 const computedWrapperElement = computed(() => {
@@ -112,6 +124,25 @@ const computedNavigationLabel = computed(() => {
 const hasNavigation = computed(() => {
   return hasSlot('default')
 })
+
+const computedCollapseNavigationOnMobile = computed(() => {
+  return props.collapseNavigationOnMobile ?? navItems.value.length > 1
+})
+
+let navItems: Ref<ServiceNavItem[]> = ref([])
+
+function registerNavItem(item: ServiceNavItem) {
+  navItems.value.push(item)
+}
+
+function unregisterNavItem(key: Symbol) {
+  navItems.value = navItems.value.filter((i) => {
+    return i.key != key
+  })
+}
+
+provide(ServiceNavRegisterItemFunctionInjectionKey, registerNavItem)
+provide(ServiceNavUnregisterItemFunctionInjectionKey, unregisterNavItem)
 </script>
 <template>
   <component
@@ -138,6 +169,7 @@ const hasNavigation = computed(() => {
           :class="navigationClass"
         >
           <button
+            v-if="computedCollapseNavigationOnMobile"
             type="button"
             class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
             :aria-controls="navigationId"

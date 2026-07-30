@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, inject, onBeforeMount, onUnmounted } from 'vue'
+import {
+  ServiceNavRegisterItemFunctionInjectionKey,
+  ServiceNavUnregisterItemFunctionInjectionKey
+} from '@/components/govuk-vue/service-navigation/ServiceNavInjectionKeys'
 
 const props = defineProps({
   /**
@@ -23,6 +27,8 @@ const props = defineProps({
    */
   component: [String, Object]
 })
+
+const key = Symbol()
 
 const computedLinkElement = computed(() => {
   if (props.component) {
@@ -48,6 +54,17 @@ const computedAriaCurrent = computed(() => {
   } else {
     return undefined
   }
+})
+
+const registerItem = inject(ServiceNavRegisterItemFunctionInjectionKey, () => {})
+const unregisterItem = inject(ServiceNavUnregisterItemFunctionInjectionKey, () => {})
+
+onBeforeMount(() => {
+  registerItem({ key: key })
+})
+
+onUnmounted(() => {
+  unregisterItem(key)
 })
 </script>
 
