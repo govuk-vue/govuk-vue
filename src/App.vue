@@ -13,7 +13,7 @@ import GvRadios from '@/components/govuk-vue/radios/GvRadios.vue'
 import GvRadio from '@/components/govuk-vue/radios/GvRadio.vue'
 import GvDetails from '@/components/govuk-vue/details/GvDetails.vue'
 import GvHeader from '@/components/govuk-vue/header/GvHeader.vue'
-import GvHeaderNavigationItem from '@/components/govuk-vue/header/GvHeaderNavigationItem.vue'
+import GvGenericHeader from '@/components/govuk-vue/generic-header/GvGenericHeader.vue'
 import GvFooter from '@/components/govuk-vue/footer/GvFooter.vue'
 import GvFooterNavigation from '@/components/govuk-vue/footer/GvFooterNavigation.vue'
 import GvFooterNavigationItem from '@/components/govuk-vue/footer/GvFooterNavigationItem.vue'
@@ -186,6 +186,10 @@ watch(files, () => {
       </gv-phase-banner>
     </template>
   </gv-header>
+
+  <gv-generic-header homepage-url="bar">
+    <template #logo> My generic service </template>
+  </gv-generic-header>
 
   <gv-error-summary title="Uh oh..." description="This should never be shown">
     <template #title>Title slot</template>

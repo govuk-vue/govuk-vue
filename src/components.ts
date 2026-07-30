@@ -21,8 +21,8 @@ import GvFooterNavigation from '@/components/govuk-vue/footer/GvFooterNavigation
 import GvFooterNavigationItem from '@/components/govuk-vue/footer/GvFooterNavigationItem.vue'
 import GvFooterMeta from '@/components/govuk-vue/footer/GvFooterMeta.vue'
 import GvFooterMetaItem from '@/components/govuk-vue/footer/GvFooterMetaItem.vue'
+import GvGenericHeader from '@/components/govuk-vue/generic-header/GvGenericHeader.vue'
 import GvHeader from '@/components/govuk-vue/header/GvHeader.vue'
-import GvHeaderNavigationItem from '@/components/govuk-vue/header/GvHeaderNavigationItem.vue'
 import GvHint from '@/components/govuk-vue/hint/GvHint.vue'
 import GvInput from '@/components/govuk-vue/input/GvInput.vue'
 import GvInsetText from '@/components/govuk-vue/inset-text/GvInsetText.vue'
@@ -87,8 +87,8 @@ export default {
   GvFooterNavigationItem,
   GvFooterMeta,
   GvFooterMetaItem,
+  GvGenericHeader,
   GvHeader,
-  GvHeaderNavigationItem,
   GvHint,
   GvInput,
   GvInsetText,
