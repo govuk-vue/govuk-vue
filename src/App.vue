@@ -731,10 +731,10 @@ How would you like to be contacted?
   <p><gv-tag text="Text prop tag" /></p>
   <p><gv-tag colour="grey">Grey</gv-tag></p>
   <p><gv-tag colour="green">Green</gv-tag></p>
-  <p><gv-tag colour="turquoise">Turquoise</gv-tag></p>
+  <p><gv-tag colour="teal">Teal</gv-tag></p>
   <p><gv-tag colour="blue">Blue</gv-tag></p>
   <p><gv-tag colour="purple">Purple</gv-tag></p>
-  <p><gv-tag colour="pink">Pink</gv-tag></p>
+  <p><gv-tag colour="magenta">Magenta</gv-tag></p>
   <p><gv-tag colour="red">Red</gv-tag></p>
   <p><gv-tag colour="orange">Orange</gv-tag></p>
   <p><gv-tag colour="yellow">Yellow</gv-tag></p>

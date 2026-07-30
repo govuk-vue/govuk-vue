@@ -15,10 +15,10 @@ defineProps({
       return [
         'grey',
         'green',
-        'turquoise',
+        'teal',
         'blue',
         'purple',
-        'pink',
+        'magenta',
         'red',
         'orange',
         'yellow'
