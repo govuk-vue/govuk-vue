@@ -155,39 +155,37 @@ watch(files, () => {
 </script>
 
 <template>
-  <div class="govuk-template--rebranded">
-    <gv-cookie-banner
-      :message-class="{ foo: false, baz: true }"
-      heading="Cookies?"
-      cookie-information="GOV.UK Vue doesn't use cookies, but here's a cookie banner anyway."
-      accept-button-text="Accept some cookies"
-      reject-button-text="Reject some cookies"
-      view-cookies-link-text="View cookies"
-      view-cookies-link-href="/cookies"
-      @acceptClicked="acceptCookies"
-      @rejectClicked="rejectCookies"
-      @viewCookiesClicked="viewCookies"
-    >
-      <template #accepted><p class="govuk-body">You've accepted cookies</p></template>
-      <template #rejected><p class="govuk-body">You've rejected cookies</p></template>
-    </gv-cookie-banner>
-    <gv-skip-link href="#skiplinktarget">Skip to the skip link target</gv-skip-link>
+  <gv-cookie-banner
+    :message-class="{ foo: false, baz: true }"
+    heading="Cookies?"
+    cookie-information="GOV.UK Vue doesn't use cookies, but here's a cookie banner anyway."
+    accept-button-text="Accept some cookies"
+    reject-button-text="Reject some cookies"
+    view-cookies-link-text="View cookies"
+    view-cookies-link-href="/cookies"
+    @acceptClicked="acceptCookies"
+    @rejectClicked="rejectCookies"
+    @viewCookiesClicked="viewCookies"
+  >
+    <template #accepted><p class="govuk-body">You've accepted cookies</p></template>
+    <template #rejected><p class="govuk-body">You've rejected cookies</p></template>
+  </gv-cookie-banner>
+  <gv-skip-link href="#skiplinktarget">Skip to the skip link target</gv-skip-link>
 
-    <gv-header product-name="Test" homepage-url="foo">
-      <template #after-header>
-        <gv-service-navigation service-name="Service name" service-url="https://govukvue.org">
-          <gv-service-navigation-item :active="true" :current="true" href="http://bbc.co.uk"
-            >Link one</gv-service-navigation-item
-          >
-          <gv-service-navigation-item>Text item</gv-service-navigation-item>
-          <gv-service-navigation-item href="http://bbc.co.uk" text="Link 2 (prop)" />
-        </gv-service-navigation>
-        <gv-phase-banner tag="Pre-alpha" text="This should never be shown">
-          This library is still in early development
-        </gv-phase-banner>
-      </template>
-    </gv-header>
-  </div>
+  <gv-header product-name="Test" homepage-url="foo">
+    <template #after-header>
+      <gv-service-navigation service-name="Service name" service-url="https://govukvue.org">
+        <gv-service-navigation-item :active="true" :current="true" href="http://bbc.co.uk"
+          >Link one</gv-service-navigation-item
+        >
+        <gv-service-navigation-item>Text item</gv-service-navigation-item>
+        <gv-service-navigation-item href="http://bbc.co.uk" text="Link 2 (prop)" />
+      </gv-service-navigation>
+      <gv-phase-banner tag="Pre-alpha" text="This should never be shown">
+        This library is still in early development
+      </gv-phase-banner>
+    </template>
+  </gv-header>
 
   <gv-error-summary title="Uh oh..." description="This should never be shown">
     <template #title>Title slot</template>
