@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import GvFragment from '@/components/util/GvFragment.vue'
 
 const buttonElement = ref(null)
 const props = defineProps({
@@ -71,6 +72,14 @@ const computedElement = computed(() => {
   }
 })
 
+const computedTextWrapperElement = computed(() => {
+  if (props.isStartButton) {
+    return 'span'
+  } else {
+    return GvFragment
+  }
+})
+
 const isLink = computed(() => {
   if (
     typeof computedElement.value === 'string' &&
@@ -127,10 +136,12 @@ function handleKeyDownSpace(): void {
     v-on:keydown.space="handleKeyDownSpace"
   >
     <template v-if="!isInput">
-      <!-- @slot The content of the button. If content is provided in this slot, the `text` prop will be ignored. -->
-      <slot>
-        {{ text }}
-      </slot>
+      <component :is="computedTextWrapperElement">
+        <!-- @slot The content of the button. If content is provided in this slot, the `text` prop will be ignored. -->
+        <slot>
+          {{ text }}
+        </slot>
+      </component>
 
       <svg
         v-if="isStartButton"
