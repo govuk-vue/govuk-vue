@@ -352,8 +352,8 @@ function updateDropzoneVisibility(event: DragEvent) {
     </slot>
     <div
       ref="dropzoneElement"
-      class="govuk-drop-zone"
-      :class="{ 'govuk-drop-zone--disabled': disabled }"
+      class="govuk-file-upload-wrapper"
+      :class="{ 'govuk-file-upload-wrapper--disabled': disabled }"
     >
       <button
         :id="computedId"
