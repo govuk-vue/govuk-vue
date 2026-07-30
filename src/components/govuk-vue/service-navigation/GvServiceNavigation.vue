@@ -176,6 +176,7 @@ provide(ServiceNavUnregisterItemFunctionInjectionKey, unregisterNavItem)
             :aria-label="computedMenuButtonLabel"
             :aria-expanded="!isTablet && showMenu"
             :hidden="isTablet"
+            :aria-hidden="isTablet"
             @click="handleMenuButtonClick"
           >
             {{ menuButtonText }}
